@@ -14,7 +14,7 @@ schemes:
 - "https"
 - "http"
 paths:
-  /utenti:
+  /users:
     get:
       tags:
       - "user"
@@ -54,7 +54,7 @@ paths:
           description: "Username already in use."
         default:
           description: "Unexpected error."
-  /utenti/{username}:
+  /users/{username}:
     get:
       tags:
       - "user"
@@ -110,7 +110,7 @@ paths:
           description: "No user found with the given username."
         default:
           description: "Unexpected error."
-  /user/login:
+  /users/login:
     get:
       tags:
       - "user"
@@ -137,7 +137,7 @@ paths:
           description: "Invalid username or password."
         default:
           description: "Unexpected error."
-  /user/logout:
+  /users/logout:
     get:
       tags:
       - "user"
@@ -153,7 +153,7 @@ paths:
           description: "Not authenticated."
         default:
           description: "Unexpected error."
-  /utenti/{username}/scambi:
+  /users/{username}/exchanges:
     get:
       tags:
       - "exchange"
@@ -180,7 +180,7 @@ paths:
           description: "No user found with the given username."
         default:
           description: "Unexpected error."
-  /scambi/{id}:
+  /exchanges/{id}:
     get: 
       tags:
       - "exchange"
