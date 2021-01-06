@@ -2,42 +2,40 @@ import 'package:delibrary/src/components/search-field.dart';
 import 'package:flutter/material.dart';
 
 import 'button.dart';
+import 'search-field.dart';
 
-class SearchBar extends StatefulWidget {
+class PositionSearchBar extends StatefulWidget {
   final Function onSearch;
-  final bool globalSearch;
 
-  SearchBar({
+  PositionSearchBar({
     @required this.onSearch,
-    this.globalSearch = false,
   });
 
   @override
-  State<StatefulWidget> createState() => _SearchBarState();
+  State<StatefulWidget> createState() => _PositionSearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _PositionSearchBarState extends State<PositionSearchBar> {
   final _formKey = GlobalKey<FormState>();
 
-  String _query = "";
-  String _filter = "";
+  String _province = "";
+  String _town = "";
 
-  String _queryValidator(String query) {
-    query = query.trim();
-    this._query = query;
+  String _provinceValidator(String province) {
+    province = province.trim();
+    this._province = province;
     return null;
   }
 
-  String _filterValidator(String filter) {
-    filter = filter.trim();
-    //TODO check right filter
-    this._filter = filter;
+  String _townValidator(String town) {
+    town = town.trim();
+    this._town = town;
     return null;
   }
 
   void _onPressed() {
     if (this._formKey.currentState.validate())
-      widget.onSearch(this._query, this._filter);
+      widget.onSearch(this._province, this._town);
   }
 
   @override
@@ -62,14 +60,10 @@ class _SearchBarState extends State<SearchBar> {
             child: Column(
               children: [
                 SearchFormField(
-                  validator: _queryValidator,
-                  hint: "Titolo, Autore, ISBN",
+                  validator: _provinceValidator,
+                  hint: "Provincia",
                 ),
-                if (!widget.globalSearch)
-                  SearchFormField(
-                    validator: _filterValidator,
-                    hint: "Città, Provincia, Regione",
-                  ),
+                SearchFormField(validator: _townValidator, hint: "Comune")
               ],
             ),
           ),

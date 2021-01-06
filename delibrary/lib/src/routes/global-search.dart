@@ -1,23 +1,18 @@
 import 'package:delibrary/src/components/cards-list.dart';
-import 'package:delibrary/src/components/search-bar.dart';
+import 'package:delibrary/src/components/global-search-bar.dart';
 import 'package:delibrary/src/controller/books-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/routes/book-details.dart';
 import 'package:flutter/material.dart';
 
-class SearchPage extends StatefulWidget {
-  final bool globalSearch;
-
-  SearchPage({this.globalSearch = false});
-
+class GlobalSearchPage extends StatefulWidget {
   @override
-  _SearchPageState createState() => _SearchPageState();
+  _GlobalSearchPageState createState() => _GlobalSearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _GlobalSearchPageState extends State<GlobalSearchPage> {
   String lastQuery = "";
-  String lastFilter = "";
   int startIndex = 0;
   int maxResults = 10;
   BookList _resultsList;
@@ -40,13 +35,12 @@ class _SearchPageState extends State<SearchPage> {
   void _scrollListener() {
     if (_listController.position.pixels ==
         _listController.position.maxScrollExtent) {
-      if (widget.globalSearch) _globalNext();
+      _globalNext();
     }
   }
 
-  void _setLastParameters(String query, String filter) {
+  void _setLastParameters(String query) {
     lastQuery = query;
-    lastFilter = filter;
   }
 
   void _scrollListToTop() {
@@ -55,16 +49,8 @@ class _SearchPageState extends State<SearchPage> {
           duration: Duration(milliseconds: 350), curve: Curves.easeInOut);
   }
 
-  void _appSearch(String query, String filter) {
-    //TODO perform search
-    _setLastParameters(query, filter);
-    _scrollListToTop();
-    if (query.isEmpty) return;
-    print("App search: " + query + " filtering in " + filter);
-  }
-
-  Future<void> _globalSearch(String query, String filter) async {
-    _setLastParameters(query, filter);
+  Future<void> _globalSearch(String query) async {
+    _setLastParameters(query);
     _scrollListToTop();
     BookList firstPage;
     if (query.isNotEmpty) firstPage = await BooksServices.getByQuery(query);
@@ -101,9 +87,8 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SearchBar(
-          onSearch: widget.globalSearch ? _globalSearch : _appSearch,
-          globalSearch: widget.globalSearch,
+        GlobalSearchBar(
+          onSearch: _globalSearch,
         ),
         if (lastQuery.isNotEmpty)
           Expanded(

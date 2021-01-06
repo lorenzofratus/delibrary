@@ -2,7 +2,7 @@ import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/navigation-bar.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/routes/profile.dart';
-import 'package:delibrary/src/routes/search.dart';
+import 'package:delibrary/src/routes/position-search.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     _mainRoutes = [
-      SearchPage(globalSearch: true),
+      PositionSearchPage(),
       Text(
         'Index 1: Library',
         style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
