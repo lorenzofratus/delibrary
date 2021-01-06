@@ -3,6 +3,7 @@ import 'package:delibrary/src/components/editable-field.dart';
 import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   final User user;
@@ -61,9 +62,12 @@ class _EditProfilePageState extends State<ProfilePage> {
     widget.user.resetPassword();
   }
 
-  void _logout() {
-    //TODO: logout
-    print("Logout");
+  void _logout() async {
+    //TODO: send logout to the server to invalidate the session
+    //Should be done by the service
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.remove("delibrary-cookie");
+    Navigator.pushReplacementNamed(context, "/login");
   }
 
   @override

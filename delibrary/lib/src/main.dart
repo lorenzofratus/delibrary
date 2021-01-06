@@ -1,11 +1,11 @@
 import 'package:delibrary/src/routes/home.dart';
+import 'package:delibrary/src/routes/login.dart';
+import 'package:delibrary/src/routes/register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() => runApp(DelibraryApp());
-
-ThemeData _delibraryTheme = ThemeData(
+final ThemeData _delibraryTheme = ThemeData(
   brightness: Brightness.dark,
   cardColor: Colors.white12,
   accentColor: Colors.amber[700],
@@ -20,6 +20,8 @@ ThemeData _delibraryTheme = ThemeData(
     ),
   ),
 );
+
+void main() => runApp(DelibraryApp());
 
 class DelibraryApp extends StatelessWidget {
   @override
@@ -38,7 +40,12 @@ class DelibraryApp extends StatelessWidget {
         const Locale('it'),
       ],
       locale: const Locale('it'),
-      home: HomePage(),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => HomePage(),
+        "/login": (context) => LoginPage(),
+        "/register": (context) => RegisterPage(),
+      },
     );
   }
 }
