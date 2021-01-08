@@ -24,7 +24,10 @@ class _PositionSearchBarState extends State<PositionSearchBar> {
   String _provinceValidator(String province) {
     province = province.trim();
     this._province = province;
-    return null;
+    if (province.isEmpty)
+      return "Il campo 'provincia' non può essere vuoto.";
+    else
+      return null;
   }
 
   String _townValidator(String town) {
