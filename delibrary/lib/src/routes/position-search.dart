@@ -42,9 +42,8 @@ class _PositionSearchPageState extends State<PositionSearchPage> {
   Future<void> _positionSearch(String province, String town) async {
     _setLastParameters(province, town);
     _scrollListToTop();
-    if (province.isEmpty || town.isEmpty)
-      return; // TODO error message: "Non è possibile lasciare campi vuoti"
-    print("Location search. Province: " + lastProvince + " Town: " + lastTown);
+    if (province.isEmpty) return;
+    print("Location search. Province: " + province + " Town: " + town);
     BookList bookList = await PositionServices.getByQuery(province, town);
     setState(() {
       _resultsList = bookList;
@@ -72,7 +71,7 @@ class _PositionSearchPageState extends State<PositionSearchPage> {
         PositionSearchBar(
           onSearch: _positionSearch,
         ),
-        if (lastProvince.isNotEmpty && lastTown.isNotEmpty)
+        if (lastTown.isNotEmpty)
           _resultsList != null
               ? Expanded(
                   child: CardsList(

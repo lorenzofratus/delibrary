@@ -1,6 +1,7 @@
 import 'package:delibrary/src/components/loading.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/navigation-bar.dart';
+import 'package:delibrary/src/controller/position_services.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/routes/exchanges.dart';
 import 'package:delibrary/src/routes/global-search.dart';
@@ -34,6 +35,8 @@ class _HomePageState extends State<HomePage> {
   Future<bool> _checkAuthentication() async {
     //Delay to show the loader, to remove
     // await Future.delayed(Duration(seconds: 5));
+
+    await PositionServices.initProvinces();
 
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     if (!_prefs.containsKey("delibrary-cookie")) return false;
