@@ -28,7 +28,7 @@ class SectionContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            this.title,
+            title,
             style: Theme.of(context).textTheme.headline5.copyWith(
                   color: Theme.of(context).accentColor,
                 ),
@@ -56,7 +56,7 @@ class FormSectionContainer extends StatelessWidget {
     this.startEditing,
     this.saveEditing,
     this.cancelEditing,
-    this.fields,
+    @required this.fields,
   }) : assert((startEditing != null) ^ (saveEditing == null));
 
   @override
@@ -101,11 +101,7 @@ class BooksSectionContainer extends StatelessWidget {
   final BookList bookList;
   final Function onTap;
 
-  BooksSectionContainer({
-    this.title = "",
-    @required this.bookList,
-    this.onTap,
-  });
+  BooksSectionContainer({this.title = "", @required this.bookList, this.onTap});
 
   void _seeMore(context) {
     Navigator.push(

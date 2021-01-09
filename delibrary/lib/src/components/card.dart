@@ -8,7 +8,7 @@ class BookCard extends StatelessWidget {
   BookCard({@required this.book, this.onTap});
 
   void _tappedBook() {
-    if (onTap != null) onTap(this.book);
+    if (onTap != null) onTap(book);
   }
 
   @override
@@ -27,7 +27,7 @@ class BookCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Container(
-                  child: this.book.smallImage,
+                  child: book.smallImage,
                   width: MediaQuery.of(context).size.width * 0.2,
                 ),
               ),
@@ -37,8 +37,8 @@ class BookCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _BookInfo(this.book.title, bold: true),
-                    _BookInfo(this.book.authors),
+                    _BookInfo(book.title, bold: true),
+                    _BookInfo(book.authors),
                     _BookInfo(
                         [book.publisher, book.publishedYear]
                             .where((x) => x.isNotEmpty)
@@ -62,7 +62,7 @@ class BookCardPreview extends StatelessWidget {
   BookCardPreview({this.book, this.onTap});
 
   void _tappedBook() {
-    if (onTap != null && book != null) onTap(this.book);
+    if (onTap != null && book != null) onTap(book);
   }
 
   @override
@@ -72,9 +72,8 @@ class BookCardPreview extends StatelessWidget {
         onTap: _tappedBook,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
-          child: this.book != null
-              ? this.book.previewImage
-              : Book.placeholderPreviewImage,
+          child:
+              book != null ? book.previewImage : Book.placeholderPreviewImage,
         ),
       ),
     );
@@ -91,10 +90,10 @@ class _BookInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      this.text,
+      text,
       style: Theme.of(context).textTheme.headline6.copyWith(
-            fontWeight: this.bold ? FontWeight.bold : FontWeight.normal,
-            fontStyle: this.italic ? FontStyle.italic : FontStyle.normal,
+            fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+            fontStyle: italic ? FontStyle.italic : FontStyle.normal,
           ),
       overflow: TextOverflow.ellipsis,
     );

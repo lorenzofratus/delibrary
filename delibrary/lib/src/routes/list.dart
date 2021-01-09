@@ -10,7 +10,7 @@ class ListPage extends StatelessWidget {
   final BookList bookList;
   final Function onTap;
 
-  ListPage({this.title, this.bookList, this.onTap});
+  ListPage({this.title = "", @required this.bookList, this.onTap});
 
   @override
   Widget build(BuildContext context) {

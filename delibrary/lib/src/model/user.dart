@@ -1,6 +1,3 @@
-import 'package:delibrary/src/components/editable-field.dart';
-import 'package:flutter/material.dart';
-
 class User {
   String _username;
   String _name;
@@ -14,17 +11,17 @@ class User {
   final RegExp _emailExp = RegExp(_pattern);
 
   User({username, name, surname, email, password}) {
-    this._username = username;
-    this._name = name;
-    this._surname = surname;
-    this._email = email;
-    this._password = password;
+    _username = username;
+    _name = name;
+    _surname = surname;
+    _email = email;
+    _password = password;
   }
 
-  String get username => this._username;
-  String get name => this._name;
-  String get surname => this._surname;
-  String get email => this._email;
+  String get username => _username;
+  String get name => _name;
+  String get surname => _surname;
+  String get email => _email;
 
   FieldData get usernameField =>
       FieldData(text: _username, label: "Username", validator: null);
@@ -40,12 +37,12 @@ class User {
       FieldData(label: "Conferma Password", validator: confirmPassword);
 
   String setUsername(newValue) {
-    if (this._username != null) return "Non è possibile modificare l'username.";
+    if (_username != null) return "Non è possibile modificare l'username.";
     newValue = newValue.trim();
     if (newValue.length > 255)
       return "L'username non può eccedere i 255 caratteri.";
     if (newValue.isEmpty) return "L'username non può essere vuoto.";
-    this._username = newValue;
+    _username = newValue;
     return null;
   }
 
@@ -53,7 +50,7 @@ class User {
     newValue = newValue.trim();
     if (newValue.length > 255)
       return "Il nome non può eccedere i 255 caratteri.";
-    this._name = newValue;
+    _name = newValue;
     return null;
   }
 
@@ -61,7 +58,7 @@ class User {
     newValue = newValue.trim();
     if (newValue.length > 255)
       return "Il cognome non può eccedere i 255 caratteri.";
-    this._surname = newValue;
+    _surname = newValue;
     return null;
   }
 
@@ -73,7 +70,7 @@ class User {
       return "L'email non può eccedere i 255 caratteri.";
     if (!_emailExp.hasMatch(newValue))
       return "Inserisci un indirizzo email valido.";
-    this._email = newValue;
+    _email = newValue;
     return null;
   }
 
@@ -93,29 +90,28 @@ class User {
       return "La password deve contenere almeno un carattere speciale.";
     if (newValue.contains(new RegExp(r'\s')))
       return "La password non deve contenere spazi.";
-    this._password = newValue;
+    _password = newValue;
     return null;
   }
 
   String confirmPassword(confirmValue) {
     confirmValue = confirmValue.trim();
-    if (this._password == null) return "";
-    if (confirmValue != this._password)
-      return "Le due password non coincidono.";
+    if (_password == null) return "";
+    if (confirmValue != _password) return "Le due password non coincidono.";
     return null;
   }
 
   void resetPassword() {
-    this._password = null;
+    _password = null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> user = Map<String, dynamic>();
-    user["username"] = this._username;
-    user["name"] = this._name;
-    user["surname"] = this._surname;
-    user["email"] = this._email;
-    user["password"] = this._password;
+    user["username"] = _username;
+    user["name"] = _name;
+    user["surname"] = _surname;
+    user["email"] = _email;
+    user["password"] = _password;
     return user;
   }
 
@@ -130,13 +126,7 @@ class User {
   }
 
   String toString() {
-    return [
-      this._username,
-      this._name,
-      this._surname,
-      this._email,
-      this._password
-    ].join(", ");
+    return [_username, _name, _surname, _email, _password].join(", ");
   }
 }
 

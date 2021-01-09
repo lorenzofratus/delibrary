@@ -5,16 +5,16 @@ import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfileScreen extends StatefulWidget {
   final User user;
 
-  ProfilePage({this.user});
+  ProfileScreen({this.user});
 
   @override
   State<StatefulWidget> createState() => _EditProfilePageState();
 }
 
-class _EditProfilePageState extends State<ProfilePage> {
+class _EditProfilePageState extends State<ProfileScreen> {
   final _profileKey = GlobalKey<FormState>();
   final _passwordKey = GlobalKey<FormState>();
   bool _editingProfile = false;
@@ -34,17 +34,23 @@ class _EditProfilePageState extends State<ProfilePage> {
     });
   }
 
+  void _cancelEditingProfile() {
+    setState(() {
+      _editingProfile = false;
+    });
+  }
+
   void _startEditingPassword() {
     setState(() {
-      _editingProfile = true;
+      _editingPassword = true;
     });
   }
 
   void _saveEditingPassword() {
-    if (!_profileKey.currentState.validate()) return;
+    if (!_passwordKey.currentState.validate()) return;
     _updatePassword();
     setState(() {
-      _editingProfile = false;
+      _editingPassword = false;
     });
   }
 
@@ -83,7 +89,7 @@ class _EditProfilePageState extends State<ProfilePage> {
       children: [
         PageTitle(
           "Il tuo profilo",
-          action: this._logout,
+          action: _logout,
           actionIcon: Icons.exit_to_app,
         ),
         FormSectionContainer(
@@ -92,6 +98,7 @@ class _EditProfilePageState extends State<ProfilePage> {
           editing: _editingProfile,
           startEditing: _startEditingProfile,
           saveEditing: _saveEditingProfile,
+          cancelEditing: _cancelEditingProfile,
           fields: [
             widget.user.usernameField,
             widget.user.nameField,

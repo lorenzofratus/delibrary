@@ -1,16 +1,13 @@
+import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/search-field.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 
-import 'button.dart';
-import 'search-field.dart';
-
 class PositionSearchBar extends StatefulWidget {
   final Function onSearch;
+  final Map<String, List<String>> provinces;
 
-  PositionSearchBar({
-    @required this.onSearch,
-  });
+  PositionSearchBar({@required this.onSearch, @required this.provinces});
 
   @override
   State<StatefulWidget> createState() => _PositionSearchBarState();
@@ -23,23 +20,25 @@ class _PositionSearchBarState extends State<PositionSearchBar> {
   String _town = "";
 
   String _provinceValidator(String province) {
-    province = province.trim();
-    this._province = province;
+    province = province.trim().toLowerCase();
     if (province.isEmpty)
-      return "Il campo 'provincia' non può essere vuoto.";
-    else
-      return null;
+      return "La provincia non può essere vuota.";
+    else if (!widget.provinces.containsKey(province))
+      return "Questa provincia non esiste.";
+    _province = province;
+    return null;
   }
 
   String _townValidator(String town) {
-    town = town.trim();
-    this._town = town;
+    town = town.trim().toLowerCase();
+    if (town.isNotEmpty && !widget.provinces[_province].contains(town))
+      return "Questo comune non esiste nella provincia.";
+    _town = town;
     return null;
   }
 
   void _onPressed() {
-    if (this._formKey.currentState.validate())
-      widget.onSearch(this._province, this._town);
+    if (_formKey.currentState.validate()) widget.onSearch(_province, _town);
   }
 
   @override
@@ -59,20 +58,23 @@ class _PositionSearchBarState extends State<PositionSearchBar> {
             style: Theme.of(context).textTheme.headline5,
           ),
           Form(
-            key: this._formKey,
+            key: _formKey,
             child: Column(
               children: [
                 SearchFormField(
                   validator: _provinceValidator,
                   hint: "Provincia",
                 ),
-                SearchFormField(validator: _townValidator, hint: "Comune")
+                SearchFormField(
+                  validator: _townValidator,
+                  hint: "Comune",
+                )
               ],
             ),
           ),
           DelibraryButton(
             text: "Cerca",
-            onPressed: this._onPressed,
+            onPressed: _onPressed,
           ),
         ],
       ),

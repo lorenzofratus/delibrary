@@ -1,7 +1,7 @@
 import 'package:delibrary/src/components/cards-list.dart';
 import 'package:delibrary/src/components/global-search-bar.dart';
 import 'package:delibrary/src/components/logo.dart';
-import 'package:delibrary/src/controller/books-services.dart';
+import 'package:delibrary/src/controller/book-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/routes/book-details.dart';
@@ -13,18 +13,17 @@ class GlobalSearchPage extends StatefulWidget {
 }
 
 class _GlobalSearchPageState extends State<GlobalSearchPage> {
-  String lastQuery = "";
-  int startIndex = 0;
-  int maxResults = 10;
+  final BookServices _bookServices = BookServices();
+  String _lastQuery = "";
+  int _startIndex = 0;
+  int _maxResults = 10;
   BookList _resultsList;
-  final BooksServices _bookServices = BooksServices();
-
-  ScrollController _listController = ScrollController();
+  ScrollController _listController;
 
   @override
   void initState() {
     super.initState();
-    _listController = _listController ?? ScrollController();
+    _listController = ScrollController();
     _listController.addListener(_scrollListener);
   }
 
@@ -43,7 +42,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
 
   void _setLastParameters(String query) {
     setState(() {
-      lastQuery = query;
+      _lastQuery = query;
     });
   }
 
@@ -65,9 +64,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
 
   Future<void> _globalNext() async {
     if (_resultsList.isComplete) return;
-    startIndex += maxResults;
-    BookList nextPage = await _bookServices.getByQuery(lastQuery,
-        startIndex: startIndex, maxResults: maxResults);
+    _startIndex += _maxResults;
+    BookList nextPage = await _bookServices.getByQuery(_lastQuery,
+        startIndex: _startIndex, maxResults: _maxResults);
     setState(() {
       _resultsList.addAll(nextPage);
     });
@@ -78,7 +77,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookPage(
+        builder: (context) => BookDetailsPage(
           book: book,
           primaryActionText: "Aggiungi alla libreria",
           secondaryActionText: "Aggiungi alla wishlist",
@@ -99,7 +98,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
           GlobalSearchBar(
             onSearch: _globalSearch,
           ),
-          if (lastQuery.isNotEmpty)
+          if (_lastQuery.isNotEmpty)
             _resultsList != null
                 ? Expanded(
                     child: CardsList(

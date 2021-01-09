@@ -20,12 +20,12 @@ class EditableFormField extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(top: 10.0),
       child: TextFormField(
-        validator: this.validator,
-        controller: TextEditingController(text: this.text),
-        enabled: this.editing,
+        validator: validator,
+        controller: TextEditingController(text: text),
+        enabled: editing,
         decoration: InputDecoration(
-          labelText: this.label,
-          hintText: this.hint,
+          labelText: label,
+          hintText: hint,
           disabledBorder: InputBorder.none,
         ),
       ),

@@ -5,7 +5,8 @@ class PageTitle extends StatelessWidget {
   final Function action;
   final IconData actionIcon;
 
-  PageTitle(this.text, {this.action, this.actionIcon});
+  PageTitle(this.text, {this.action, this.actionIcon})
+      : assert((action != null) ^ (actionIcon == null));
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +18,16 @@ class PageTitle extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              child:
-                  Text(this.text, style: Theme.of(context).textTheme.headline4),
+              child: Text(text, style: Theme.of(context).textTheme.headline4),
             ),
-            if (this.action != null)
+            if (action != null)
               Container(
                 margin: EdgeInsets.only(left: 5.0),
                 child: FloatingActionButton(
                   heroTag: null,
-                  onPressed: this.action,
+                  onPressed: action,
                   child: Icon(
-                    this.actionIcon,
+                    actionIcon,
                     size: 30.0,
                   ),
                 ),

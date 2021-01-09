@@ -14,24 +14,24 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   SharedPreferences _prefs;
-  User user;
+  User _tempUser;
 
   void initState() async {
     super.initState();
-    user = User();
+    _tempUser = User();
     _prefs = await SharedPreferences.getInstance();
   }
 
   void _validateUser() async {
-    if (this._formKey.currentState.validate()) {
+    if (_formKey.currentState.validate()) {
       // TODO send credentials to the server and wait the response
-      print(user);
+      print(_tempUser);
       // Should be set by the service
       _prefs.setString("delibrary-cookie", "Cookie inviato dal server");
       Navigator.pushReplacementNamed(context, "/");
     }
     setState(() {
-      user = User();
+      _tempUser = User();
     });
   }
 
@@ -54,18 +54,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     style: Theme.of(context).textTheme.headline4),
               ),
               Form(
-                key: this._formKey,
+                key: _formKey,
                 child: Column(
                   children: [
-                    SearchFormField(validator: this.user.setName, hint: "Nome"),
+                    SearchFormField(validator: _tempUser.setName, hint: "Nome"),
                     SearchFormField(
-                        validator: this.user.setSurname, hint: "Cognome"),
+                        validator: _tempUser.setSurname, hint: "Cognome"),
                     SearchFormField(
-                        validator: this.user.setEmail, hint: "Email"),
+                        validator: _tempUser.setEmail, hint: "Email"),
                     SearchFormField(
-                        validator: this.user.setUsername, hint: "Username"),
+                        validator: _tempUser.setUsername, hint: "Username"),
                     SearchFormField(
-                        validator: this.user.setPassword, hint: "Password"),
+                        validator: _tempUser.setPassword, hint: "Password"),
                   ],
                 ),
               ),

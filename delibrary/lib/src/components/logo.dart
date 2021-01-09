@@ -10,7 +10,7 @@ class DelibraryLogo extends StatelessWidget {
     return Image.asset(
       "lib/assets/logo.png",
       semanticLabel: "delibrary",
-      width: MediaQuery.of(context).size.width * (this.large ? 0.6 : 0.35),
+      width: MediaQuery.of(context).size.width * (large ? 0.6 : 0.35),
     );
   }
 }

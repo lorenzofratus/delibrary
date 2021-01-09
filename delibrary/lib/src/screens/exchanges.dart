@@ -3,16 +3,15 @@ import 'package:delibrary/src/components/section-container.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/routes/book-details.dart';
-import 'package:delibrary/src/routes/global-search.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
 
-class ExchangesPage extends StatefulWidget {
+class ExchangesScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _ExchangesPageState();
+  State<StatefulWidget> createState() => _ExchangesScreenState();
 }
 
-class _ExchangesPageState extends State<ExchangesPage> {
+class _ExchangesScreenState extends State<ExchangesScreen> {
   BookList _waitingList;
   BookList _sentList;
   BookList _refusedList;
@@ -35,7 +34,7 @@ class _ExchangesPageState extends State<ExchangesPage> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookPage(
+        builder: (context) => BookDetailsPage(
           book: book,
           primaryActionText: "Rimuovi dalla libreria",
           secondaryActionText: "Sposta nella wishlist",
@@ -50,7 +49,7 @@ class _ExchangesPageState extends State<ExchangesPage> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookPage(
+        builder: (context) => BookDetailsPage(
           book: book,
           primaryActionText: "Rimuovi dalla wishlist",
           secondaryActionText: "Sposta nella libreria",
@@ -65,7 +64,7 @@ class _ExchangesPageState extends State<ExchangesPage> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookPage(
+        builder: (context) => BookDetailsPage(
           book: book,
           primaryActionText: "Rimuovi dalla wishlist",
           secondaryActionText: "Sposta nella libreria",
@@ -80,7 +79,7 @@ class _ExchangesPageState extends State<ExchangesPage> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookPage(
+        builder: (context) => BookDetailsPage(
           book: book,
           primaryActionText: "Rimuovi dalla wishlist",
           secondaryActionText: "Sposta nella libreria",

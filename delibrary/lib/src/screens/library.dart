@@ -3,16 +3,15 @@ import 'package:delibrary/src/components/section-container.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/routes/book-details.dart';
-import 'package:delibrary/src/routes/global-search.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
 
-class LibraryPage extends StatefulWidget {
+class LibraryScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _LibraryPageState();
+  State<StatefulWidget> createState() => _LibraryScreenState();
 }
 
-class _LibraryPageState extends State<LibraryPage> {
+class _LibraryScreenState extends State<LibraryScreen> {
   BookList _bookList;
 
   @override
@@ -23,12 +22,7 @@ class _LibraryPageState extends State<LibraryPage> {
   }
 
   void _addBook() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GlobalSearchPage(),
-      ),
-    );
+    Navigator.pushNamed(context, "/search");
   }
 
   Future<void> _selectedLibrary(Book book) async {
@@ -36,7 +30,7 @@ class _LibraryPageState extends State<LibraryPage> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookPage(
+        builder: (context) => BookDetailsPage(
           book: book,
           primaryActionText: "Rimuovi dalla libreria",
           secondaryActionText: "Sposta nella wishlist",
@@ -51,7 +45,7 @@ class _LibraryPageState extends State<LibraryPage> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookPage(
+        builder: (context) => BookDetailsPage(
           book: book,
           primaryActionText: "Rimuovi dalla wishlist",
           secondaryActionText: "Sposta nella libreria",
@@ -67,7 +61,7 @@ class _LibraryPageState extends State<LibraryPage> {
       children: [
         PageTitle(
           "I tuoi libri",
-          action: this._addBook,
+          action: _addBook,
           actionIcon: Icons.add,
         ),
         BooksSectionContainer(

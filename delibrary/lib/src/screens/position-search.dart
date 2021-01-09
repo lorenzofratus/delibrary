@@ -1,21 +1,22 @@
 import 'package:delibrary/src/components/cards-list.dart';
 import 'package:delibrary/src/components/position-search-bar.dart';
-import 'package:delibrary/src/controller/position_services.dart';
+import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/routes/book-details.dart';
 import 'package:flutter/material.dart';
 
-class PositionSearchPage extends StatefulWidget {
+class PositionSearchScreen extends StatefulWidget {
+  final Map<String, List<String>> provinces;
+
+  PositionSearchScreen({@required this.provinces});
+
   @override
-  _PositionSearchPageState createState() => _PositionSearchPageState();
+  _PositionSearchScreenState createState() => _PositionSearchScreenState();
 }
 
-class _PositionSearchPageState extends State<PositionSearchPage> {
-  String lastProvince = "";
-  String lastTown = "";
-  int startIndex = 0;
-  int maxResults = 10;
+class _PositionSearchScreenState extends State<PositionSearchScreen> {
+  String _lastProvince = "";
   BookList _resultsList;
 
   ScrollController _listController = ScrollController();
@@ -28,8 +29,7 @@ class _PositionSearchPageState extends State<PositionSearchPage> {
 
   void _setLastParameters(String province, String town) {
     setState(() {
-      lastProvince = province;
-      lastTown = town;
+      _lastProvince = province;
     });
   }
 
@@ -40,11 +40,15 @@ class _PositionSearchPageState extends State<PositionSearchPage> {
   }
 
   Future<void> _positionSearch(String province, String town) async {
+    PropertyServices propertiesServices = PropertyServices();
+
     _setLastParameters(province, town);
     _scrollListToTop();
-    if (province.isEmpty) return;
+
     print("Location search. Province: " + province + " Town: " + town);
-    BookList bookList = await PositionServices.getByQuery(province, town);
+
+    BookList bookList =
+        await propertiesServices.getBooksByPosition(province, town);
     setState(() {
       _resultsList = bookList;
     });
@@ -54,7 +58,7 @@ class _PositionSearchPageState extends State<PositionSearchPage> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookPage(
+        builder: (context) => BookDetailsPage(
           book: book,
           primaryActionText: "Aggiungi alla libreria",
           secondaryActionText: "Aggiungi alla wishlist",
@@ -69,9 +73,10 @@ class _PositionSearchPageState extends State<PositionSearchPage> {
     return Column(
       children: [
         PositionSearchBar(
+          provinces: widget.provinces,
           onSearch: _positionSearch,
         ),
-        if (lastTown.isNotEmpty)
+        if (_lastProvince.isNotEmpty)
           _resultsList != null
               ? Expanded(
                   child: CardsList(

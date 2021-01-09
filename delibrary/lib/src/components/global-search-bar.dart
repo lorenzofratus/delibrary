@@ -1,15 +1,12 @@
+import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/search-field.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 
-import 'button.dart';
-
 class GlobalSearchBar extends StatefulWidget {
   final Function onSearch;
 
-  GlobalSearchBar({
-    @required this.onSearch,
-  });
+  GlobalSearchBar({@required this.onSearch});
 
   @override
   State<StatefulWidget> createState() => _GlobalSearchBarState();
@@ -22,12 +19,12 @@ class _GlobalSearchBarState extends State<GlobalSearchBar> {
 
   String _queryValidator(String query) {
     query = query.trim();
-    this._query = query;
+    _query = query;
     return null;
   }
 
   void _onPressed() {
-    if (this._formKey.currentState.validate()) widget.onSearch(this._query);
+    if (_formKey.currentState.validate()) widget.onSearch(_query);
   }
 
   @override
@@ -47,7 +44,7 @@ class _GlobalSearchBarState extends State<GlobalSearchBar> {
             style: Theme.of(context).textTheme.headline5,
           ),
           Form(
-            key: this._formKey,
+            key: _formKey,
             child: Column(
               children: [
                 SearchFormField(
@@ -59,7 +56,7 @@ class _GlobalSearchBarState extends State<GlobalSearchBar> {
           ),
           DelibraryButton(
             text: "Cerca",
-            onPressed: this._onPressed,
+            onPressed: _onPressed,
           ),
         ],
       ),

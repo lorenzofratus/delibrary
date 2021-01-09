@@ -20,12 +20,12 @@ class CardsList extends StatelessWidget {
         ),
       );
     return ListView.builder(
-      controller: this.controller,
+      controller: controller,
       itemCount: booksList.length + (booksList.isComplete ? 0 : 1),
       itemBuilder: (context, index) {
         if (index == booksList.length)
           return Center(heightFactor: 3.0, child: CircularProgressIndicator());
-        return BookCard(book: booksList.items[index], onTap: this.onTap);
+        return BookCard(book: booksList.items[index], onTap: onTap);
       },
     );
   }

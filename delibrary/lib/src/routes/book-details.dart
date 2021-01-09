@@ -4,12 +4,12 @@ import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
 
-class BookPage extends StatelessWidget {
+class BookDetailsPage extends StatelessWidget {
   final Book book;
   final String primaryActionText;
   final String secondaryActionText;
 
-  BookPage({
+  BookDetailsPage({
     @required this.book,
     this.primaryActionText = "",
     this.secondaryActionText = "",
@@ -17,6 +17,9 @@ class BookPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String bookPubData = [book.publisher, book.publishedYear]
+        .where((d) => d.isNotEmpty)
+        .join(",");
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -27,36 +30,29 @@ class BookPage extends StatelessWidget {
               expandedHeight: MediaQuery.of(context).size.height * 0.4,
               title: DelibraryLogo(),
               flexibleSpace: FlexibleSpaceBar(
-                background: this.book.largeImage,
+                background: book.largeImage,
               ),
             )
           ];
         },
         body: PaddedListView(
           children: [
-            if (this.book.title.isNotEmpty)
-              _BookInfo(this.book.title, bold: true),
-            if (this.book.authors.isNotEmpty) _BookInfo(this.book.authors),
-            if (this.book.publisher.isNotEmpty ||
-                this.book.publishedYear.isNotEmpty)
-              _BookInfo(
-                  [book.publisher, book.publishedYear]
-                      .where((x) => x.isNotEmpty)
-                      .join(", "),
-                  italic: true),
-            if (this.book.description.isNotEmpty)
+            if (book.title.isNotEmpty) _BookInfo(book.title, bold: true),
+            if (book.authors.isNotEmpty) _BookInfo(book.authors),
+            if (bookPubData.isNotEmpty) _BookInfo(bookPubData, italic: true),
+            if (book.description.isNotEmpty)
               Text(
-                this.book.description,
+                book.description,
                 style: Theme.of(context).textTheme.headline6,
               ),
-            if (this.primaryActionText.isNotEmpty)
+            if (primaryActionText.isNotEmpty)
               DelibraryButton(
-                text: this.primaryActionText,
+                text: primaryActionText,
                 onPressed: () => {Navigator.pop(context, 1)},
               ),
-            if (this.secondaryActionText.isNotEmpty)
+            if (secondaryActionText.isNotEmpty)
               DelibraryButton(
-                text: this.secondaryActionText,
+                text: secondaryActionText,
                 primary: false,
                 onPressed: () => {Navigator.pop(context, 2)},
               ),
@@ -79,10 +75,10 @@ class _BookInfo extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0),
       child: Text(
-        this.text,
+        text,
         style: Theme.of(context).textTheme.headline5.copyWith(
-              fontWeight: this.bold ? FontWeight.bold : FontWeight.normal,
-              fontStyle: this.italic ? FontStyle.italic : FontStyle.normal,
+              fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+              fontStyle: italic ? FontStyle.italic : FontStyle.normal,
             ),
       ),
     );

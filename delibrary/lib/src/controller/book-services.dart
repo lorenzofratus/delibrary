@@ -3,8 +3,8 @@ import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:dio/dio.dart';
 
-class BooksServices extends Services {
-  BooksServices()
+class BookServices extends Services {
+  BookServices()
       : super(BaseOptions(
           baseUrl: "https://www.googleapis.com/books/v1/volumes",
           connectTimeout: 10000,
@@ -23,11 +23,13 @@ class BooksServices extends Services {
         print(e.response.data);
         print(e.response.headers);
         print(e.response.request);
-        throw Exception("The server responded with ${e.response.statusCode}");
+        throw Exception(
+            "Google Books API server responded with ${e.response.statusCode}");
       } else {
         print(e.request);
         print(e.message);
-        throw Exception("Error while setting up or sending the request");
+        throw Exception(
+            "Error while setting up or sending the request to Google Books API");
       }
     }
 
@@ -48,11 +50,13 @@ class BooksServices extends Services {
         print(e.response.data);
         print(e.response.headers);
         print(e.response.request);
-        throw Exception("The server responded with ${e.response.statusCode}");
+        throw Exception(
+            "Google Books API server responded with ${e.response.statusCode}");
       } else {
         print(e.request);
         print(e.message);
-        throw Exception("Error while setting up or sending the request");
+        throw Exception(
+            "Error while setting up or sending the request to Google Books API");
       }
     }
 

@@ -6,10 +6,9 @@ class BookList {
 
   BookList({this.totalItems, this.items});
 
-  int get length => this.items != null ? this.items.length : 0;
-  bool get isEmpty => this.items != null ? this.items.isEmpty : true;
-  bool get isComplete =>
-      this.items != null ? this.items.length >= this.totalItems : true;
+  int get length => items != null ? items.length : 0;
+  bool get isEmpty => items != null ? items.isEmpty : true;
+  bool get isComplete => items != null ? items.length >= totalItems : true;
 
   Book get(int i) {
     if (items != null && 0 <= i && i < items.length) return items[i];
@@ -33,6 +32,6 @@ class BookList {
   }
 
   void addAll(BookList newList) {
-    this.items.addAll(newList.items);
+    items.addAll(newList.items);
   }
 }
