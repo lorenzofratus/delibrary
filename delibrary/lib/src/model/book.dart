@@ -4,6 +4,9 @@ class Book {
   final String id;
   final _VolumeInfo info;
 
+  static final AssetImage placeholder =
+      AssetImage("lib/assets/placeholder.png");
+
   Book({this.id, this.info});
 
   String get title => info.title ?? "No title";
@@ -14,18 +17,25 @@ class Book {
   String get publishedDate => info.publishedDate ?? "";
   String get description => info.description ?? "";
 
-  Image get small => _getImage(info.small, BoxFit.contain);
-  Image get large => _getImage(info.large, BoxFit.cover);
+  Widget get smallImage => _getImage(info.small, 120.0);
+  Widget get largeImage => _getImage(info.large, 120.0);
+  Widget get previewImage => _getImage(info.small, 160.0);
 
-  Image _getImage(String url, BoxFit boxFit) {
-    return url.isNotEmpty
-        ? Image.network(
-            url,
-            fit: boxFit,
+  static Widget get placeholderImage => _getImage("", 120.0);
+  static Widget get placeholderPreviewImage => _getImage("", 160.0);
+
+  static Widget _getImage(String url, [double height]) {
+    return url.isEmpty
+        ? Image(
+            image: placeholder,
+            fit: BoxFit.cover,
+            height: height,
           )
-        : Image.asset(
-            "lib/assets/placeholder.png",
-            fit: boxFit,
+        : FadeInImage(
+            placeholder: placeholder,
+            image: NetworkImage(url),
+            fit: BoxFit.cover,
+            height: height,
           );
   }
 

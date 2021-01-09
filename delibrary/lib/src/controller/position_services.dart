@@ -74,9 +74,10 @@ class PositionServices {
   static Future<BookList> _getBooksFromProperties(
       PropertyList propertyList) async {
     List<Book> bookList = [];
+    BooksServices bookServices = BooksServices();
 
     await Future.forEach(propertyList.properties, (property) async {
-      Book book = await BooksServices.getById(property.bookId);
+      Book book = await bookServices.getById(property.bookId);
       bookList.add(book);
     });
 

@@ -27,8 +27,10 @@ class _PositionSearchPageState extends State<PositionSearchPage> {
   }
 
   void _setLastParameters(String province, String town) {
-    lastProvince = province;
-    lastTown = town;
+    setState(() {
+      lastProvince = province;
+      lastTown = town;
+    });
   }
 
   void _scrollListToTop() {
@@ -71,13 +73,18 @@ class _PositionSearchPageState extends State<PositionSearchPage> {
           onSearch: _positionSearch,
         ),
         if (lastProvince.isNotEmpty && lastTown.isNotEmpty)
-          Expanded(
-            child: CardsList(
-              booksList: _resultsList,
-              controller: _listController,
-              onTap: _selectedBook,
-            ),
-          ),
+          _resultsList != null
+              ? Expanded(
+                  child: CardsList(
+                    booksList: _resultsList,
+                    controller: _listController,
+                    onTap: _selectedBook,
+                  ),
+                )
+              : Center(
+                  heightFactor: 3.0,
+                  child: CircularProgressIndicator(),
+                ),
       ],
     );
   }

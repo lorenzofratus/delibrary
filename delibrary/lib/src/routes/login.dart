@@ -2,6 +2,7 @@ import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/search-field.dart';
 import 'package:delibrary/src/model/user.dart';
+import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,8 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Container(
-          padding: EdgeInsets.all(50.0),
+        child: PaddedContainer(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

@@ -6,9 +6,15 @@ class BookList {
 
   BookList({this.totalItems, this.items});
 
-  int get length => this.items.length;
-  bool get isEmpty => this.items.isEmpty;
-  bool get isComplete => this.items.length >= this.totalItems;
+  int get length => this.items != null ? this.items.length : 0;
+  bool get isEmpty => this.items != null ? this.items.isEmpty : true;
+  bool get isComplete =>
+      this.items != null ? this.items.length >= this.totalItems : true;
+
+  Book get(int i) {
+    if (items != null && 0 <= i && i < items.length) return items[i];
+    return null;
+  }
 
   factory BookList.fromJson(Map<String, dynamic> json) {
     if (json["totalItems"] == 0)

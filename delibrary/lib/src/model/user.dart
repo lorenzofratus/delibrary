@@ -1,3 +1,6 @@
+import 'package:delibrary/src/components/editable-field.dart';
+import 'package:flutter/material.dart';
+
 class User {
   String _username;
   String _name;
@@ -22,6 +25,19 @@ class User {
   String get name => this._name;
   String get surname => this._surname;
   String get email => this._email;
+
+  FieldData get usernameField =>
+      FieldData(text: _username, label: "Username", validator: null);
+  FieldData get nameField =>
+      FieldData(text: _name, label: "Name", validator: setName);
+  FieldData get surnameField =>
+      FieldData(text: _surname, label: "Surname", validator: setSurname);
+  FieldData get emailField =>
+      FieldData(text: _email, label: "Email", validator: setEmail);
+  FieldData get passwordField =>
+      FieldData(label: "Inserisci Password", validator: setPassword);
+  FieldData get confirmPasswordField =>
+      FieldData(label: "Conferma Password", validator: confirmPassword);
 
   String setUsername(newValue) {
     if (this._username != null) return "Non è possibile modificare l'username.";
@@ -122,4 +138,12 @@ class User {
       this._password
     ].join(", ");
   }
+}
+
+class FieldData {
+  final String text;
+  final String label;
+  final Function validator;
+
+  FieldData({this.text = "", this.label = "", this.validator});
 }

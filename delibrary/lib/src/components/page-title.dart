@@ -10,7 +10,8 @@ class PageTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(bottom: this.action != null ? 10.0 : 30.0),
+        padding: EdgeInsets.only(bottom: 10.0),
+        height: 66.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -23,8 +24,12 @@ class PageTitle extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(left: 5.0),
                 child: FloatingActionButton(
+                  heroTag: null,
                   onPressed: this.action,
-                  child: Icon(this.actionIcon),
+                  child: Icon(
+                    this.actionIcon,
+                    size: 30.0,
+                  ),
                 ),
               ),
           ],

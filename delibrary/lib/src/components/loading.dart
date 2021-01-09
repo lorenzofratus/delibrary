@@ -1,4 +1,5 @@
 import 'package:delibrary/src/components/logo.dart';
+import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 
 class DelibraryLoading extends StatelessWidget {
@@ -9,8 +10,7 @@ class DelibraryLoading extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           DelibraryLogo(large: true),
-          Container(
-            padding: EdgeInsets.all(50.0),
+          PaddedContainer(
             child: CircularProgressIndicator(),
           ),
         ],

@@ -1,5 +1,6 @@
 import 'package:delibrary/src/components/cards-list.dart';
 import 'package:delibrary/src/components/global-search-bar.dart';
+import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/controller/books-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
@@ -16,6 +17,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   int startIndex = 0;
   int maxResults = 10;
   BookList _resultsList;
+  final BooksServices _bookServices = BooksServices();
 
   ScrollController _listController = ScrollController();
 
@@ -40,7 +42,9 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   }
 
   void _setLastParameters(String query) {
-    lastQuery = query;
+    setState(() {
+      lastQuery = query;
+    });
   }
 
   void _scrollListToTop() {
@@ -53,7 +57,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
     _setLastParameters(query);
     _scrollListToTop();
     BookList firstPage;
-    if (query.isNotEmpty) firstPage = await BooksServices.getByQuery(query);
+    if (query.isNotEmpty) firstPage = await _bookServices.getByQuery(query);
     setState(() {
       _resultsList = firstPage;
     });
@@ -62,7 +66,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   Future<void> _globalNext() async {
     if (_resultsList.isComplete) return;
     startIndex += maxResults;
-    BookList nextPage = await BooksServices.getByQuery(lastQuery,
+    BookList nextPage = await _bookServices.getByQuery(lastQuery,
         startIndex: startIndex, maxResults: maxResults);
     setState(() {
       _resultsList.addAll(nextPage);
@@ -70,6 +74,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   }
 
   Future<void> _selectedBook(Book book) async {
+    //TODO: manage actions
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -85,20 +90,30 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        GlobalSearchBar(
-          onSearch: _globalSearch,
-        ),
-        if (lastQuery.isNotEmpty)
-          Expanded(
-            child: CardsList(
-              booksList: _resultsList,
-              controller: _listController,
-              onTap: _selectedBook,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: DelibraryLogo(),
+      ),
+      body: Column(
+        children: [
+          GlobalSearchBar(
+            onSearch: _globalSearch,
           ),
-      ],
+          if (lastQuery.isNotEmpty)
+            _resultsList != null
+                ? Expanded(
+                    child: CardsList(
+                      booksList: _resultsList,
+                      controller: _listController,
+                      onTap: _selectedBook,
+                    ),
+                  )
+                : Center(
+                    heightFactor: 3.0,
+                    child: CircularProgressIndicator(),
+                  ),
+        ],
+      ),
     );
   }
 }

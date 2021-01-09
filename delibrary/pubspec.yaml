@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  dio: ^3.0.10
   http: ^0.12.2
   shared_preferences: ^0.5.12+4
   flutter:

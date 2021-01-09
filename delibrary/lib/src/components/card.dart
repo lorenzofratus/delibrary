@@ -1,47 +1,5 @@
-import 'package:delibrary/src/controller/books-services.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:flutter/material.dart';
-
-class BookCardBuilder extends StatefulWidget {
-  final String bookId;
-  final Function onTap;
-
-  BookCardBuilder({@required this.bookId, this.onTap});
-
-  @override
-  State<BookCardBuilder> createState() => _BookCardBuilderState();
-}
-
-class _BookCardBuilderState extends State<BookCardBuilder> {
-  Future<Book> _futureBook;
-
-  @override
-  void initState() {
-    super.initState();
-    _futureBook = BooksServices.getById(widget.bookId);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<Book>(
-      future: _futureBook,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return BookCard(
-            book: snapshot.data,
-            onTap: widget.onTap,
-          );
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return Container(
-          padding: EdgeInsets.symmetric(vertical: 20.0),
-          child: Center(child: CircularProgressIndicator()),
-        );
-      },
-    );
-  }
-}
 
 class BookCard extends StatelessWidget {
   final Book book;
@@ -69,7 +27,7 @@ class BookCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Container(
-                  child: this.book.small,
+                  child: this.book.smallImage,
                   width: MediaQuery.of(context).size.width * 0.2,
                 ),
               ),
@@ -91,6 +49,32 @@ class BookCard extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class BookCardPreview extends StatelessWidget {
+  final Book book;
+  final Function onTap;
+
+  BookCardPreview({this.book, this.onTap});
+
+  void _tappedBook() {
+    if (onTap != null && book != null) onTap(this.book);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: InkWell(
+        onTap: _tappedBook,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: this.book != null
+              ? this.book.previewImage
+              : Book.placeholderPreviewImage,
         ),
       ),
     );

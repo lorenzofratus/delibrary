@@ -1,4 +1,5 @@
 import 'package:delibrary/src/components/search-field.dart';
+import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 
 import 'button.dart';
@@ -40,8 +41,7 @@ class _PositionSearchBarState extends State<PositionSearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(50.0),
+    return PaddedContainer(
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.only(

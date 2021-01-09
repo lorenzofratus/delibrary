@@ -2,10 +2,14 @@ import 'package:delibrary/src/components/loading.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/navigation-bar.dart';
 import 'package:delibrary/src/model/user.dart';
+import 'package:delibrary/src/routes/exchanges.dart';
+import 'package:delibrary/src/routes/global-search.dart';
 import 'package:delibrary/src/routes/profile.dart';
 import 'package:delibrary/src/routes/position-search.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'library.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,7 +33,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<bool> _checkAuthentication() async {
     //Delay to show the loader, to remove
-    await Future.delayed(Duration(seconds: 5));
+    // await Future.delayed(Duration(seconds: 5));
 
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     if (!_prefs.containsKey("delibrary-cookie")) return false;
@@ -61,15 +65,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     _mainRoutes = [
       PositionSearchPage(),
-      Text(
-        'Index 1: Library',
-        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-      ),
-      Text(
-        'Index 2: Exchanges',
-        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-      ),
-      ProfilePage(user: this.user, editable: true),
+      LibraryPage(),
+      ExchangesPage(),
+      ProfilePage(user: this.user),
     ];
 
     if (this._loading) return DelibraryLoading();

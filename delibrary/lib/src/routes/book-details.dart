@@ -1,6 +1,7 @@
 import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
 
 class BookPage extends StatelessWidget {
@@ -26,13 +27,12 @@ class BookPage extends StatelessWidget {
               expandedHeight: MediaQuery.of(context).size.height * 0.4,
               title: DelibraryLogo(),
               flexibleSpace: FlexibleSpaceBar(
-                background: this.book.large,
+                background: this.book.largeImage,
               ),
             )
           ];
         },
-        body: ListView(
-          padding: EdgeInsets.all(50.0),
+        body: PaddedListView(
           children: [
             if (this.book.title.isNotEmpty)
               _BookInfo(this.book.title, bold: true),
