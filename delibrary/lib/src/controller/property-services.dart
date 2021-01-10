@@ -46,7 +46,8 @@ class PropertyServices extends Services {
 
     await Future.forEach(propertyList.properties, (property) async {
       Book book = await bookServices.getById(property.bookId);
-      bookList.add(book);
+      bookList.add(Book(
+          id: book.id, info: book.info, ownerUsername: property.ownerUsername));
     });
 
     return BookList(totalItems: bookList.length, items: bookList);

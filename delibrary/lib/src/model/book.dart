@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Book {
+  final String ownerUsername;
   final String id;
   final _VolumeInfo info;
 
   static final AssetImage placeholder =
       AssetImage("lib/assets/placeholder.png");
 
-  Book({this.id, this.info});
+  Book({this.id, this.info, this.ownerUsername});
 
   String get title => info.title ?? "No title";
   String get authors => info.authors.join(", ") ?? "";
