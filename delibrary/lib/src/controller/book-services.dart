@@ -5,11 +5,14 @@ import 'package:dio/dio.dart';
 
 class BookServices extends Services {
   BookServices()
-      : super(BaseOptions(
-          baseUrl: "https://www.googleapis.com/books/v1/volumes",
-          connectTimeout: 10000,
-          receiveTimeout: 10000,
-        ));
+      : super(
+          BaseOptions(
+            baseUrl: "https://www.googleapis.com/books/v1/volumes",
+            connectTimeout: 10000,
+            receiveTimeout: 10000,
+          ),
+          true,
+        );
 
   Future<Book> getById(String id) async {
     Response response;

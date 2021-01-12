@@ -22,6 +22,7 @@ class User {
   String get name => _name;
   String get surname => _surname;
   String get email => _email;
+  String get password => _password;
 
   FieldData get usernameField =>
       FieldData(text: _username, label: "Username", validator: null);
@@ -111,7 +112,7 @@ class User {
     user["name"] = _name;
     user["surname"] = _surname;
     user["email"] = _email;
-    user["password"] = _password;
+    if (_password != null) user["password"] = _password;
     return user;
   }
 

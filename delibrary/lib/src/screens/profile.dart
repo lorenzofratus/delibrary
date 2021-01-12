@@ -1,5 +1,6 @@
 import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
+import 'package:delibrary/src/controller/user-services.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,9 @@ class _EditProfilePageState extends State<ProfileScreen> {
 
   void _saveEditingProfile() {
     if (!_profileKey.currentState.validate()) return;
-    _updateProfile();
+    _sendUpdate().then((result) {
+      //TODO: show confirmation message to the user
+    });
     setState(() {
       _editingProfile = false;
     });
@@ -48,7 +51,10 @@ class _EditProfilePageState extends State<ProfileScreen> {
 
   void _saveEditingPassword() {
     if (!_passwordKey.currentState.validate()) return;
-    _updatePassword();
+    _sendUpdate().then((result) {
+      //TODO: show confirmation message to the user
+      widget.user.resetPassword();
+    });
     setState(() {
       _editingPassword = false;
     });
@@ -62,24 +68,17 @@ class _EditProfilePageState extends State<ProfileScreen> {
     });
   }
 
-  void _updateProfile() {
-    //TODO: send update to the server
-    print("Profile updated");
-    print(widget.user.toString());
+  Future<bool> _sendUpdate() async {
+    UserServices userServices = UserServices();
+    User response = await userServices.updateUser(widget.user);
+    return response != null;
   }
 
-  void _updatePassword() {
-    //TODO: send update to the server
-    print("Password updated");
-    print(widget.user.toString());
-    widget.user.resetPassword();
-  }
-
-  void _logout() async {
-    //TODO: send logout to the server to invalidate the session
-    //Should be done by the service
+  Future<void> _logout() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.remove("delibrary-cookie");
+    _prefs.remove("delibrary-user");
+    UserServices userServices = UserServices();
+    await userServices.logoutUser();
     Navigator.pushReplacementNamed(context, "/login");
   }
 

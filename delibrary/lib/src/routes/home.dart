@@ -2,6 +2,7 @@ import 'package:delibrary/src/components/loading.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/navigation-bar.dart';
 import 'package:delibrary/src/controller/position-services.dart';
+import 'package:delibrary/src/controller/user-services.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/screens/exchanges.dart';
 import 'package:delibrary/src/screens/library.dart';
@@ -20,13 +21,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   List<Widget> _mainRoutes;
   Map<String, List<String>> _provinces;
-
-  final User _user = User(
-    username: "fratuslorenzo",
-    name: "Lorenzo",
-    surname: "Fratus",
-    email: "fratus98@hotmail.it",
-  );
+  User _user;
 
   void initState() {
     super.initState();
@@ -41,11 +36,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<bool> _fetchData() async {
-    //TODO: send cookie to the server to check if it is valid
-    //Maybe ask for the user? Ask also user properties and exchanges?
-
     await _fetchProvinces();
-
     return await _checkAuthentication();
   }
 
@@ -56,10 +47,12 @@ class _HomePageState extends State<HomePage> {
 
   Future<bool> _checkAuthentication() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    if (!_prefs.containsKey("delibrary-cookie")) return false;
-    String _cookie = _prefs.getString("delibrary-cookie");
-
-    print(_cookie);
+    if (!_prefs.containsKey("delibrary-user")) return false;
+    String username = _prefs.getString("delibrary-user");
+    UserServices userServices = UserServices();
+    User response = await userServices.getUser(username);
+    if (response == null) return false;
+    _user = response;
     return true;
   }
 

@@ -1,6 +1,7 @@
 import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/search-field.dart';
+import 'package:delibrary/src/controller/user-services.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
@@ -16,18 +17,20 @@ class _RegisterPageState extends State<RegisterPage> {
   SharedPreferences _prefs;
   User _tempUser;
 
-  void initState() async {
+  void initState() {
     super.initState();
     _tempUser = User();
-    _prefs = await SharedPreferences.getInstance();
+    SharedPreferences.getInstance().then((prefs) => _prefs = prefs);
   }
 
   void _validateUser() async {
     if (_formKey.currentState.validate()) {
-      // TODO send credentials to the server and wait the response
-      print(_tempUser);
+      UserServices userServices = UserServices();
+      User user = await userServices.registerUser(_tempUser);
+      print(user);
+      _prefs.setString("delibrary-user", user.username);
       // Should be set by the service
-      _prefs.setString("delibrary-cookie", "Cookie inviato dal server");
+      // _prefs.setString("delibrary-cookie", "Cookie inviato dal server");
       Navigator.pushReplacementNamed(context, "/");
     }
     setState(() {

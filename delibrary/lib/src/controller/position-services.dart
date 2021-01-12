@@ -3,11 +3,14 @@ import 'package:dio/dio.dart';
 
 class PositionServices extends Services {
   PositionServices()
-      : super(BaseOptions(
-          baseUrl: "https://comuni-ita.herokuapp.com/api/",
-          connectTimeout: 10000,
-          receiveTimeout: 10000,
-        ));
+      : super(
+          BaseOptions(
+            baseUrl: "https://comuni-ita.herokuapp.com/api/",
+            connectTimeout: 10000,
+            receiveTimeout: 10000,
+          ),
+          true,
+        );
 
   Map<String, List<String>> _provinces = Map();
 
