@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     _mainRoutes = [
       PositionSearchScreen(provinces: _provinces),
-      LibraryScreen(),
+      LibraryScreen(user: _user),
       ExchangesScreen(),
       ProfileScreen(user: _user),
     ];

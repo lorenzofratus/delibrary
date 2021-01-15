@@ -7,7 +7,7 @@ class UserServices extends Services {
   //TODO: manage error codes
   UserServices()
       : super(BaseOptions(
-          baseUrl: "http://localhost:8080/v1/users/",
+          baseUrl: "http://delibrary.herokuapp.com/v1/users/",
           connectTimeout: 10000,
           receiveTimeout: 10000,
         ));
