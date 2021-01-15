@@ -35,8 +35,18 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.8.1
   flutter_test:
     sdk: flutter
+
+# Launcher icon
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "lib/assets/icon/icon.png"
+  image_path_android: "lib/assets/icon/icon.png"
+  adaptive_icon_background: "lib/assets/icon/background.png"
+  adaptive_icon_foreground: "lib/assets/icon/foreground.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -94,4 +104,3 @@ flutter:
               style: italic
             - asset: lib/assets/fonts/lato/lato-bold.ttf
               weight: 700
-  

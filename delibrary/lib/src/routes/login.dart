@@ -1,11 +1,11 @@
 import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/search-field.dart';
+import 'package:delibrary/src/controller/envelope.dart';
 import 'package:delibrary/src/controller/user-services.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,24 +13,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-  SharedPreferences _prefs;
   User _tempUser;
 
   void initState() {
     super.initState();
     _tempUser = User();
-    SharedPreferences.getInstance().then((prefs) => _prefs = prefs);
   }
 
   void _validateUser() async {
     if (_formKey.currentState.validate()) {
       UserServices userServices = UserServices();
-      User user = await userServices.loginUser(_tempUser);
-      print(user);
-      _prefs.setString("delibrary-user", user.username);
-      // Should be set by the service
-      Navigator.pushReplacementNamed(context, "/");
+      Envelope<User> response = await userServices.loginUser(_tempUser);
+      if (response.error != null)
+        _scaffoldKey.currentState.showSnackBar(response.message);
+      else
+        Navigator.pushReplacementNamed(context, "/");
     }
     setState(() {
       _tempUser = User();
@@ -44,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Center(
         child: PaddedContainer(
           child: Column(
@@ -62,7 +62,10 @@ class _LoginPageState extends State<LoginPage> {
                     SearchFormField(
                         validator: _tempUser.setUsername, hint: "Username"),
                     SearchFormField(
-                        validator: _tempUser.setPassword, hint: "Password"),
+                      validator: _tempUser.setPassword,
+                      hint: "Password",
+                      obscurable: true,
+                    ),
                   ],
                 ),
               ),

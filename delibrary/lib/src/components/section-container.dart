@@ -73,6 +73,7 @@ class FormSectionContainer extends StatelessWidget {
                 label: data.label,
                 validator: data.validator,
                 editing: data.validator != null ? editing : false,
+                obscurable: data.obscurable,
               ),
             if (startEditing != null)
               editing

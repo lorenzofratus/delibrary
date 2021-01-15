@@ -1,6 +1,7 @@
 import 'package:delibrary/src/components/loading.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/navigation-bar.dart';
+import 'package:delibrary/src/controller/envelope.dart';
 import 'package:delibrary/src/controller/position-services.dart';
 import 'package:delibrary/src/controller/user-services.dart';
 import 'package:delibrary/src/model/user.dart';
@@ -25,35 +26,37 @@ class _HomePageState extends State<HomePage> {
 
   void initState() {
     super.initState();
-    _fetchData().then((authenticated) {
+    _checkAuthentication().then((authenticated) {
       if (!authenticated)
         Navigator.pushReplacementNamed(context, "/login");
       else
-        setState(() {
-          _loading = false;
+        _fetchData().then((_) {
+          setState(() {
+            _loading = false;
+          });
         });
     });
   }
 
-  Future<bool> _fetchData() async {
+  Future<bool> _checkAuthentication() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey("delibrary-cookie")) return false;
+
+    UserServices userServices = UserServices();
+    Envelope<User> response = await userServices.validateUser();
+    if (response.error != null) return false;
+
+    _user = response.payload;
+    return true;
+  }
+
+  Future<void> _fetchData() async {
     await _fetchProvinces();
-    return await _checkAuthentication();
   }
 
   Future<void> _fetchProvinces() async {
-    PositionServices _positionServices = PositionServices();
-    _provinces = await _positionServices.loadProvinces();
-  }
-
-  Future<bool> _checkAuthentication() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    if (!_prefs.containsKey("delibrary-user")) return false;
-    String username = _prefs.getString("delibrary-user");
-    UserServices userServices = UserServices();
-    User response = await userServices.getUser(username);
-    if (response == null) return false;
-    _user = response;
-    return true;
+    PositionServices positionServices = PositionServices();
+    _provinces = await positionServices.loadProvinces();
   }
 
   void _onItemTapped(int index) {

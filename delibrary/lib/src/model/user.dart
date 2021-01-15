@@ -32,10 +32,10 @@ class User {
       FieldData(text: _surname, label: "Surname", validator: setSurname);
   FieldData get emailField =>
       FieldData(text: _email, label: "Email", validator: setEmail);
-  FieldData get passwordField =>
-      FieldData(label: "Inserisci Password", validator: setPassword);
-  FieldData get confirmPasswordField =>
-      FieldData(label: "Conferma Password", validator: confirmPassword);
+  FieldData get passwordField => FieldData(
+      label: "Inserisci Password", validator: setPassword, obscurable: true);
+  FieldData get confirmPasswordField => FieldData(
+      label: "Conferma Password", validator: confirmPassword, obscurable: true);
 
   String setUsername(newValue) {
     if (_username != null) return "Non è possibile modificare l'username.";
@@ -106,6 +106,14 @@ class User {
     _password = null;
   }
 
+  void become(User user) {
+    if (user == null || user.username != _username) return;
+    _name = user.name;
+    _surname = user.surname;
+    _email = user.email;
+    _password = user.password;
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> user = Map<String, dynamic>();
     user["username"] = _username;
@@ -126,6 +134,17 @@ class User {
     );
   }
 
+  factory User.copy(User user) {
+    if (user == null) return User();
+    return User(
+      username: user.username,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      password: user.password,
+    );
+  }
+
   String toString() {
     return [_username, _name, _surname, _email, _password].join(", ");
   }
@@ -135,6 +154,12 @@ class FieldData {
   final String text;
   final String label;
   final Function validator;
+  final bool obscurable;
 
-  FieldData({this.text = "", this.label = "", this.validator});
+  FieldData({
+    this.text = "",
+    this.label = "",
+    this.validator,
+    this.obscurable = false,
+  });
 }
