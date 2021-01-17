@@ -1,24 +1,32 @@
 import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
+import 'package:delibrary/src/controller/property-services.dart';
+import 'package:delibrary/src/controller/wish-services.dart';
+import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/routes/book-details.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
 
 class LibraryScreen extends StatefulWidget {
+  final User user;
+
+  LibraryScreen({this.user});
+
   @override
   State<StatefulWidget> createState() => _LibraryScreenState();
 }
 
 class _LibraryScreenState extends State<LibraryScreen> {
-  BookList _bookList;
+  final PropertyServices _propertyServices = PropertyServices();
+  final WishServices _wishServices = WishServices();
 
   @override
   void initState() {
-    //TODO: fetch the bookList
     super.initState();
-    _bookList = BookList();
+    _downloadLists();
   }
 
   void _addBook() {
@@ -32,12 +40,12 @@ class _LibraryScreenState extends State<LibraryScreen> {
       MaterialPageRoute(
         builder: (context) => BookDetailsPage(
           book: book,
-          primaryActionText: "Rimuovi dalla libreria",
-          secondaryActionText: "Sposta nella wishlist",
+          primaryAction: _propertyServices.removeProperty(book),
+          secondaryAction: _propertyServices.movePropertyToWishList(book),
         ),
       ),
     );
-    print(selectedAction);
+    if (selectedAction != null) setState(() {});
   }
 
   Future<void> _selectedWishlist(Book book) async {
@@ -47,8 +55,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
       MaterialPageRoute(
         builder: (context) => BookDetailsPage(
           book: book,
-          primaryActionText: "Rimuovi dalla wishlist",
-          secondaryActionText: "Sposta nella libreria",
+          primaryAction: _wishServices.removeWish(book),
+          secondaryAction: _wishServices.moveWishToLibrary(book),
         ),
       ),
     );
@@ -66,15 +74,19 @@ class _LibraryScreenState extends State<LibraryScreen> {
         ),
         BooksSectionContainer(
           title: "Biblioteca",
-          bookList: _bookList,
+          bookList: _propertyServices.bookList,
           onTap: _selectedLibrary,
         ),
         BooksSectionContainer(
           title: "Wishlist",
-          bookList: _bookList,
+          bookList: BookList(), // TODO
           onTap: _selectedWishlist,
         ),
       ],
     );
+  }
+
+  void _downloadLists() async {
+    _propertyServices.init(widget.user.username);
   }
 }

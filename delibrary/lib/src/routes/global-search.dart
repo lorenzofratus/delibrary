@@ -2,6 +2,8 @@ import 'package:delibrary/src/components/cards-list.dart';
 import 'package:delibrary/src/components/global-search-bar.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/controller/book-services.dart';
+import 'package:delibrary/src/controller/property-services.dart';
+import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/routes/book-details.dart';
@@ -14,6 +16,8 @@ class GlobalSearchPage extends StatefulWidget {
 
 class _GlobalSearchPageState extends State<GlobalSearchPage> {
   final BookServices _bookServices = BookServices();
+  final PropertyServices _propertyServices = PropertyServices();
+  final WishServices _wishServices = WishServices();
   String _lastQuery = "";
   int _startIndex = 0;
   int _maxResults = 10;
@@ -79,8 +83,8 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
       MaterialPageRoute(
         builder: (context) => BookDetailsPage(
           book: book,
-          primaryActionText: "Aggiungi alla libreria",
-          secondaryActionText: "Aggiungi alla wishlist",
+          primaryAction: _propertyServices.addProperty(book),
+          secondaryAction: _wishServices.addWish(book),
         ),
       ),
     );

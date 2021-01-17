@@ -1,5 +1,8 @@
 import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
+import 'package:delibrary/src/controller/property-services.dart';
+import 'package:delibrary/src/controller/wish-services.dart';
+import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/routes/book-details.dart';
@@ -12,6 +15,8 @@ class ExchangesScreen extends StatefulWidget {
 }
 
 class _ExchangesScreenState extends State<ExchangesScreen> {
+  final PropertyServices _propertyServices = PropertyServices();
+  final WishServices _wishServices = WishServices();
   BookList _waitingList;
   BookList _sentList;
   BookList _refusedList;
@@ -36,8 +41,8 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
       MaterialPageRoute(
         builder: (context) => BookDetailsPage(
           book: book,
-          primaryActionText: "Rimuovi dalla libreria",
-          secondaryActionText: "Sposta nella wishlist",
+          primaryAction: _propertyServices.removeProperty(book),
+          secondaryAction: _propertyServices.movePropertyToWishList(book),
         ),
       ),
     );
@@ -51,8 +56,8 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
       MaterialPageRoute(
         builder: (context) => BookDetailsPage(
           book: book,
-          primaryActionText: "Rimuovi dalla wishlist",
-          secondaryActionText: "Sposta nella libreria",
+          primaryAction: _wishServices.removeWish(book),
+          secondaryAction: _wishServices.moveWishToLibrary(book),
         ),
       ),
     );
@@ -66,8 +71,8 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
       MaterialPageRoute(
         builder: (context) => BookDetailsPage(
           book: book,
-          primaryActionText: "Rimuovi dalla wishlist",
-          secondaryActionText: "Sposta nella libreria",
+          primaryAction: _wishServices.removeWish(book),
+          secondaryAction: _wishServices.moveWishToLibrary(book),
         ),
       ),
     );
@@ -81,8 +86,8 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
       MaterialPageRoute(
         builder: (context) => BookDetailsPage(
           book: book,
-          primaryActionText: "Rimuovi dalla wishlist",
-          secondaryActionText: "Sposta nella libreria",
+          primaryAction: _wishServices.removeWish(book),
+          secondaryAction: _wishServices.moveWishToLibrary(book),
         ),
       ),
     );

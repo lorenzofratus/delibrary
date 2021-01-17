@@ -1,6 +1,7 @@
 import 'package:delibrary/src/components/cards-list.dart';
 import 'package:delibrary/src/components/position-search-bar.dart';
 import 'package:delibrary/src/controller/property-services.dart';
+import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/routes/book-details.dart';
@@ -16,6 +17,8 @@ class PositionSearchScreen extends StatefulWidget {
 }
 
 class _PositionSearchScreenState extends State<PositionSearchScreen> {
+  final PropertyServices _propertyServices = PropertyServices();
+  final WishServices _wishServices = WishServices();
   String _lastProvince = "";
   BookList _resultsList;
 
@@ -40,7 +43,7 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
   }
 
   Future<void> _positionSearch(String province, String town) async {
-    PropertyServices propertiesServices = PropertyServices();
+    PropertyServices _propertyServices = PropertyServices();
 
     _setLastParameters(province, town);
     _scrollListToTop();
@@ -48,7 +51,7 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
     print("Location search. Province: " + province + " Town: " + town);
 
     BookList bookList =
-        await propertiesServices.getBooksByPosition(province, town);
+        await _propertyServices.getPropertiesByPosition(province, town);
     setState(() {
       _resultsList = bookList;
     });
@@ -60,8 +63,8 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
       MaterialPageRoute(
         builder: (context) => BookDetailsPage(
           book: book,
-          primaryActionText: "Aggiungi alla libreria",
-          secondaryActionText: "Aggiungi alla wishlist",
+          primaryAction: _propertyServices.addProperty(book),
+          secondaryAction: _wishServices.addWish(book),
         ),
       ),
     );

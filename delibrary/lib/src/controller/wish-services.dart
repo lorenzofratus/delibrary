@@ -5,51 +5,33 @@ import 'package:delibrary/src/controller/user-services.dart';
 import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
-import 'package:delibrary/src/model/property-list.dart';
-import 'package:delibrary/src/model/property.dart';
 import 'package:delibrary/src/model/user.dart';
+import 'package:delibrary/src/model/wish-list.dart';
 import 'package:dio/dio.dart';
 
-class PropertyServices extends Services {
-  static PropertyServices _singleton = PropertyServices._internal();
+class WishServices extends Services {
+  static WishServices _singleton = WishServices._internal();
   BookList _bookList;
 
   BookList get bookList => _bookList;
 
-  factory PropertyServices() {
+  factory WishServices() {
     return _singleton;
   }
 
-  PropertyServices._internal()
+  WishServices._internal()
       : super(BaseOptions(
-          baseUrl: "https://delibrary.herokuapp.com/v1/",
+          baseUrl: "https://delibrary.herokuapp.com/v1/users/",
           connectTimeout: 20000,
           receiveTimeout: 20000,
         ));
 
-  Future<BookList> getPropertiesByPosition(String province,
-      [String town = ""]) async {
-    print(
-        "[Properties services] Getting properties by position from Delibrary...");
-    return _fetchProperties(
-        "properties/$province${town.isEmpty ? '' : '/' + town}");
+  Future<void> init(String username) async {
+    print("[Wishes services] Getting wishes from Delibrary...");
+    _bookList = await _getBooks("$username/wishes");
   }
 
-  Future<BookList> _getBooksFromProperties(List<Property> propertyList) async {
-    print(
-        "[Properties services] Getting info for each book from Google Books...");
-    List<Book> bookList = [];
-    BookServices bookServices = BookServices();
-
-    await Future.forEach(propertyList, (property) async {
-      Book book = await bookServices.getById(property.bookId);
-      bookList.add(Book(id: book.id, info: book.info, property: property));
-    });
-
-    return BookList(totalItems: bookList.length, items: bookList);
-  }
-
-  Future<BookList> _fetchProperties(String path) async {
+  Future<BookList> _getBooks(String path) async {
     Response response;
     try {
       response = await dio.get(path);
@@ -67,19 +49,31 @@ class PropertyServices extends Services {
             "Error while setting up or sending the request to Delibrary");
       }
     }
-    PropertyList propertyList = PropertyList.fromJson(response.data);
-    return _getBooksFromProperties(propertyList.properties);
+    return _getBooksFromWishes(WishList.fromJson(response.data));
   }
 
-  DelibraryAction removeProperty(Book book) {
+  Future<BookList> _getBooksFromWishes(WishList wishList) async {
+    print("[Wishes services] Getting info for each book from Google Books...");
+    List<Book> bookList = [];
+    BookServices bookServices = BookServices();
+
+    await Future.forEach(wishList.wishes, (wish) async {
+      Book book = await bookServices.getById(wish.bookId);
+      bookList.add(Book(id: book.id, info: book.info, wish: wish));
+    });
+
+    return BookList(totalItems: bookList.length, items: bookList);
+  }
+
+  DelibraryAction removeWish(Book book) {
     return DelibraryAction(
-      text: "Rimuovi dalla libreria",
+      text: "Rimuovi dalla lista dei desideri",
       execute: () async {
-        // Remove property from server.
+        // Remove wish from server.
         Response response;
         try {
-          response = await dio.delete(
-              "users/${book.property.ownerUsername}/properties/${book.property.id}");
+          response = await dio
+              .delete("${book.wish.ownerUsername}/wishes/${book.wish.id}");
         } on DioError catch (e) {
           if (e.response != null) {
             print(e.response.data);
@@ -96,26 +90,26 @@ class PropertyServices extends Services {
         }
 
         if (response.statusCode == 201) {
-          // Remove property from local copy.
+          // Remove wish from local copy.
           _bookList.remove(book);
         } else
           throw Exception(
-              "It was not possible to delete the property from the server.");
+              "It was not possible to delete the wish from the server.");
       },
     );
   }
 
-  DelibraryAction addProperty(Book book) {
+  DelibraryAction addWish(Book book) {
     return DelibraryAction(
-      text: "Aggiungi alla libreria",
+      text: "Aggiungi alla lista dei desideri",
       execute: () async {
-        // Remove property from server.
+        // Remove wish from server.
         Response response;
         Envelope<User> user = await UserServices().validateUser();
         String username = user.payload.username;
         try {
-          // TODO: We have to retrieve the location BEFORE adding the property.
-          response = await dio.post("users/$username/properties/new", data: {});
+          // TODO fill the body in o4rder to make a valid POST request.
+          response = await dio.post("$username/wishes/new", data: {});
         } on DioError catch (e) {
           if (e.response != null) {
             print(e.response.data);
@@ -134,19 +128,13 @@ class PropertyServices extends Services {
         if (response.statusCode == 201) {
           _bookList.add(book);
         } else
-          throw Exception(
-              "It was not possible to add the property to the server.");
+          throw Exception("It was not possible to add the wish to the server.");
       },
     );
   }
 
-  DelibraryAction movePropertyToWishList(Book book) {
+  DelibraryAction moveWishToLibrary(Book book) {
     return DelibraryAction(
         text: "Sposta nella wishlist", execute: () {/* TODO */});
-  }
-
-  Future<void> init(String username) async {
-    print("[Properties services] Getting properties from Delibrary...");
-    _bookList = await _fetchProperties("users/$username/properties");
   }
 }

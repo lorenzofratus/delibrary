@@ -1,14 +1,18 @@
+import 'package:delibrary/src/model/property.dart';
+import 'package:delibrary/src/model/wish.dart';
 import 'package:flutter/material.dart';
 
 class Book {
-  final String ownerUsername;
+  final Property property;
+  final Wish wish;
   final String id;
   final _VolumeInfo info;
 
   static final AssetImage placeholder =
       AssetImage("lib/assets/placeholder.png");
 
-  Book({this.id, this.info, this.ownerUsername});
+  Book({this.id, this.info, this.property, this.wish})
+      : assert((property == null) || (wish == null));
 
   String get title => info.title ?? "No title";
   String get authors => info.authors.join(", ") ?? "";

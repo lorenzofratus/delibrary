@@ -128,9 +128,9 @@ class BooksSectionContainer extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                BookCardPreview(book: bookList.get(0), onTap: onTap),
+                BookCardPreview(book: bookList?.get(0), onTap: onTap),
                 SizedBox(width: 30.0),
-                BookCardPreview(book: bookList.get(1), onTap: onTap),
+                BookCardPreview(book: bookList?.get(1), onTap: onTap),
               ],
             ),
           ),

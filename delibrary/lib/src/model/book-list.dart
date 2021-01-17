@@ -34,4 +34,12 @@ class BookList {
   void addAll(BookList newList) {
     items.addAll(newList.items);
   }
+
+  void remove(Book book) {
+    items.remove(book);
+  }
+
+  void add(Book book) {
+    items.add(book);
+  }
 }

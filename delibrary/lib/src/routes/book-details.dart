@@ -1,19 +1,18 @@
 import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/logo.dart';
+import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
 
 class BookDetailsPage extends StatelessWidget {
   final Book book;
-  final String primaryActionText;
-  final String secondaryActionText;
+  final DelibraryAction primaryAction;
+  final DelibraryAction secondaryAction;
 
-  BookDetailsPage({
-    @required this.book,
-    this.primaryActionText = "",
-    this.secondaryActionText = "",
-  });
+  const BookDetailsPage(
+      {Key key, this.book, this.primaryAction, this.secondaryAction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +44,22 @@ class BookDetailsPage extends StatelessWidget {
                 book.description,
                 style: Theme.of(context).textTheme.headline6,
               ),
-            if (primaryActionText.isNotEmpty)
+            if (primaryAction.text.isNotEmpty)
               DelibraryButton(
-                text: primaryActionText,
-                onPressed: () => {Navigator.pop(context, 1)},
+                text: primaryAction.text,
+                onPressed: () {
+                  primaryAction.execute();
+                  Navigator.pop(context, 1);
+                },
               ),
-            if (secondaryActionText.isNotEmpty)
+            if (secondaryAction.text.isNotEmpty)
               DelibraryButton(
-                text: secondaryActionText,
+                text: secondaryAction.text,
                 primary: false,
-                onPressed: () => {Navigator.pop(context, 2)},
+                onPressed: () {
+                  secondaryAction.execute();
+                  Navigator.pop(context, 2);
+                },
               ),
           ],
         ),
