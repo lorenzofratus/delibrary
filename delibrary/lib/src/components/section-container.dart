@@ -4,6 +4,7 @@ import 'package:delibrary/src/components/editable-field.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/routes/list.dart';
+import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 
 class SectionContainer extends StatelessWidget {
@@ -121,25 +122,34 @@ class BooksSectionContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionContainer(
       title: title,
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 30.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: bookList.isEmpty
+          ? PaddedContainer(
+              alignment: Alignment.center,
+              child: Text(
+                "Nessun libro trovato",
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            )
+          : Column(
               children: [
-                BookCardPreview(book: bookList?.get(0), onTap: onTap),
-                SizedBox(width: 30.0),
-                BookCardPreview(book: bookList?.get(1), onTap: onTap),
+                GridView.count(
+                  padding: EdgeInsets.only(top: 30.0),
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 30.0,
+                  primary: false,
+                  shrinkWrap: true,
+                  children: [
+                    BookCardPreview(book: bookList?.get(0), onTap: onTap),
+                    if (bookList.length > 1)
+                      BookCardPreview(book: bookList?.get(1), onTap: onTap),
+                  ],
+                ),
+                DelibraryButton(
+                  onPressed: () => _seeMore(context),
+                  text: "Vedi tutti",
+                ),
               ],
             ),
-          ),
-          DelibraryButton(
-            onPressed: () => _seeMore(context),
-            text: "Vedi tutti",
-          ),
-        ],
-      ),
     );
   }
 }

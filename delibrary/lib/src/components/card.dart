@@ -67,14 +67,11 @@ class BookCardPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: InkWell(
-        onTap: _tappedBook,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20.0),
-          child:
-              book != null ? book.previewImage : Book.placeholderPreviewImage,
-        ),
+    return InkWell(
+      onTap: _tappedBook,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20.0),
+        child: book != null ? book.previewImage : Book.placeholderPreviewImage,
       ),
     );
   }
