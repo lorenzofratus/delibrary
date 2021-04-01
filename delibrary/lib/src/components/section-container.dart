@@ -122,7 +122,7 @@ class BooksSectionContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionContainer(
       title: title,
-      child: bookList.isEmpty
+      child: (bookList == null || bookList.isEmpty)
           ? PaddedContainer(
               alignment: Alignment.center,
               child: Text(
