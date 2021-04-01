@@ -7,7 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserServices extends Services {
   UserServices()
       : super(BaseOptions(
-          baseUrl: "http://delibrary.herokuapp.com/v1/users/",
+          // baseUrl: "https://delibrary.herokuapp.com/v1/users/",
+          baseUrl: "http://localhost:8080/v1/users/",
           connectTimeout: 10000,
           receiveTimeout: 10000,
         ));

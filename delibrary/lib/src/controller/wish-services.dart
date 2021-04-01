@@ -21,7 +21,8 @@ class WishServices extends Services {
 
   WishServices._internal()
       : super(BaseOptions(
-          baseUrl: "https://delibrary.herokuapp.com/v1/users/",
+          // baseUrl: "https://delibrary.herokuapp.com/v1/users/",
+          baseUrl: "http://localhost:8080/v1/users/",
           connectTimeout: 20000,
           receiveTimeout: 20000,
         ));

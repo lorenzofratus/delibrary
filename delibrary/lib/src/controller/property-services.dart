@@ -22,7 +22,8 @@ class PropertyServices extends Services {
 
   PropertyServices._internal()
       : super(BaseOptions(
-          baseUrl: "https://delibrary.herokuapp.com/v1/",
+          // baseUrl: "https://delibrary.herokuapp.com/v1/",
+          baseUrl: "http://localhost:8080/v1/",
           connectTimeout: 20000,
           receiveTimeout: 20000,
         ));
