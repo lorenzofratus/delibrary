@@ -2,7 +2,6 @@ import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
 import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/wish-services.dart';
-import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/routes/book-details.dart';
@@ -24,12 +23,17 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
 
   @override
   void initState() {
-    //TODO: fetch the book lists
     super.initState();
+    _downloadLists();
+  }
+
+  Future<void> _downloadLists() async {
+    //TODO: fetch the book lists
     _waitingList = BookList();
     _sentList = BookList();
     _refusedList = BookList();
     _completedList = BookList();
+    print("We should fetch the exchanges...");
   }
 
   //TODO: change selected functions to go to the profile page of the other user
@@ -96,30 +100,34 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PaddedListView(
-      children: [
-        PageTitle("I tuoi scambi"),
-        BooksSectionContainer(
-          title: "In attesa",
-          bookList: _waitingList,
-          onTap: _selectedWaiting,
-        ),
-        BooksSectionContainer(
-          title: "Inviati",
-          bookList: _sentList,
-          onTap: _selectedSent,
-        ),
-        BooksSectionContainer(
-          title: "Rifiutati",
-          bookList: _refusedList,
-          onTap: _selectedRefused,
-        ),
-        BooksSectionContainer(
-          title: "Completati",
-          bookList: _completedList,
-          onTap: _selectedCompleted,
-        ),
-      ],
+    return RefreshIndicator(
+      onRefresh: _downloadLists,
+      backgroundColor: Theme.of(context).primaryColor,
+      child: PaddedListView(
+        children: [
+          PageTitle("I tuoi scambi"),
+          BooksSectionContainer(
+            title: "In attesa",
+            bookList: _waitingList,
+            onTap: _selectedWaiting,
+          ),
+          BooksSectionContainer(
+            title: "Inviati",
+            bookList: _sentList,
+            onTap: _selectedSent,
+          ),
+          BooksSectionContainer(
+            title: "Rifiutati",
+            bookList: _refusedList,
+            onTap: _selectedRefused,
+          ),
+          BooksSectionContainer(
+            title: "Completati",
+            bookList: _completedList,
+            onTap: _selectedCompleted,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
 import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/wish-services.dart';
-import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/user.dart';
@@ -31,6 +30,10 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
   void _addBook() {
     Navigator.pushNamed(context, "/search");
+  }
+
+  Future<void> _downloadLists() async {
+    _propertyServices.init(widget.user.username);
   }
 
   Future<void> _selectedLibrary(Book book) async {
@@ -65,28 +68,28 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PaddedListView(
-      children: [
-        PageTitle(
-          "I tuoi libri",
-          action: _addBook,
-          actionIcon: Icons.add,
-        ),
-        BooksSectionContainer(
-          title: "Biblioteca",
-          bookList: _propertyServices.bookList,
-          onTap: _selectedLibrary,
-        ),
-        BooksSectionContainer(
-          title: "Wishlist",
-          bookList: BookList(), // TODO
-          onTap: _selectedWishlist,
-        ),
-      ],
+    return RefreshIndicator(
+      onRefresh: _downloadLists,
+      backgroundColor: Theme.of(context).primaryColor,
+      child: PaddedListView(
+        children: [
+          PageTitle(
+            "I tuoi libri",
+            action: _addBook,
+            actionIcon: Icons.add,
+          ),
+          BooksSectionContainer(
+            title: "Biblioteca",
+            bookList: _propertyServices.bookList,
+            onTap: _selectedLibrary,
+          ),
+          BooksSectionContainer(
+            title: "Wishlist",
+            bookList: BookList(), // TODO
+            onTap: _selectedWishlist,
+          ),
+        ],
+      ),
     );
-  }
-
-  void _downloadLists() async {
-    _propertyServices.init(widget.user.username);
   }
 }
