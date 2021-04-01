@@ -45,44 +45,46 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       key: _scaffoldKey,
       body: Center(
-        child: PaddedContainer(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DelibraryLogo(large: true),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 30.0),
-                child: Text("Bentornato!",
-                    style: Theme.of(context).textTheme.headline4),
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    SearchFormField(
-                        validator: _tempUser.setUsername, hint: "Username"),
-                    SearchFormField(
-                      validator: _tempUser.setPassword,
-                      hint: "Password",
-                      obscurable: true,
-                    ),
-                  ],
+        child: SingleChildScrollView(
+          child: PaddedContainer(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                DelibraryLogo(large: true),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 30.0),
+                  child: Text("Bentornato!",
+                      style: Theme.of(context).textTheme.headline4),
                 ),
-              ),
-              DelibraryButton(text: "Login", onPressed: _validateUser),
-              Container(
-                margin: EdgeInsets.all(20.0),
-                child: InkWell(
-                  onTap: _goToRegister,
-                  child: Text(
-                    "Non hai un account? Registrati",
-                    style: Theme.of(context).textTheme.headline6.copyWith(
-                          color: Colors.white70,
-                        ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      SearchFormField(
+                          validator: _tempUser.setUsername, hint: "Username"),
+                      SearchFormField(
+                        validator: _tempUser.setPassword,
+                        hint: "Password",
+                        obscurable: true,
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+                DelibraryButton(text: "Login", onPressed: _validateUser),
+                Container(
+                  margin: EdgeInsets.all(20.0),
+                  child: InkWell(
+                    onTap: _goToRegister,
+                    child: Text(
+                      "Non hai un account? Registrati",
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.white70,
+                          ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
