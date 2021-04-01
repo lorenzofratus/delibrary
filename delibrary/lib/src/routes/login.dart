@@ -16,28 +16,42 @@ class _LoginPageState extends State<LoginPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   User _tempUser;
+  bool _loading;
 
   void initState() {
     super.initState();
     _tempUser = User();
+    _loading = false;
+  }
+
+  void _disableRequests() {
+    setState(() {
+      _loading = true;
+    });
+  }
+
+  void _enableRequests() {
+    setState(() {
+      _loading = false;
+    });
   }
 
   void _validateUser() async {
     if (_formKey.currentState.validate()) {
+      _disableRequests();
       UserServices userServices = UserServices();
       Envelope<User> response = await userServices.loginUser(_tempUser);
-      if (response.error != null)
+      if (response.error != null) {
         _scaffoldKey.currentState.showSnackBar(response.message);
-      else
+        _enableRequests();
+      } else
         Navigator.pushReplacementNamed(context, "/");
     }
-    setState(() {
-      _tempUser = User();
-    });
+    _tempUser = User();
   }
 
   void _goToRegister() {
-    Navigator.pushReplacementNamed(context, "/register");
+    if (!_loading) Navigator.pushReplacementNamed(context, "/register");
   }
 
   @override
@@ -70,7 +84,10 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                DelibraryButton(text: "Login", onPressed: _validateUser),
+                if (_loading)
+                  LoadingButton()
+                else
+                  DelibraryButton(text: "Login", onPressed: _validateUser),
                 Container(
                   margin: EdgeInsets.all(20.0),
                   child: InkWell(
