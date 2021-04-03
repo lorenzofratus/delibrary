@@ -15,15 +15,17 @@ class _CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 30.0),
-      child: FlatButton(
+      child: TextButton(
         child: child,
-        color: primary
-            ? Theme.of(context).accentColor
-            : Theme.of(context).cardColor,
-        height: 50.0,
-        minWidth: double.infinity,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25.0),
+        style: TextButton.styleFrom(
+          backgroundColor: primary
+              ? Theme.of(context).accentColor
+              : Theme.of(context).cardColor,
+          primary: primary ? Colors.black : Colors.white,
+          minimumSize: Size.fromHeight(50.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.0),
+          ),
         ),
         onPressed: onPressed,
       ),
@@ -45,12 +47,7 @@ class DelibraryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _CustomButton(
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.button.copyWith(
-              color: primary ? Colors.black : Colors.white,
-            ),
-      ),
+      child: Text(text),
       onPressed: onPressed,
       primary: primary,
     );

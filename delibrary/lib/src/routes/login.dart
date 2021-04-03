@@ -20,8 +20,12 @@ class _LoginPageState extends State<LoginPage> {
 
   void initState() {
     super.initState();
-    _tempUser = User();
+    _resetTempUser();
     _loading = false;
+  }
+
+  void _resetTempUser() {
+    _tempUser = User();
   }
 
   void _disableRequests() {
@@ -42,11 +46,11 @@ class _LoginPageState extends State<LoginPage> {
       UserServices userServices = UserServices();
       Envelope<User> response = await userServices.loginUser(_tempUser);
       if (response.error != null)
-        _scaffoldKey.currentState.showSnackBar(response.message);
+        ScaffoldMessenger.of(context).showSnackBar(response.message);
       else
         Navigator.pushReplacementNamed(context, "/");
     }
-    _tempUser = User();
+    _resetTempUser();
     _enableRequests();
   }
 

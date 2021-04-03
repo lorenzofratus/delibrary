@@ -73,7 +73,7 @@ class _VolumeInfo {
   String get large => imageLinks?.large ?? "";
 
   factory _VolumeInfo.fromJson(Map<String, dynamic> json) {
-    var authorsList = json["authors"] ?? List();
+    var authorsList = json["authors"] ?? [];
     List<String> authors = new List<String>.from(authorsList);
 
     return _VolumeInfo(

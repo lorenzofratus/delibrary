@@ -2,15 +2,13 @@ import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
 import 'package:delibrary/src/controller/envelope.dart';
 import 'package:delibrary/src/controller/user-services.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final User user;
-
-  ProfileScreen({@required this.user});
-
   @override
   State<StatefulWidget> createState() => _ProfilePageState();
 }
@@ -28,7 +26,7 @@ class _ProfilePageState extends State<ProfileScreen> {
   }
 
   void _resetTempUser() {
-    _tempUser = User.copy(widget.user);
+    _tempUser = User.copy(context.read<Session>().user);
   }
 
   void _startEditingProfile() {
@@ -72,10 +70,11 @@ class _ProfilePageState extends State<ProfileScreen> {
     UserServices userServices = UserServices();
     Envelope<User> response = await userServices.updateUser(_tempUser);
     if (response.error != null)
-      Scaffold.of(context).showSnackBar(response.message);
+      ScaffoldMessenger.of(context).showSnackBar(response.message);
     else {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text(successMsg)));
-      widget.user.become(response.payload);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(successMsg)));
+      context.read<Session>().user = response.payload;
     }
   }
 
@@ -83,9 +82,11 @@ class _ProfilePageState extends State<ProfileScreen> {
     UserServices userServices = UserServices();
     Envelope response = await userServices.logoutUser();
     if (response.error != null)
-      Scaffold.of(context).showSnackBar(response.message);
-    else
+      ScaffoldMessenger.of(context).showSnackBar(response.message);
+    else {
+      context.read<Session>().destroy();
       Navigator.pushReplacementNamed(context, "/login");
+    }
   }
 
   @override

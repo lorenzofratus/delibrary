@@ -17,7 +17,7 @@ class PositionServices extends Services {
   void insertTown(String province, String town) {
     province = province.toLowerCase();
     town = town.toLowerCase();
-    if (!_provinces.containsKey(province)) _provinces[province] = List();
+    if (!_provinces.containsKey(province)) _provinces[province] = [];
     _provinces[province].add(town);
   }
 

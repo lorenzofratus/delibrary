@@ -4,16 +4,13 @@ import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
-import 'package:delibrary/src/model/user.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/routes/book-details.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LibraryScreen extends StatefulWidget {
-  final User user;
-
-  LibraryScreen({this.user});
-
   @override
   State<StatefulWidget> createState() => _LibraryScreenState();
 }
@@ -33,7 +30,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
   }
 
   Future<void> _downloadLists() async {
-    _propertyServices.init(widget.user.username);
+    _propertyServices.init(context.read<Session>().user.username);
   }
 
   Future<void> _selectedLibrary(Book book) async {

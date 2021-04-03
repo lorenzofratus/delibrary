@@ -4,12 +4,14 @@ import 'package:delibrary/src/components/navigation-bar.dart';
 import 'package:delibrary/src/controller/envelope.dart';
 import 'package:delibrary/src/controller/position-services.dart';
 import 'package:delibrary/src/controller/user-services.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/screens/exchanges.dart';
 import 'package:delibrary/src/screens/library.dart';
 import 'package:delibrary/src/screens/position-search.dart';
 import 'package:delibrary/src/screens/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,7 +24,6 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   List<Widget> _mainRoutes;
   Map<String, List<String>> _provinces;
-  User _user;
 
   void initState() {
     super.initState();
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     Envelope<User> response = await userServices.validateUser();
     if (response.error != null) return false;
 
-    _user = response.payload;
+    context.read<Session>().user = response.payload;
     return true;
   }
 
@@ -69,9 +70,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     _mainRoutes = [
       PositionSearchScreen(provinces: _provinces),
-      LibraryScreen(user: _user),
+      LibraryScreen(),
       ExchangesScreen(),
-      ProfileScreen(user: _user),
+      ProfileScreen(),
     ];
 
     if (_loading) return DelibraryLoading();

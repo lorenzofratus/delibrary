@@ -106,14 +106,6 @@ class User {
     _password = null;
   }
 
-  void become(User user) {
-    if (user == null || user.username != _username) return;
-    _name = user.name;
-    _surname = user.surname;
-    _email = user.email;
-    _password = user.password;
-  }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> user = Map<String, dynamic>();
     user["username"] = _username;

@@ -6,6 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+
+import 'model/session.dart';
 
 final ThemeData _delibraryTheme = ThemeData(
   brightness: Brightness.dark,
@@ -23,7 +26,12 @@ final ThemeData _delibraryTheme = ThemeData(
   ),
 );
 
-void main() => runApp(DelibraryApp());
+void main() => runApp(
+      ChangeNotifierProvider(
+        create: (context) => Session(),
+        child: DelibraryApp(),
+      ),
+    );
 
 class DelibraryApp extends StatelessWidget {
   @override

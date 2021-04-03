@@ -19,7 +19,7 @@ class BookList {
     if (json["totalItems"] == 0)
       return BookList(
         totalItems: 0,
-        items: List<Book>(),
+        items: [],
       );
 
     var bookList = json["items"] as List;
