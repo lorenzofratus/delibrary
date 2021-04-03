@@ -41,13 +41,13 @@ class _LoginPageState extends State<LoginPage> {
       _disableRequests();
       UserServices userServices = UserServices();
       Envelope<User> response = await userServices.loginUser(_tempUser);
-      if (response.error != null) {
+      if (response.error != null)
         _scaffoldKey.currentState.showSnackBar(response.message);
-        _enableRequests();
-      } else
+      else
         Navigator.pushReplacementNamed(context, "/");
     }
     _tempUser = User();
+    _enableRequests();
   }
 
   void _goToRegister() {
