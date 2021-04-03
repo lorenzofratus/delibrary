@@ -37,6 +37,7 @@ class _ObscurableFormFieldState extends State<ObscurableFormField> {
       validator: widget.validator,
       controller: widget.controller,
       decoration: widget.decoration.copyWith(
+        errorMaxLines: 3,
         suffixIcon: widget.obscurable
             ? InkWell(
                 borderRadius: BorderRadius.circular(25.0),
