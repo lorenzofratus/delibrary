@@ -1,4 +1,3 @@
-import 'package:delibrary/src/components/loading.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/navigation-bar.dart';
 import 'package:delibrary/src/controller/position-services.dart';
@@ -59,7 +58,13 @@ class _HomePageState extends State<HomePage> {
       ProfileScreen(),
     ];
 
-    if (_loading) return DelibraryLoading();
+    if (_loading)
+      return Center(
+        child: DelibraryLogo(
+          large: true,
+          animated: true,
+        ),
+      );
 
     return Scaffold(
       appBar: AppBar(

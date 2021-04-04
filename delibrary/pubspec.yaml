@@ -97,6 +97,7 @@ flutter:
     - lib/assets/logo.png
     - lib/assets/2.0x/logo.png
     - lib/assets/3.0x/logo.png
+    - lib/assets/loading.gif
   fonts:
         - family: Lato
           fonts:
