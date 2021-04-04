@@ -1,7 +1,6 @@
 import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/search-field.dart';
-import 'package:delibrary/src/controller/envelope.dart';
 import 'package:delibrary/src/controller/user-services.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
@@ -43,12 +42,7 @@ class _LoginPageState extends State<LoginPage> {
   void _validateUser() async {
     if (_formKey.currentState.validate()) {
       _disableRequests();
-      UserServices userServices = UserServices();
-      Envelope<User> response = await userServices.loginUser(_tempUser);
-      if (response.error != null)
-        ScaffoldMessenger.of(context).showSnackBar(response.message);
-      else
-        Navigator.pushReplacementNamed(context, "/");
+      await UserServices().loginUser(_tempUser, context);
     }
     _resetTempUser();
     _enableRequests();

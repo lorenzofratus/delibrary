@@ -1,18 +1,13 @@
 import 'package:delibrary/src/components/loading.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/navigation-bar.dart';
-import 'package:delibrary/src/controller/envelope.dart';
 import 'package:delibrary/src/controller/position-services.dart';
 import 'package:delibrary/src/controller/user-services.dart';
-import 'package:delibrary/src/model/session.dart';
-import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/screens/exchanges.dart';
 import 'package:delibrary/src/screens/library.dart';
 import 'package:delibrary/src/screens/position-search.dart';
 import 'package:delibrary/src/screens/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -27,7 +22,8 @@ class _HomePageState extends State<HomePage> {
 
   void initState() {
     super.initState();
-    _checkAuthentication().then((authenticated) {
+    //TODO: move "then" in the service itself (leave only setState)
+    UserServices().validateUser(context).then((authenticated) {
       if (!authenticated)
         Navigator.pushReplacementNamed(context, "/login");
       else
@@ -37,18 +33,6 @@ class _HomePageState extends State<HomePage> {
           });
         });
     });
-  }
-
-  Future<bool> _checkAuthentication() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (!prefs.containsKey("delibrary-cookie")) return false;
-
-    UserServices userServices = UserServices();
-    Envelope<User> response = await userServices.validateUser();
-    if (response.error != null) return false;
-
-    context.read<Session>().user = response.payload;
-    return true;
   }
 
   Future<void> _fetchData() async {

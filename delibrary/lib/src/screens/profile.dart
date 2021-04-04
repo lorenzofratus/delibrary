@@ -1,6 +1,5 @@
 import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
-import 'package:delibrary/src/controller/envelope.dart';
 import 'package:delibrary/src/controller/user-services.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/user.dart';
@@ -37,7 +36,7 @@ class _ProfilePageState extends State<ProfileScreen> {
 
   void _saveEditingProfile() {
     if (!_profileKey.currentState.validate()) return;
-    _sendUpdate("Profilo aggiornato!").then((_) => _cancelEditingProfile());
+    _sendUpdate(_cancelEditingProfile);
   }
 
   void _cancelEditingProfile() {
@@ -55,7 +54,7 @@ class _ProfilePageState extends State<ProfileScreen> {
 
   void _saveEditingPassword() {
     if (!_passwordKey.currentState.validate()) return;
-    _sendUpdate("Password aggiornata!").then((_) => _cancelEditingPassword());
+    _sendUpdate(_cancelEditingPassword);
   }
 
   void _cancelEditingPassword() {
@@ -66,27 +65,13 @@ class _ProfilePageState extends State<ProfileScreen> {
     });
   }
 
-  Future<void> _sendUpdate(String successMsg) async {
-    UserServices userServices = UserServices();
-    Envelope<User> response = await userServices.updateUser(_tempUser);
-    if (response.error != null)
-      ScaffoldMessenger.of(context).showSnackBar(response.message);
-    else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(successMsg)));
-      context.read<Session>().user = response.payload;
-    }
+  Future<void> _sendUpdate(Function callback) async {
+    await UserServices().updateUser(_tempUser, context);
+    callback();
   }
 
   Future<void> _logoutUser() async {
-    UserServices userServices = UserServices();
-    Envelope response = await userServices.logoutUser();
-    if (response.error != null)
-      ScaffoldMessenger.of(context).showSnackBar(response.message);
-    else {
-      context.read<Session>().destroy();
-      Navigator.pushReplacementNamed(context, "/login");
-    }
+    await UserServices().logoutUser(context);
   }
 
   @override

@@ -1,13 +1,10 @@
 import 'package:delibrary/src/controller/book-services.dart';
-import 'package:delibrary/src/controller/envelope.dart';
 import 'package:delibrary/src/controller/services.dart';
-import 'package:delibrary/src/controller/user-services.dart';
 import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/property-list.dart';
 import 'package:delibrary/src/model/property.dart';
-import 'package:delibrary/src/model/user.dart';
 import 'package:dio/dio.dart';
 
 class PropertyServices extends Services {
@@ -112,8 +109,10 @@ class PropertyServices extends Services {
       execute: () async {
         // Remove property from server.
         Response response;
-        Envelope<User> user = await UserServices().validateUser();
-        String username = user.payload.username;
+        // Envelope<User> user = await UserServices().validateUser();
+        // String username = user.payload.username;
+        // TODO: RETRIEVE USERNAME (from session);
+        String username = "";
         try {
           // TODO: We have to retrieve the location BEFORE adding the property.
           response = await dio.post("users/$username/properties/new", data: {});

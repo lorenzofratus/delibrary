@@ -1,7 +1,9 @@
-import 'package:delibrary/src/controller/envelope.dart';
 import 'package:delibrary/src/controller/services.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserServices extends Services {
@@ -13,23 +15,22 @@ class UserServices extends Services {
           receiveTimeout: 10000,
         ));
 
-  void setCookie(List<String> cookieHeader) {
+  void _setCookie(List<String> cookieHeader) {
     if (cookieHeader.isEmpty) return;
     String authToken = cookieHeader[0].split("; ")[0];
     SharedPreferences.getInstance()
-        .then((prefs) => prefs.setString("delibrary-cookie", authToken));
+        .then((prefs) => prefs.setString(customCookie, authToken));
   }
 
-  void destroyCookie() {
-    SharedPreferences.getInstance()
-        .then((prefs) => prefs.remove("delibrary-cookie"));
+  void _destroyCookie() {
+    SharedPreferences.getInstance().then((prefs) => prefs.remove(customCookie));
   }
 
-  Future<Envelope<User>> loginUser(User user) async {
+  Future<void> loginUser(User user, BuildContext context) async {
     if (user == null ||
         (user.username?.isEmpty ?? true) ||
         (user.password?.isEmpty ?? true))
-      return Envelope(error: ErrorMessage.emptyFields);
+      return showSnackBar(context, ErrorMessage.emptyFields);
 
     Response response;
 
@@ -41,67 +42,85 @@ class UserServices extends Services {
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 404)
-          return Envelope(error: ErrorMessage.wrongCredentials);
+          return showSnackBar(context, ErrorMessage.wrongCredentials);
         if (e.response.statusCode == 500)
-          return Envelope(error: ErrorMessage.serverError);
+          return showSnackBar(context, ErrorMessage.serverError);
+        // Otherwise, unexpected error, print and raise exception
         errorOnResponse(e);
       } else {
+        // Generic error before the request is sent, print
         errorOnRequest(e, false);
-        return Envelope(error: ErrorMessage.checkConnection);
+        return showSnackBar(context, ErrorMessage.checkConnection);
       }
     }
 
-    setCookie(response.headers.map["set-cookie"]);
-    return Envelope(payload: User.fromJson(response.data));
+    // Login successful, set cookie and redirect to home
+    _setCookie(response.headers.map["set-cookie"]);
+    return navigateTo(context, "/");
   }
 
-  Future<Envelope<User>> validateUser() async {
+  // TODO: remove return bool, directly perform redirection or data fetch
+  Future<bool> validateUser(BuildContext context) async {
     Response response;
 
     try {
       response = await dio.get("login/me");
     } on DioError catch (e) {
+      _destroyCookie();
       if (e.response != null) {
         if (e.response.statusCode == 404) {
-          destroyCookie();
-          return Envelope(error: ErrorMessage.wrongCredentials);
+          // Invalid cookie, no need to display this to the user
+          return false;
         }
-        if (e.response.statusCode == 500)
-          return Envelope(error: ErrorMessage.serverError);
+        if (e.response.statusCode == 500) {
+          showSnackBar(context, ErrorMessage.serverError);
+          return false;
+        }
+        // Otherwise, unexpected error, print and raise exception
         errorOnResponse(e);
       } else {
+        // Generic error before the request is sent, print
         errorOnRequest(e, false);
-        return Envelope(error: ErrorMessage.checkConnection);
+        showSnackBar(context, ErrorMessage.checkConnection);
+        return false;
       }
     }
 
-    return Envelope(payload: User.fromJson(response.data));
+    // Cookie valid, creating a new session
+    Session session = context.read<Session>();
+    session.destroy();
+    session.user = User.fromJson(response.data);
+    return true;
   }
 
-  Future<Envelope<String>> logoutUser() async {
+  Future<void> logoutUser(BuildContext context) async {
     try {
       await dio.get("logout");
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 500)
-          return Envelope(error: ErrorMessage.serverError);
+          return showSnackBar(context, ErrorMessage.serverError);
+        // Otherwise, unexpected error, print and raise exception
         errorOnResponse(e);
       } else {
+        // Generic error before the request is sent, print
         errorOnRequest(e, false);
-        return Envelope(error: ErrorMessage.checkConnection);
+        return showSnackBar(context, ErrorMessage.checkConnection);
       }
     }
 
-    destroyCookie();
-    return Envelope(payload: "OK");
+    // Logout successful, destroy cookie and session, redirect to login
+    _destroyCookie();
+    context.read<Session>().destroy();
+    return navigateTo(context, "/login");
   }
 
-  Future<Envelope<User>> registerUser(User user) async {
+  Future<void> registerUser(User user, BuildContext context) async {
     if (user == null ||
         (user.username?.isEmpty ?? true) ||
         (user.password?.isEmpty ?? true) ||
         (user.email?.isEmpty ?? true))
-      return Envelope(error: ErrorMessage.emptyFields);
+      return showSnackBar(context, ErrorMessage.emptyFields);
 
     Response response;
 
@@ -110,25 +129,33 @@ class UserServices extends Services {
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 400)
-          return Envelope(error: ErrorMessage.emptyFields);
+          return showSnackBar(context, ErrorMessage.emptyFields);
         if (e.response.statusCode == 409)
-          return Envelope(error: ErrorMessage.usernameInUse);
+          return showSnackBar(context, ErrorMessage.usernameInUse);
         if (e.response.statusCode == 500)
-          return Envelope(error: ErrorMessage.serverError);
+          return showSnackBar(context, ErrorMessage.serverError);
+        // Otherwise, unexpected error, print and raise exception
         errorOnResponse(e);
       } else {
+        // Generic error before the request is sent, print
         errorOnRequest(e, false);
-        return Envelope(error: ErrorMessage.checkConnection);
+        return showSnackBar(context, ErrorMessage.checkConnection);
       }
     }
 
-    setCookie(response.headers.map["set-cookie"]);
-    return Envelope(payload: User.fromJson(response.data));
+    // Registration successful, set cookie and redirect to home
+    _setCookie(response.headers.map["set-cookie"]);
+    return navigateTo(context, "/");
   }
 
-  Future<Envelope<User>> getUser(String username) async {
-    if (username?.isEmpty ?? true)
-      return Envelope(error: ErrorMessage.userNotFound);
+  // NOT USED YET, MAY NEED SOME CHANGES
+  // IN CASE OF ERROR RETURNS NULL
+  // PROBABLY SHOULD REDIRECT TO THE USER PAGE
+  Future<User> getUser(String username, BuildContext context) async {
+    if (username?.isEmpty ?? true) {
+      showSnackBar(context, ErrorMessage.emptyUsername);
+      return null;
+    }
 
     Response response;
 
@@ -138,25 +165,33 @@ class UserServices extends Services {
       response = await dio.get("$username");
     } on DioError catch (e) {
       if (e.response != null) {
-        if (e.response.statusCode == 404)
-          return Envelope(error: ErrorMessage.userNotFound);
-        if (e.response.statusCode == 500)
-          return Envelope(error: ErrorMessage.serverError);
+        if (e.response.statusCode == 404) {
+          showSnackBar(context, ErrorMessage.userNotFound);
+          return null;
+        }
+        if (e.response.statusCode == 500) {
+          showSnackBar(context, ErrorMessage.serverError);
+          return null;
+        }
+        // Otherwise, unexpected error, print and raise exception
         errorOnResponse(e);
       } else {
+        // Generic error before the request is sent, print
         errorOnRequest(e, false);
-        return Envelope(error: ErrorMessage.checkConnection);
+        showSnackBar(context, ErrorMessage.checkConnection);
+        return null;
       }
     }
 
-    return Envelope(payload: User.fromJson(response.data));
+    // User found, returning it
+    return User.fromJson(response.data);
   }
 
-  Future<Envelope<User>> updateUser(User user) async {
+  Future<void> updateUser(User user, BuildContext context) async {
     if (user == null ||
         (user.username?.isEmpty ?? true) ||
         (user.email?.isEmpty ?? true))
-      return Envelope(error: ErrorMessage.emptyFields);
+      return showSnackBar(context, ErrorMessage.emptyFields);
 
     Response response;
 
@@ -167,18 +202,27 @@ class UserServices extends Services {
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 404)
-          return Envelope(error: ErrorMessage.userNotFound);
+          return showSnackBar(context, ErrorMessage.userNotFound);
         if (e.response.statusCode == 403)
-          return Envelope(error: ErrorMessage.forbidden);
+          return showSnackBar(context, ErrorMessage.forbidden);
         if (e.response.statusCode == 500)
-          return Envelope(error: ErrorMessage.serverError);
+          return showSnackBar(context, ErrorMessage.serverError);
+        // Otherwise, unexpected error, print and raise exception
         errorOnResponse(e);
       } else {
+        // Generic error before the request is sent, print
         errorOnRequest(e, false);
-        return Envelope(error: ErrorMessage.checkConnection);
+        return showSnackBar(context, ErrorMessage.checkConnection);
       }
     }
 
-    return Envelope(payload: User.fromJson(response.data));
+    // Update successful, update the session and display a feedback
+    context.read<Session>().user = User.fromJson(response.data);
+    showSnackBar(
+      context,
+      user.password == null
+          ? ConfirmMessage.userUpdated
+          : ConfirmMessage.passwordUpdated,
+    );
   }
 }
