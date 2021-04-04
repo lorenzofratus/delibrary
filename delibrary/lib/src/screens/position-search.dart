@@ -4,14 +4,12 @@ import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/routes/book-details.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PositionSearchScreen extends StatefulWidget {
-  final Map<String, List<String>> provinces;
-
-  PositionSearchScreen({@required this.provinces});
-
   @override
   _PositionSearchScreenState createState() => _PositionSearchScreenState();
 }
@@ -76,7 +74,7 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
     return Column(
       children: [
         PositionSearchBar(
-          provinces: widget.provinces,
+          provinces: context.read<Session>().provinces,
           onSearch: _positionSearch,
         ),
         if (_lastProvince.isNotEmpty)

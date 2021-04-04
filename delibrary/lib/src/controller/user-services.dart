@@ -1,3 +1,4 @@
+import 'package:delibrary/src/controller/position-services.dart';
 import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/user.dart';
@@ -59,8 +60,9 @@ class UserServices extends Services {
     return navigateTo(context, "/");
   }
 
-  // TODO: remove return bool, directly perform redirection or data fetch
-  Future<bool> validateUser(BuildContext context) async {
+  Future<void> validateUser(BuildContext context) async {
+    Function goToLogin = () => navigateTo(context, "/login");
+
     Response response;
 
     try {
@@ -70,11 +72,11 @@ class UserServices extends Services {
       if (e.response != null) {
         if (e.response.statusCode == 404) {
           // Invalid cookie, no need to display this to the user
-          return false;
+          return goToLogin();
         }
         if (e.response.statusCode == 500) {
           showSnackBar(context, ErrorMessage.serverError);
-          return false;
+          return goToLogin();
         }
         // Otherwise, unexpected error, print and raise exception
         errorOnResponse(e);
@@ -82,7 +84,7 @@ class UserServices extends Services {
         // Generic error before the request is sent, print
         errorOnRequest(e, false);
         showSnackBar(context, ErrorMessage.checkConnection);
-        return false;
+        return goToLogin();
       }
     }
 
@@ -90,7 +92,10 @@ class UserServices extends Services {
     Session session = context.read<Session>();
     session.destroy();
     session.user = User.fromJson(response.data);
-    return true;
+
+    // Fetch provinces only if needed
+    if (!session.hasProvinces)
+      session.provinces = await PositionServices().loadProvinces();
   }
 
   Future<void> logoutUser(BuildContext context) async {
