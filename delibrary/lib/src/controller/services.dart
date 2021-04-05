@@ -66,6 +66,8 @@ class ErrorMessage {
       "Non è stato possibile contattare il server, controlla la connessione.";
   static const String emptyFields = "Compila tutti i campi obbligatori.";
   static const String emptyUsername = "L'username da cercare è vuoto o nullo.";
+  static const String externalServiceError =
+      "Un servizio esterno non è attualmente disponibile, riprova più tardi.";
   static const String forbidden =
       "Stai tentando di modificare una risorsa a cui non hai accesso.";
   static const String serverError =

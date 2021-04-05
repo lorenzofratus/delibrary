@@ -1,5 +1,6 @@
 import 'package:delibrary/src/controller/services.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class PositionServices extends Services {
   PositionServices()
@@ -14,14 +15,15 @@ class PositionServices extends Services {
 
   Map<String, List<String>> _provinces = Map();
 
-  void insertTown(String province, String town) {
-    province = province.toLowerCase();
-    town = town.toLowerCase();
+  void _insertTown(String province, String town) {
+    province = cleanParameter(province);
+    town = cleanParameter(town);
     if (!_provinces.containsKey(province)) _provinces[province] = [];
     _provinces[province].add(town);
   }
 
-  Future<Map> loadProvinces() async {
+  // Returns null in case of error
+  Future<Map> loadProvinces(BuildContext context) async {
     Response response;
 
     print(
@@ -31,21 +33,19 @@ class PositionServices extends Services {
       response = await dio.get("comuni");
     } on DioError catch (e) {
       if (e.response != null) {
-        print(e.response.data);
-        print(e.response.headers);
-        print(e.response.request);
-        throw Exception(
-            "Comuni ITA API server responded with ${e.response.statusCode}");
+        errorOnResponse(e, false);
+        showSnackBar(context, ErrorMessage.externalServiceError);
       } else {
-        print(e.request);
-        print(e.message);
-        throw Exception(
-            "Error while setting up or sending the request to Comuni ITA API");
+        errorOnRequest(e, false);
+        showSnackBar(context, ErrorMessage.checkConnection);
       }
+      // Return null, to be handled by the receiver
+      return null;
     }
 
+    // List fetched correctly, parse and return
     (response.data as List).forEach((element) {
-      insertTown(element["provincia"], element["nome"]);
+      _insertTown(element["provincia"], element["nome"]);
     });
     return _provinces;
   }

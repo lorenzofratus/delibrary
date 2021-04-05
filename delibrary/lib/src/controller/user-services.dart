@@ -98,9 +98,12 @@ class UserServices extends Services {
 
     // Fetch provinces only if needed
     if (!session.hasProvinces)
-      session.provinces = await PositionServices().loadProvinces();
+      session.provinces = await PositionServices().loadProvinces(context);
 
-    return true;
+    // TODO: decide how to handle the external service not responding
+    // with the list of provinces/towns. At the moment the user is stuck
+    // on the loading page where a snackbar is displayed.
+    return session.hasProvinces;
   }
 
   Future<void> logoutUser(BuildContext context) async {
