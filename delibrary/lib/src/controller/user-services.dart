@@ -60,7 +60,7 @@ class UserServices extends Services {
     return navigateTo(context, "/");
   }
 
-  Future<void> validateUser(BuildContext context) async {
+  Future<bool> validateUser(BuildContext context) async {
     Function goToLogin = () => navigateTo(context, "/login");
 
     Response response;
@@ -72,11 +72,13 @@ class UserServices extends Services {
       if (e.response != null) {
         if (e.response.statusCode == 404) {
           // Invalid cookie, no need to display this to the user
-          return goToLogin();
+          goToLogin();
+          return false;
         }
         if (e.response.statusCode == 500) {
           showSnackBar(context, ErrorMessage.serverError);
-          return goToLogin();
+          goToLogin();
+          return false;
         }
         // Otherwise, unexpected error, print and raise exception
         errorOnResponse(e);
@@ -84,7 +86,8 @@ class UserServices extends Services {
         // Generic error before the request is sent, print
         errorOnRequest(e, false);
         showSnackBar(context, ErrorMessage.checkConnection);
-        return goToLogin();
+        goToLogin();
+        return false;
       }
     }
 
@@ -96,6 +99,8 @@ class UserServices extends Services {
     // Fetch provinces only if needed
     if (!session.hasProvinces)
       session.provinces = await PositionServices().loadProvinces();
+
+    return true;
   }
 
   Future<void> logoutUser(BuildContext context) async {

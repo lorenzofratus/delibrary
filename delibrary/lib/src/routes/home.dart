@@ -19,10 +19,11 @@ class _HomePageState extends State<HomePage> {
 
   void initState() {
     super.initState();
-    UserServices().validateUser(context).then((_) {
-      setState(() {
-        _loading = false;
-      });
+    UserServices().validateUser(context).then((auth) {
+      if (auth)
+        setState(() {
+          _loading = false;
+        });
     });
   }
 
