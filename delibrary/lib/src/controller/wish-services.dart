@@ -3,21 +3,15 @@ import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/wish-list.dart';
+import 'package:delibrary/src/model/wish.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class WishServices extends Services {
-  static WishServices _singleton = WishServices._internal();
-  BookList _bookList;
-
-  BookList get bookList => _bookList;
-
-  factory WishServices() {
-    return _singleton;
-  }
-
-  WishServices._internal()
+  WishServices()
       : super(BaseOptions(
           // baseUrl: "https://delibrary.herokuapp.com/v1/users/",
           baseUrl: "http://localhost:8080/v1/users/",
@@ -25,38 +19,12 @@ class WishServices extends Services {
           receiveTimeout: 20000,
         ));
 
-  Future<void> init(String username) async {
-    print("[Wishes services] Getting wishes from Delibrary...");
-    _bookList = await _getBooks("$username/wishes");
-  }
-
-  Future<BookList> _getBooks(String path) async {
-    Response response;
-    try {
-      response = await dio.get(path);
-    } on DioError catch (e) {
-      if (e.response != null) {
-        print(e.response.data);
-        print(e.response.headers);
-        print(e.response.request);
-        throw Exception(
-            "Delibrary server responded with ${e.response.statusCode}");
-      } else {
-        print(e.request);
-        print(e.message);
-        throw Exception(
-            "Error while setting up or sending the request to Delibrary");
-      }
-    }
-    return _getBooksFromWishes(WishList.fromJson(response.data));
-  }
-
-  Future<BookList> _getBooksFromWishes(WishList wishList) async {
+  Future<BookList> _getBooksFromWishes(List<Wish> wishList) async {
     print("[Wishes services] Getting info for each book from Google Books...");
     List<Book> bookList = [];
     BookServices bookServices = BookServices();
 
-    await Future.forEach(wishList.wishes, (wish) async {
+    await Future.forEach(wishList, (wish) async {
       Book book = await bookServices.getById(wish.bookId);
       bookList.add(Book(id: book.id, info: book.info, wish: wish));
     });
@@ -68,32 +36,30 @@ class WishServices extends Services {
     return DelibraryAction(
       text: "Rimuovi dalla lista dei desideri",
       execute: (BuildContext context) async {
-        // Remove wish from server.
-        Response response;
+        Session session = context.read<Session>();
+        String username = session.user.username;
+
         try {
-          response = await dio
-              .delete("${book.wish.ownerUsername}/wishes/${book.wish.id}");
+          await dio.delete("users/$username/wishes/${book.wish.id}");
         } on DioError catch (e) {
           if (e.response != null) {
-            print(e.response.data);
-            print(e.response.headers);
-            print(e.response.request);
-            throw Exception(
-                "Delibrary server responded with ${e.response.statusCode}");
+            if (e.response.statusCode == 404)
+              return showSnackBar(context, ErrorMessage.userNotFound);
+            if (e.response.statusCode == 500)
+              return showSnackBar(context, ErrorMessage.serverError);
+            // Otherwise, unexpected error, print and raise exception
+            errorOnResponse(e);
           } else {
-            print(e.request);
-            print(e.message);
-            throw Exception(
-                "Error while setting up or sending the request to Delibrary");
+            // Generic error before the request is sent, print
+            errorOnRequest(e, false);
+            return showSnackBar(context, ErrorMessage.checkConnection);
           }
         }
 
-        if (response.statusCode == 201) {
-          // Remove wish from local copy.
-          _bookList.remove(book);
-        } else
-          throw Exception(
-              "It was not possible to delete the wish from the server.");
+        // Wish removed successfully, update session
+        session.wishes.remove(book);
+        showSnackBar(context, ConfirmMessage.wishRemoved);
+        pop(context);
       },
     );
   }
@@ -102,41 +68,85 @@ class WishServices extends Services {
     return DelibraryAction(
       text: "Aggiungi alla lista dei desideri",
       execute: (BuildContext context) async {
-        // Remove wish from server.
-        Response response;
-        // Envelope<User> user = await UserServices().validateUser();
-        // String username = user.payload.username;
-        // TODO: RETRIEVE USERNAME (from session);
-        String username = "";
+        Session session = context.read<Session>();
+        String username = session.user.username;
+
         try {
-          // TODO fill the body in o4rder to make a valid POST request.
-          response = await dio.post("$username/wishes/new", data: {});
+          // TODO fill the body in order to make a valid POST request.
+          await dio.post("users/$username/wishes/new", data: {});
         } on DioError catch (e) {
           if (e.response != null) {
-            print(e.response.data);
-            print(e.response.headers);
-            print(e.response.request);
-            throw Exception(
-                "Delibrary server responded with ${e.response.statusCode}");
+            if (e.response.statusCode == 404)
+              return showSnackBar(context, ErrorMessage.userNotFound);
+            if (e.response.statusCode == 409) {
+              // Wish already present, no need to show to the user
+              showSnackBar(context, ConfirmMessage.wishAdded);
+              pop(context);
+              return;
+            }
+            if (e.response.statusCode == 500)
+              return showSnackBar(context, ErrorMessage.serverError);
+            // Otherwise, unexpected error, print and raise exception
+            errorOnResponse(e);
           } else {
-            print(e.request);
-            print(e.message);
-            throw Exception(
-                "Error while setting up or sending the request to Delibrary");
+            // Generic error before the request is sent, print
+            errorOnRequest(e, false);
+            return showSnackBar(context, ErrorMessage.checkConnection);
           }
         }
 
-        if (response.statusCode == 201) {
-          _bookList.add(book);
-        } else
-          throw Exception("It was not possible to add the wish to the server.");
+        // Wish added successfully, update session
+        session.wishes.add(book);
+        showSnackBar(context, ConfirmMessage.wishAdded);
+        pop(context);
       },
     );
   }
 
   DelibraryAction moveWishToLibrary(Book book) {
     return DelibraryAction(
-        text: "Sposta nella wishlist",
-        execute: (BuildContext context) {/* TODO */});
+        text: "Sposta nella libreria",
+        execute: (BuildContext context) {
+          // TODO: look how other actions are carried out
+
+          showSnackBar(context, ConfirmMessage.wishMoved);
+          pop(context);
+        });
+  }
+
+  Future<void> updateSession(BuildContext context) async {
+    print("[Wishes services] Getting wishes from Delibrary...");
+
+    Response response;
+
+    Session session = context.read<Session>();
+    String username = session.user.username;
+
+    try {
+      response = await dio.get("$username/wishes");
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response.statusCode == 404) {
+          // TODO: change this status code as it means both
+          // user not found and no property for the user
+          // TODO: check if the server really responds with 404,
+          // I think it only sends an empty list
+          session.properties = BookList();
+          return;
+        }
+        if (e.response.statusCode == 500)
+          return showSnackBar(context, ErrorMessage.serverError);
+        // Otherwise, unexpected error, print and raise exception
+        errorOnResponse(e);
+      } else {
+        // Generic error before the request is sent, print
+        errorOnRequest(e, false);
+        return showSnackBar(context, ErrorMessage.checkConnection);
+      }
+    }
+
+    // Property list fetched, parse and update session
+    WishList wishList = WishList.fromJson(response.data);
+    session.wishes = await _getBooksFromWishes(wishList.wishes);
   }
 }

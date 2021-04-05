@@ -59,6 +59,10 @@ abstract class Services {
   void navigateTo(BuildContext context, String routeName) {
     Navigator.pushReplacementNamed(context, routeName);
   }
+
+  void pop(BuildContext context) {
+    Navigator.pop(context);
+  }
 }
 
 class ErrorMessage {
@@ -81,5 +85,12 @@ class ErrorMessage {
 
 class ConfirmMessage {
   static const String passwordUpdated = "Password aggiornata!";
+  static const String propertyAdded = "Libro aggiunto alla libreria!";
+  static const String propertyMoved =
+      "Libro spostato nella lista dei desideri!";
+  static const String propertyRemoved = "Libro rimosso dalla libreria!";
   static const String userUpdated = "Profilo aggiornato!";
+  static const String wishAdded = "Libro aggiunto alla lista dei desideri!";
+  static const String wishMoved = "Libro spostato nella libreria!";
+  static const String wishRemoved = "Libro rimosso dalla lista dei desideri!";
 }

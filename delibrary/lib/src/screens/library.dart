@@ -32,6 +32,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
   Future<void> _downloadLists() async {
     // This is done asynchronously, when it has finished the provider will notify and rebuild
     _propertyServices.updateSession(context);
+    _wishServices.updateSession(context);
   }
 
   Future<void> _selectedLibrary(Book book) async {
@@ -79,7 +80,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
           ),
           BooksSectionContainer(
             title: "Wishlist",
-            bookList: BookList(), // TODO
+            bookList: context.select<Session, BookList>((s) => s.wishes),
             onTap: _selectedWishlist,
           ),
         ],

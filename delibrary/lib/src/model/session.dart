@@ -11,6 +11,7 @@ class Session extends ChangeNotifier {
   DateTime _lastProvUpdate;
 
   BookList _properties;
+  BookList _wishes;
 
   // ** Session management **
 
@@ -58,6 +59,17 @@ class Session extends ChangeNotifier {
   set properties(BookList properties) {
     if (properties != null) {
       _properties = properties;
+      notifyListeners();
+    }
+  }
+
+  // ** Wishes management **
+
+  BookList get wishes => _wishes ?? BookList();
+
+  set wishes(BookList wishes) {
+    if (wishes != null) {
+      _wishes = properties;
       notifyListeners();
     }
   }

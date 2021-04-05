@@ -84,7 +84,6 @@ class PropertyServices extends Services {
     return DelibraryAction(
       text: "Rimuovi dalla libreria",
       execute: (BuildContext context) async {
-        // Remove property from server.
         Session session = context.read<Session>();
         String username = session.user.username;
 
@@ -107,7 +106,8 @@ class PropertyServices extends Services {
 
         // Property removed successfully, update session
         session.properties.remove(book);
-        Navigator.pop(context);
+        showSnackBar(context, ConfirmMessage.propertyRemoved);
+        pop(context);
       },
     );
   }
@@ -116,7 +116,6 @@ class PropertyServices extends Services {
     return DelibraryAction(
       text: "Aggiungi alla libreria",
       execute: (BuildContext context) async {
-        // Remove property from server.
         Session session = context.read<Session>();
         String username = session.user.username;
 
@@ -127,8 +126,12 @@ class PropertyServices extends Services {
           if (e.response != null) {
             if (e.response.statusCode == 404)
               return showSnackBar(context, ErrorMessage.userNotFound);
-            // Property already present, no need to show to the user
-            if (e.response.statusCode == 409) return;
+            if (e.response.statusCode == 409) {
+              // Property already present, no need to show to the user
+              showSnackBar(context, ConfirmMessage.propertyAdded);
+              pop(context);
+              return;
+            }
             if (e.response.statusCode == 500)
               return showSnackBar(context, ErrorMessage.serverError);
             // Otherwise, unexpected error, print and raise exception
@@ -142,7 +145,8 @@ class PropertyServices extends Services {
 
         // Property added successfully, update session
         session.properties.add(book);
-        Navigator.pop(context);
+        showSnackBar(context, ConfirmMessage.propertyAdded);
+        pop(context);
       },
     );
   }
@@ -152,6 +156,9 @@ class PropertyServices extends Services {
         text: "Sposta nella wishlist",
         execute: (BuildContext context) {
           // TODO: look how other actions are carried out
+
+          showSnackBar(context, ConfirmMessage.propertyMoved);
+          pop(context);
         });
   }
 
