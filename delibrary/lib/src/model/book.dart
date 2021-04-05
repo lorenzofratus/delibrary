@@ -95,20 +95,25 @@ class _ImageLinks {
 
   _ImageLinks({this.small, this.large});
 
+  static String _secureUrl(String url) {
+    RegExp regExp = RegExp(r'^http:');
+    return url.replaceFirst(regExp, 'https:');
+  }
+
   factory _ImageLinks.fromJson(Map<String, dynamic> json) {
     return _ImageLinks(
-      small: json["thumbnail"] ??
+      small: _secureUrl(json["thumbnail"] ??
           json["small"] ??
           json["smallThumbnail"] ??
           json["medium"] ??
           json["large"] ??
-          json["extraLarge"],
-      large: json["extraLarge"] ??
+          json["extraLarge"]),
+      large: _secureUrl(json["extraLarge"] ??
           json["large"] ??
           json["medium"] ??
           json["small"] ??
           json["thumbnail"] ??
-          json["smallThumbnail"],
+          json["smallThumbnail"]),
     );
   }
 }
