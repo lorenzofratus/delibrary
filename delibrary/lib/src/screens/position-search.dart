@@ -48,8 +48,8 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
 
     print("Location search. Province: " + province + " Town: " + town);
 
-    BookList bookList =
-        await _propertyServices.getPropertiesByPosition(province, town);
+    BookList bookList = await _propertyServices.getPropertiesByPosition(
+        context, province, town);
     setState(() {
       _resultsList = bookList;
     });

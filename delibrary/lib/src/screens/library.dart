@@ -30,12 +30,12 @@ class _LibraryScreenState extends State<LibraryScreen> {
   }
 
   Future<void> _downloadLists() async {
-    _propertyServices.init(context.read<Session>().user.username);
+    // This is done asynchronously, when it has finished the provider will notify and rebuild
+    _propertyServices.updateSession(context);
   }
 
   Future<void> _selectedLibrary(Book book) async {
-    //TODO: manage actions
-    int selectedAction = await Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => BookDetailsPage(
@@ -45,12 +45,10 @@ class _LibraryScreenState extends State<LibraryScreen> {
         ),
       ),
     );
-    if (selectedAction != null) setState(() {});
   }
 
   Future<void> _selectedWishlist(Book book) async {
-    //TODO: manage actions
-    int selectedAction = await Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => BookDetailsPage(
@@ -60,7 +58,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
         ),
       ),
     );
-    print(selectedAction);
   }
 
   @override
@@ -77,7 +74,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
           ),
           BooksSectionContainer(
             title: "Biblioteca",
-            bookList: _propertyServices.bookList,
+            bookList: context.select<Session, BookList>((s) => s.properties),
             onTap: _selectedLibrary,
           ),
           BooksSectionContainer(

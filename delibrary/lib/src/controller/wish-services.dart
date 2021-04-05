@@ -5,6 +5,7 @@ import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/wish-list.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class WishServices extends Services {
   static WishServices _singleton = WishServices._internal();
@@ -66,7 +67,7 @@ class WishServices extends Services {
   DelibraryAction removeWish(Book book) {
     return DelibraryAction(
       text: "Rimuovi dalla lista dei desideri",
-      execute: () async {
+      execute: (BuildContext context) async {
         // Remove wish from server.
         Response response;
         try {
@@ -100,7 +101,7 @@ class WishServices extends Services {
   DelibraryAction addWish(Book book) {
     return DelibraryAction(
       text: "Aggiungi alla lista dei desideri",
-      execute: () async {
+      execute: (BuildContext context) async {
         // Remove wish from server.
         Response response;
         // Envelope<User> user = await UserServices().validateUser();
@@ -135,6 +136,7 @@ class WishServices extends Services {
 
   DelibraryAction moveWishToLibrary(Book book) {
     return DelibraryAction(
-        text: "Sposta nella wishlist", execute: () {/* TODO */});
+        text: "Sposta nella wishlist",
+        execute: (BuildContext context) {/* TODO */});
   }
 }

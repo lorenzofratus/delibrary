@@ -5,19 +5,13 @@ import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/property-list.dart';
 import 'package:delibrary/src/model/property.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PropertyServices extends Services {
-  static PropertyServices _singleton = PropertyServices._internal();
-  BookList _bookList;
-
-  BookList get bookList => _bookList;
-
-  factory PropertyServices() {
-    return _singleton;
-  }
-
-  PropertyServices._internal()
+  PropertyServices()
       : super(BaseOptions(
           // baseUrl: "https://delibrary.herokuapp.com/v1/",
           baseUrl: "http://localhost:8080/v1/",
@@ -25,12 +19,51 @@ class PropertyServices extends Services {
           receiveTimeout: 20000,
         ));
 
-  Future<BookList> getPropertiesByPosition(String province,
+  // Returns empty list in case of error
+  Future<BookList> getPropertiesByPosition(
+      BuildContext context, String province,
       [String town = ""]) async {
     print(
         "[Properties services] Getting properties by position from Delibrary...");
-    return _fetchProperties(
-        "properties/$province${town.isEmpty ? '' : '/' + town}");
+
+    if (province?.isEmpty ?? true) {
+      showSnackBar(context, ErrorMessage.emptyFields);
+      return BookList();
+    }
+
+    Response response;
+
+    province = cleanParameter(province);
+    town = cleanParameter(town);
+
+    try {
+      response = await dio
+          .get("properties/$province${town.isEmpty ? '' : '/' + town}");
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response.statusCode == 404) {
+          // No properties found, no need to show to the user
+          // TODO: check if the server really responds with 404,
+          // I think it only sends an empty list
+          return BookList();
+        }
+        if (e.response.statusCode == 500) {
+          showSnackBar(context, ErrorMessage.serverError);
+          return BookList();
+        }
+        // Otherwise, unexpected error, print and raise exception
+        errorOnResponse(e);
+      } else {
+        // Generic error before the request is sent, print
+        errorOnRequest(e, false);
+        showSnackBar(context, ErrorMessage.checkConnection);
+        return BookList();
+      }
+    }
+
+    // Property list fetched, parse and return
+    PropertyList propertyList = PropertyList.fromJson(response.data);
+    return _getBooksFromProperties(propertyList.properties);
   }
 
   Future<BookList> _getBooksFromProperties(List<Property> propertyList) async {
@@ -47,58 +80,34 @@ class PropertyServices extends Services {
     return BookList(totalItems: bookList.length, items: bookList);
   }
 
-  Future<BookList> _fetchProperties(String path) async {
-    Response response;
-    try {
-      response = await dio.get(path);
-    } on DioError catch (e) {
-      if (e.response != null) {
-        print(e.response.data);
-        print(e.response.headers);
-        print(e.response.request);
-        throw Exception(
-            "Delibrary server responded with ${e.response.statusCode}");
-      } else {
-        print(e.request);
-        print(e.message);
-        throw Exception(
-            "Error while setting up or sending the request to Delibrary");
-      }
-    }
-    PropertyList propertyList = PropertyList.fromJson(response.data);
-    return _getBooksFromProperties(propertyList.properties);
-  }
-
   DelibraryAction removeProperty(Book book) {
     return DelibraryAction(
       text: "Rimuovi dalla libreria",
-      execute: () async {
+      execute: (BuildContext context) async {
         // Remove property from server.
-        Response response;
+        Session session = context.read<Session>();
+        String username = session.user.username;
+
         try {
-          response = await dio.delete(
-              "users/${book.property.ownerUsername}/properties/${book.property.id}");
+          await dio.delete("users/$username/properties/${book.property.id}");
         } on DioError catch (e) {
           if (e.response != null) {
-            print(e.response.data);
-            print(e.response.headers);
-            print(e.response.request);
-            throw Exception(
-                "Delibrary server responded with ${e.response.statusCode}");
+            if (e.response.statusCode == 404)
+              return showSnackBar(context, ErrorMessage.userNotFound);
+            if (e.response.statusCode == 500)
+              return showSnackBar(context, ErrorMessage.serverError);
+            // Otherwise, unexpected error, print and raise exception
+            errorOnResponse(e);
           } else {
-            print(e.request);
-            print(e.message);
-            throw Exception(
-                "Error while setting up or sending the request to Delibrary");
+            // Generic error before the request is sent, print
+            errorOnRequest(e, false);
+            return showSnackBar(context, ErrorMessage.checkConnection);
           }
         }
 
-        if (response.statusCode == 201) {
-          // Remove property from local copy.
-          _bookList.remove(book);
-        } else
-          throw Exception(
-              "It was not possible to delete the property from the server.");
+        // Property removed successfully, update session
+        session.properties.remove(book);
+        Navigator.pop(context);
       },
     );
   }
@@ -106,47 +115,79 @@ class PropertyServices extends Services {
   DelibraryAction addProperty(Book book) {
     return DelibraryAction(
       text: "Aggiungi alla libreria",
-      execute: () async {
+      execute: (BuildContext context) async {
         // Remove property from server.
-        Response response;
-        // Envelope<User> user = await UserServices().validateUser();
-        // String username = user.payload.username;
-        // TODO: RETRIEVE USERNAME (from session);
-        String username = "";
+        Session session = context.read<Session>();
+        String username = session.user.username;
+
         try {
-          // TODO: We have to retrieve the location BEFORE adding the property.
-          response = await dio.post("users/$username/properties/new", data: {});
+          // TODO: We have to retrieve the user location BEFORE adding the property.
+          await dio.post("users/$username/properties/new", data: {});
         } on DioError catch (e) {
           if (e.response != null) {
-            print(e.response.data);
-            print(e.response.headers);
-            print(e.response.request);
-            throw Exception(
-                "Delibrary server responded with ${e.response.statusCode}");
+            if (e.response.statusCode == 404)
+              return showSnackBar(context, ErrorMessage.userNotFound);
+            // Property already present, no need to show to the user
+            if (e.response.statusCode == 409) return;
+            if (e.response.statusCode == 500)
+              return showSnackBar(context, ErrorMessage.serverError);
+            // Otherwise, unexpected error, print and raise exception
+            errorOnResponse(e);
           } else {
-            print(e.request);
-            print(e.message);
-            throw Exception(
-                "Error while setting up or sending the request to Delibrary");
+            // Generic error before the request is sent, print
+            errorOnRequest(e, false);
+            return showSnackBar(context, ErrorMessage.checkConnection);
           }
         }
 
-        if (response.statusCode == 201) {
-          _bookList.add(book);
-        } else
-          throw Exception(
-              "It was not possible to add the property to the server.");
+        // Property added successfully, update session
+        session.properties.add(book);
+        Navigator.pop(context);
       },
     );
   }
 
   DelibraryAction movePropertyToWishList(Book book) {
     return DelibraryAction(
-        text: "Sposta nella wishlist", execute: () {/* TODO */});
+        text: "Sposta nella wishlist",
+        execute: (BuildContext context) {
+          // TODO: look how other actions are carried out
+        });
   }
 
-  Future<void> init(String username) async {
+  Future<void> updateSession(BuildContext context) async {
     print("[Properties services] Getting properties from Delibrary...");
-    _bookList = await _fetchProperties("users/$username/properties");
+
+    Response response;
+
+    Session session = context.read<Session>();
+    String username = session.user.username;
+
+    try {
+      response = await dio.get("users/$username/properties");
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response.statusCode == 404) {
+          // TODO: change this status code as it means both
+          // user not found and no property for the user
+          // TODO: check if the server really responds with 404,
+          // I think it only sends an empty list
+          session.properties = BookList();
+          return;
+        }
+        if (e.response.statusCode == 500)
+          return showSnackBar(context, ErrorMessage.serverError);
+        // Otherwise, unexpected error, print and raise exception
+        errorOnResponse(e);
+      } else {
+        // Generic error before the request is sent, print
+        errorOnRequest(e, false);
+        return showSnackBar(context, ErrorMessage.checkConnection);
+      }
+    }
+
+    // Property list fetched, parse and update session
+    PropertyList propertyList = PropertyList.fromJson(response.data);
+    session.properties = await _getBooksFromProperties(propertyList.properties);
   }
 }

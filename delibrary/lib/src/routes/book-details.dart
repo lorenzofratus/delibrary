@@ -48,8 +48,7 @@ class BookDetailsPage extends StatelessWidget {
               DelibraryButton(
                 text: primaryAction.text,
                 onPressed: () {
-                  primaryAction.execute();
-                  Navigator.pop(context, 1);
+                  primaryAction.execute(context);
                 },
               ),
             if (secondaryAction.text.isNotEmpty)
@@ -57,8 +56,7 @@ class BookDetailsPage extends StatelessWidget {
                 text: secondaryAction.text,
                 primary: false,
                 onPressed: () {
-                  secondaryAction.execute();
-                  Navigator.pop(context, 2);
+                  secondaryAction.execute(context);
                 },
               ),
           ],
