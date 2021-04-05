@@ -14,6 +14,7 @@ class BookServices extends Services {
           true,
         );
 
+  // Returns null in case of error
   Future<Book> getById(String id) async {
     Response response;
 
@@ -23,22 +24,17 @@ class BookServices extends Services {
       response = await dio.get("/$id?projection=lite");
     } on DioError catch (e) {
       if (e.response != null) {
-        print(e.response.data);
-        print(e.response.headers);
-        print(e.response.request);
-        throw Exception(
-            "Google Books API server responded with ${e.response.statusCode}");
+        errorOnResponse(e, false);
       } else {
-        print(e.request);
-        print(e.message);
-        throw Exception(
-            "Error while setting up or sending the request to Google Books API");
+        errorOnRequest(e, false);
       }
+      return null;
     }
 
     return Book.fromJson(response.data);
   }
 
+  // Returns empty list in case of error
   Future<BookList> getByQuery(String query,
       {int startIndex = 0, int maxResults = 10}) async {
     Response response;
@@ -50,17 +46,11 @@ class BookServices extends Services {
           "?q=$query&startIndex=$startIndex&maxResults=$maxResults&projection=lite");
     } on DioError catch (e) {
       if (e.response != null) {
-        print(e.response.data);
-        print(e.response.headers);
-        print(e.response.request);
-        throw Exception(
-            "Google Books API server responded with ${e.response.statusCode}");
+        errorOnResponse(e, false);
       } else {
-        print(e.request);
-        print(e.message);
-        throw Exception(
-            "Error while setting up or sending the request to Google Books API");
+        errorOnRequest(e, false);
       }
+      return BookList();
     }
 
     return BookList.fromJson(response.data);
