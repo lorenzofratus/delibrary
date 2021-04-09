@@ -14,7 +14,7 @@ class PropertyServices extends Services {
   PropertyServices()
       : super(BaseOptions(
           // baseUrl: "https://delibrary.herokuapp.com/v1/",
-          baseUrl: "http://localhost:8080/v1/",
+          baseUrl: "http://10.9.0.5:8080/v1/",
           connectTimeout: 20000,
           receiveTimeout: 20000,
         ));
@@ -122,7 +122,10 @@ class PropertyServices extends Services {
 
         try {
           // TODO: We have to retrieve the user location BEFORE adding the property.
-          await dio.post("users/$username/properties/new", data: {});
+          await dio.post("users/$username/properties/new", data: {
+            "book": {"bookId": book.id},
+            "position": {"province": "Lecco", "town": "Brivio"}
+          });
         } on DioError catch (e) {
           if (e.response != null) {
             if (e.response.statusCode == 404)

@@ -21,6 +21,7 @@ class Session extends ChangeNotifier {
     // User attributes must be set to default
     _user = null;
     _properties = null;
+    _wishes = null;
   }
 
   // ** User management **
@@ -69,7 +70,7 @@ class Session extends ChangeNotifier {
 
   set wishes(BookList wishes) {
     if (wishes != null) {
-      _wishes = properties;
+      _wishes = wishes;
       notifyListeners();
     }
   }

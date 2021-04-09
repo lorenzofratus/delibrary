@@ -14,7 +14,7 @@ class WishServices extends Services {
   WishServices()
       : super(BaseOptions(
           // baseUrl: "https://delibrary.herokuapp.com/v1/users/",
-          baseUrl: "http://localhost:8080/v1/users/",
+          baseUrl: "http://10.9.0.5:8080/v1/",
           connectTimeout: 20000,
           receiveTimeout: 20000,
         ));
@@ -73,8 +73,8 @@ class WishServices extends Services {
         String username = session.user.username;
 
         try {
-          // TODO fill the body in order to make a valid POST request.
-          await dio.post("users/$username/wishes/new", data: {});
+          await dio
+              .post("users/$username/wishes/new", data: {"bookId": book.id});
         } on DioError catch (e) {
           if (e.response != null) {
             if (e.response.statusCode == 404)
@@ -124,7 +124,7 @@ class WishServices extends Services {
     String username = session.user.username;
 
     try {
-      response = await dio.get("$username/wishes");
+      response = await dio.get("users/$username/wishes");
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 404) {
