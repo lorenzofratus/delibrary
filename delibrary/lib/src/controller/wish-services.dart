@@ -37,7 +37,7 @@ class WishServices extends Services {
 
   DelibraryAction removeWish(Book book) {
     return DelibraryAction(
-      text: "Rimuovi dalla lista dei desideri",
+      text: "Rimuovi dalla wishlist",
       execute: (BuildContext context) async {
         Session session = context.read<Session>();
         String username = session.user.username;
@@ -69,7 +69,7 @@ class WishServices extends Services {
 
   DelibraryAction addWish(Book book) {
     return DelibraryAction(
-      text: "Aggiungi alla lista dei desideri",
+      text: "Aggiungi alla wishlist",
       execute: (BuildContext context) async {
         Session session = context.read<Session>();
         String username = session.user.username;

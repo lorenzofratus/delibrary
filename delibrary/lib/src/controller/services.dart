@@ -32,10 +32,11 @@ abstract class Services {
       ));
   }
 
-  String cleanParameter(String parameter, {bool caseSensitive = false}) {
+  String cleanParameter(String parameter,
+      {bool caseSensitive = false, bool uriEncode = true}) {
     parameter = parameter.trim();
     if (!caseSensitive) parameter = parameter.toLowerCase();
-    parameter = Uri.encodeComponent(parameter);
+    if (uriEncode) parameter = Uri.encodeComponent(parameter);
     return parameter;
   }
 
@@ -120,11 +121,10 @@ class ErrorMessage {
 class ConfirmMessage {
   static const String passwordUpdated = "Password aggiornata!";
   static const String propertyAdded = "Libro aggiunto alla libreria!";
-  static const String propertyMoved =
-      "Libro spostato nella lista dei desideri!";
+  static const String propertyMoved = "Libro spostato nella wishlist!";
   static const String propertyRemoved = "Libro rimosso dalla libreria!";
   static const String userUpdated = "Profilo aggiornato!";
-  static const String wishAdded = "Libro aggiunto alla lista dei desideri!";
+  static const String wishAdded = "Libro aggiunto alla wishlist!";
   static const String wishMoved = "Libro spostato nella libreria!";
-  static const String wishRemoved = "Libro rimosso dalla lista dei desideri!";
+  static const String wishRemoved = "Libro rimosso dalla wishlist!";
 }
