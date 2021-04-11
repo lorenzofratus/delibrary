@@ -107,9 +107,56 @@ class WishServices extends Services {
   DelibraryAction moveWishToLibrary(Book book) {
     return DelibraryAction(
         text: "Sposta nella libreria",
-        execute: (BuildContext context) {
-          // TODO: look how other actions are carried out
+        execute: (BuildContext context) async {
+          Session session = context.read<Session>();
+          String username = session.user.username;
 
+          try {
+            await dio.delete("users/$username/wishes/${book.wish.id}");
+          } on DioError catch (e) {
+            if (e.response != null) {
+              if (e.response.statusCode == 404)
+                return showSnackBar(context, ErrorMessage.userNotFound);
+              if (e.response.statusCode == 500)
+                return showSnackBar(context, ErrorMessage.serverError);
+              // Otherwise, unexpected error, print and raise exception
+              errorOnResponse(e);
+            } else {
+              // Generic error before the request is sent, print
+              errorOnRequest(e, false);
+              return showSnackBar(context, ErrorMessage.checkConnection);
+            }
+          }
+
+          try {
+            // TODO: We have to retrieve the user location BEFORE adding the property.
+            await dio.post("users/$username/properties/new", data: {
+              "book": {"bookId": book.id},
+              "position": {"province": "Lecco", "town": "Brivio"}
+            });
+          } on DioError catch (e) {
+            if (e.response != null) {
+              if (e.response.statusCode == 404)
+                return showSnackBar(context, ErrorMessage.userNotFound);
+              if (e.response.statusCode == 409) {
+                // Property already present, no need to show to the user
+                showSnackBar(context, ConfirmMessage.propertyAdded);
+                pop(context);
+                return;
+              }
+              if (e.response.statusCode == 500)
+                return showSnackBar(context, ErrorMessage.serverError);
+              // Otherwise, unexpected error, print and raise exception
+              errorOnResponse(e);
+            } else {
+              // Generic error before the request is sent, print
+              errorOnRequest(e, false);
+              return showSnackBar(context, ErrorMessage.checkConnection);
+            }
+          }
+
+          session.wishes.remove(book);
+          session.properties.add(book);
           showSnackBar(context, ConfirmMessage.wishMoved);
           pop(context);
         });
