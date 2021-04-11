@@ -77,7 +77,6 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   }
 
   Future<void> _selectedBook(Book book) async {
-    //TODO: manage actions
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(

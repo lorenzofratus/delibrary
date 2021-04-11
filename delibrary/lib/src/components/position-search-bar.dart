@@ -54,7 +54,7 @@ class _PositionSearchBarState extends State<PositionSearchBar> {
       child: Column(
         children: [
           Text(
-            "Che libro stai cercando?",
+            "Dove vuoi effettuare la ricerca?",
             style: Theme.of(context).textTheme.headline5,
           ),
           Form(
