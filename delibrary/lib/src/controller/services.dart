@@ -1,6 +1,10 @@
+import 'package:delibrary/src/components/position-modal.dart';
+import 'package:delibrary/src/model/property.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 abstract class Services {
   final Dio dio = new Dio();
@@ -54,6 +58,36 @@ abstract class Services {
   void showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  // Returns true if the modal has been discarded by the user
+  Future<Position> showPositionModal(BuildContext context) async {
+    Position position;
+
+    await showModalBottomSheet(
+      context: context,
+      elevation: 2.0,
+      backgroundColor: Theme.of(context).primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(50.0),
+          topRight: Radius.circular(50.0),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (context) => PositionModal(
+        onSubmit: (p, t) {
+          pop(context);
+          position = Position(p, t);
+        },
+        onDiscard: () {
+          pop(context);
+        },
+        provinces: context.read<Session>().provinces,
+      ),
+    );
+
+    return position;
   }
 
   void navigateTo(BuildContext context, String routeName) {

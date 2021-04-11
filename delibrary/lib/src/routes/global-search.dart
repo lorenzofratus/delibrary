@@ -77,7 +77,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   }
 
   Future<void> _selectedBook(Book book) async {
-    int selectedAction = await Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => BookDetailsPage(
@@ -87,7 +87,6 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
         ),
       ),
     );
-    print(selectedAction);
   }
 
   @override

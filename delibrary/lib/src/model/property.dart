@@ -20,4 +20,11 @@ class Position {
   final String town;
 
   Position(this.province, this.town);
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> position = Map<String, dynamic>();
+    position["province"] = province;
+    position["town"] = town;
+    return position;
+  }
 }
