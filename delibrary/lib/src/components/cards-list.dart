@@ -1,7 +1,10 @@
 import 'package:delibrary/src/components/card.dart';
 import 'package:delibrary/src/model/book-list.dart';
+import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CardsList extends StatelessWidget {
   final BookList booksList;
@@ -19,13 +22,18 @@ class CardsList extends StatelessWidget {
           style: Theme.of(context).textTheme.headline5,
         ),
       );
+
+    BookList wishList = context.read<Session>().wishes;
+    Map<Book, bool> wishMap = booksList.intersect(wishList);
+
     return ListView.builder(
       controller: controller,
       itemCount: booksList.length + (booksList.isComplete ? 0 : 1),
       itemBuilder: (context, index) {
         if (index == booksList.length)
           return Center(heightFactor: 3.0, child: CircularProgressIndicator());
-        return BookCard(book: booksList.items[index], onTap: onTap);
+        Book book = booksList.items[index];
+        return BookCard(book: book, onTap: onTap, wished: wishMap[book]);
       },
     );
   }

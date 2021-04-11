@@ -42,4 +42,16 @@ class BookList {
   void add(Book book) {
     items.add(book);
   }
+
+  bool contains(Book book) {
+    return items.any((b) => b.id == book.id);
+  }
+
+  Map<Book, bool> intersect(BookList bookList) {
+    Map<Book, bool> map = Map();
+    items.forEach((book) {
+      map[book] = bookList?.contains(book) ?? false;
+    });
+    return map;
+  }
 }
