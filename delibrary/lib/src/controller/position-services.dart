@@ -16,8 +16,8 @@ class PositionServices extends Services {
   Map<String, List<String>> _provinces = Map();
 
   void _insertTown(String province, String town) {
-    province = cleanParameter(province);
-    town = cleanParameter(town);
+    province = cleanParameter(province, uriEncode: false);
+    town = cleanParameter(town, uriEncode: false);
     if (!_provinces.containsKey(province)) _provinces[province] = [];
     _provinces[province].add(town);
   }

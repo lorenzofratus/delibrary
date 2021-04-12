@@ -6,6 +6,7 @@ import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/routes/book-details.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
+import 'package:delibrary/src/shortcuts/refreshable.dart';
 import 'package:flutter/material.dart';
 
 class ExchangesScreen extends StatefulWidget {
@@ -27,12 +28,28 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
     _downloadLists();
   }
 
+  Future<void> _downloadWaitingList() async {
+    _waitingList = BookList();
+  }
+
+  Future<void> _downloadSentList() async {
+    _sentList = BookList();
+  }
+
+  Future<void> _downloadRefusedList() async {
+    _refusedList = BookList();
+  }
+
+  Future<void> _downloadCompletedList() async {
+    _completedList = BookList();
+  }
+
   Future<void> _downloadLists() async {
     //TODO: fetch the book lists
-    _waitingList = BookList();
-    _sentList = BookList();
-    _refusedList = BookList();
-    _completedList = BookList();
+    _downloadWaitingList();
+    _downloadSentList();
+    _downloadRefusedList();
+    _downloadCompletedList();
     print("We should fetch the exchanges...");
   }
 
@@ -100,9 +117,8 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
+    return Refreshable(
       onRefresh: _downloadLists,
-      backgroundColor: Theme.of(context).primaryColor,
       child: PaddedListView(
         children: [
           PageTitle("I tuoi scambi"),
@@ -110,21 +126,25 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
             title: "In attesa",
             bookList: _waitingList,
             onTap: _selectedWaiting,
+            onRefresh: _downloadWaitingList,
           ),
           BooksSectionContainer(
             title: "Inviati",
             bookList: _sentList,
             onTap: _selectedSent,
+            onRefresh: _downloadSentList,
           ),
           BooksSectionContainer(
             title: "Rifiutati",
             bookList: _refusedList,
             onTap: _selectedRefused,
+            onRefresh: _downloadRefusedList,
           ),
           BooksSectionContainer(
             title: "Completati",
             bookList: _completedList,
             onTap: _selectedCompleted,
+            onRefresh: _downloadCompletedList,
           ),
         ],
       ),

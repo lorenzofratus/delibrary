@@ -24,6 +24,12 @@ final ThemeData _delibraryTheme = ThemeData(
       fontWeight: FontWeight.w800,
     ),
   ),
+  snackBarTheme: SnackBarThemeData(
+    behavior: SnackBarBehavior.floating,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(25.0),
+    ),
+  ),
 );
 
 void main() => runApp(

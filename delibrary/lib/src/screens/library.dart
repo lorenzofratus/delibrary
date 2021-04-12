@@ -7,6 +7,7 @@ import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/routes/book-details.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
+import 'package:delibrary/src/shortcuts/refreshable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,10 +30,18 @@ class _LibraryScreenState extends State<LibraryScreen> {
     Navigator.pushNamed(context, "/search");
   }
 
+  Future<void> _downloadPropertyList() async {
+    _propertyServices.updateSession(context);
+  }
+
+  Future<void> _downloadWishList() async {
+    _wishServices.updateSession(context);
+  }
+
   Future<void> _downloadLists() async {
     // This is done asynchronously, when it has finished the provider will notify and rebuild
-    _propertyServices.updateSession(context);
-    _wishServices.updateSession(context);
+    _downloadPropertyList();
+    _downloadWishList();
   }
 
   Future<void> _selectedLibrary(Book book) async {
@@ -63,9 +72,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
+    return Refreshable(
       onRefresh: _downloadLists,
-      backgroundColor: Theme.of(context).primaryColor,
       child: PaddedListView(
         children: [
           PageTitle(
@@ -77,11 +85,13 @@ class _LibraryScreenState extends State<LibraryScreen> {
             title: "Biblioteca",
             bookList: context.select<Session, BookList>((s) => s.properties),
             onTap: _selectedLibrary,
+            onRefresh: _downloadPropertyList,
           ),
           BooksSectionContainer(
             title: "Wishlist",
             bookList: context.select<Session, BookList>((s) => s.wishes),
             onTap: _selectedWishlist,
+            onRefresh: _downloadWishList,
           ),
         ],
       ),

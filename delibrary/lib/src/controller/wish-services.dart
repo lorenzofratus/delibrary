@@ -3,6 +3,7 @@ import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/property.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/wish-list.dart';
 import 'package:delibrary/src/model/wish.dart';
@@ -15,6 +16,7 @@ class WishServices extends Services {
       : super(BaseOptions(
           // baseUrl: "https://delibrary.herokuapp.com/v1/users/",
           baseUrl: "http://10.9.0.5:8080/v1/",
+          // baseUrl: "http://localhost:8080/v1/",
           connectTimeout: 20000,
           receiveTimeout: 20000,
         ));
@@ -35,7 +37,7 @@ class WishServices extends Services {
 
   DelibraryAction removeWish(Book book) {
     return DelibraryAction(
-      text: "Rimuovi dalla lista dei desideri",
+      text: "Rimuovi dalla wishlist",
       execute: (BuildContext context) async {
         Session session = context.read<Session>();
         String username = session.user.username;
@@ -67,7 +69,7 @@ class WishServices extends Services {
 
   DelibraryAction addWish(Book book) {
     return DelibraryAction(
-      text: "Aggiungi alla lista dei desideri",
+      text: "Aggiungi alla wishlist",
       execute: (BuildContext context) async {
         Session session = context.read<Session>();
         String username = session.user.username;
@@ -108,6 +110,9 @@ class WishServices extends Services {
     return DelibraryAction(
         text: "Sposta nella libreria",
         execute: (BuildContext context) async {
+          Position position = await showPositionModal(context);
+          if (position == null) return;
+
           Session session = context.read<Session>();
           String username = session.user.username;
 
@@ -129,10 +134,9 @@ class WishServices extends Services {
           }
 
           try {
-            // TODO: We have to retrieve the user location BEFORE adding the property.
             await dio.post("users/$username/properties/new", data: {
               "book": {"bookId": book.id},
-              "position": {"province": "Lecco", "town": "Brivio"}
+              "position": position.toJson(),
             });
           } on DioError catch (e) {
             if (e.response != null) {

@@ -102,8 +102,10 @@ class BooksSectionContainer extends StatelessWidget {
   final String title;
   final BookList bookList;
   final Function onTap;
+  final Function onRefresh;
 
-  BooksSectionContainer({this.title = "", @required this.bookList, this.onTap});
+  BooksSectionContainer(
+      {this.title = "", @required this.bookList, this.onTap, this.onRefresh});
 
   void _seeMore(context) {
     Navigator.push(
@@ -113,6 +115,7 @@ class BooksSectionContainer extends StatelessWidget {
           title: title,
           bookList: bookList,
           onTap: onTap,
+          onRefresh: onRefresh,
         ),
       ),
     );

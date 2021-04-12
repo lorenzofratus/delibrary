@@ -1,19 +1,25 @@
-import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/search-field.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 
-class PositionSearchBar extends StatefulWidget {
-  final Function onSearch;
+import 'button.dart';
+
+class PositionModal extends StatefulWidget {
+  final Function onSubmit;
+  final Function onDiscard;
   final Map<String, List<String>> provinces;
 
-  PositionSearchBar({@required this.onSearch, @required this.provinces});
+  PositionModal({
+    @required this.onSubmit,
+    @required this.onDiscard,
+    @required this.provinces,
+  });
 
   @override
-  State<StatefulWidget> createState() => _PositionSearchBarState();
+  State<StatefulWidget> createState() => _PositionModalState();
 }
 
-class _PositionSearchBarState extends State<PositionSearchBar> {
+class _PositionModalState extends State<PositionModal> {
   final _formKey = GlobalKey<FormState>();
 
   String _province = "";
@@ -31,30 +37,26 @@ class _PositionSearchBarState extends State<PositionSearchBar> {
 
   String _townValidator(String town) {
     town = town.trim().toLowerCase();
-    if (town.isNotEmpty && !widget.provinces[_province].contains(town))
+    if (town.isEmpty)
+      return "Il comune non può essere vuoto.";
+    else if (!widget.provinces[_province].contains(town))
       return "Questo comune non esiste nella provincia.";
     _town = town;
     return null;
   }
 
-  void _onPressed() {
-    if (_formKey.currentState.validate()) widget.onSearch(_province, _town);
+  void _onSubmit() {
+    if (_formKey.currentState.validate()) widget.onSubmit(_province, _town);
   }
 
   @override
   Widget build(BuildContext context) {
     return PaddedContainer(
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(50.0),
-          bottomRight: Radius.circular(50.0),
-        ),
-      ),
-      child: Column(
+      child: ListView(
+        shrinkWrap: true,
         children: [
           Text(
-            "Dove vuoi effettuare la ricerca?",
+            "Dove si trova il libro?",
             style: Theme.of(context).textTheme.headline5,
           ),
           Form(
@@ -73,8 +75,13 @@ class _PositionSearchBarState extends State<PositionSearchBar> {
             ),
           ),
           DelibraryButton(
-            text: "Cerca",
-            onPressed: _onPressed,
+            text: "Invia",
+            onPressed: _onSubmit,
+          ),
+          DelibraryButton(
+            text: "Annulla",
+            primary: false,
+            onPressed: widget.onDiscard,
           ),
         ],
       ),

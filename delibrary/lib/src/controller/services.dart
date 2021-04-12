@@ -1,6 +1,10 @@
+import 'package:delibrary/src/components/position-modal.dart';
+import 'package:delibrary/src/model/property.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 abstract class Services {
   final Dio dio = new Dio();
@@ -28,10 +32,11 @@ abstract class Services {
       ));
   }
 
-  String cleanParameter(String parameter, {bool caseSensitive = false}) {
+  String cleanParameter(String parameter,
+      {bool caseSensitive = false, bool uriEncode = true}) {
     parameter = parameter.trim();
     if (!caseSensitive) parameter = parameter.toLowerCase();
-    parameter = Uri.encodeComponent(parameter);
+    if (uriEncode) parameter = Uri.encodeComponent(parameter);
     return parameter;
   }
 
@@ -54,6 +59,36 @@ abstract class Services {
   void showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  // Returns true if the modal has been discarded by the user
+  Future<Position> showPositionModal(BuildContext context) async {
+    Position position;
+
+    await showModalBottomSheet(
+      context: context,
+      elevation: 2.0,
+      backgroundColor: Theme.of(context).primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(50.0),
+          topRight: Radius.circular(50.0),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (context) => PositionModal(
+        onSubmit: (p, t) {
+          pop(context);
+          position = Position(p, t);
+        },
+        onDiscard: () {
+          pop(context);
+        },
+        provinces: context.read<Session>().provinces,
+      ),
+    );
+
+    return position;
   }
 
   void navigateTo(BuildContext context, String routeName) {
@@ -86,11 +121,10 @@ class ErrorMessage {
 class ConfirmMessage {
   static const String passwordUpdated = "Password aggiornata!";
   static const String propertyAdded = "Libro aggiunto alla libreria!";
-  static const String propertyMoved =
-      "Libro spostato nella lista dei desideri!";
+  static const String propertyMoved = "Libro spostato nella wishlist!";
   static const String propertyRemoved = "Libro rimosso dalla libreria!";
   static const String userUpdated = "Profilo aggiornato!";
-  static const String wishAdded = "Libro aggiunto alla lista dei desideri!";
+  static const String wishAdded = "Libro aggiunto alla wishlist!";
   static const String wishMoved = "Libro spostato nella libreria!";
-  static const String wishRemoved = "Libro rimosso dalla lista dei desideri!";
+  static const String wishRemoved = "Libro rimosso dalla wishlist!";
 }
