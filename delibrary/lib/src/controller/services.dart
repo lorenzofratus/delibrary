@@ -26,7 +26,8 @@ abstract class Services {
         //Manage redirect on 401 statusCode
         onResponse: (Response response) async {
           //TODO
-          if (response.statusCode == 401) print("Redirect");
+          if (response.statusCode == 401)
+            throw Exception("Delibrary server responded with 401, run away!");
           return response;
         },
       ));
@@ -101,6 +102,9 @@ abstract class Services {
 }
 
 class ErrorMessage {
+  static const String alreadyInProperties =
+      "Questo libro è già nella tua libreria";
+  static const String alreadyInWishes = "Questo libro è già nella tua wishlist";
   static const String checkConnection =
       "Non è stato possibile contattare il server, controlla la connessione.";
   static const String emptyFields = "Compila tutti i campi obbligatori.";

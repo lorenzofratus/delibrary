@@ -42,12 +42,6 @@ class PropertyServices extends Services {
           .get("properties/$province${town.isEmpty ? '' : '/' + town}");
     } on DioError catch (e) {
       if (e.response != null) {
-        if (e.response.statusCode == 404) {
-          // No properties found, no need to show to the user
-          // TODO: check if the server really responds with 404,
-          // I think it only sends an empty list
-          return BookList();
-        }
         if (e.response.statusCode == 500) {
           showSnackBar(context, ErrorMessage.serverError);
           return BookList();
@@ -133,12 +127,10 @@ class PropertyServices extends Services {
           if (e.response != null) {
             if (e.response.statusCode == 404)
               return showSnackBar(context, ErrorMessage.userNotFound);
-            if (e.response.statusCode == 409) {
-              // Property already present, no need to show to the user
-              showSnackBar(context, ConfirmMessage.propertyAdded);
-              pop(context);
-              return;
-            }
+            if (e.response.statusCode == 406)
+              return showSnackBar(context, ErrorMessage.alreadyInWishes);
+            if (e.response.statusCode == 409)
+              return showSnackBar(context, ErrorMessage.alreadyInProperties);
             if (e.response.statusCode == 500)
               return showSnackBar(context, ErrorMessage.serverError);
             // Otherwise, unexpected error, print and raise exception
@@ -189,12 +181,10 @@ class PropertyServices extends Services {
             if (e.response != null) {
               if (e.response.statusCode == 404)
                 return showSnackBar(context, ErrorMessage.userNotFound);
-              if (e.response.statusCode == 409) {
-                // Wish already present, no need to show to the user
-                showSnackBar(context, ConfirmMessage.wishAdded);
-                pop(context);
-                return;
-              }
+              if (e.response.statusCode == 406)
+                return showSnackBar(context, ErrorMessage.alreadyInProperties);
+              if (e.response.statusCode == 409)
+                return showSnackBar(context, ErrorMessage.alreadyInWishes);
               if (e.response.statusCode == 500)
                 return showSnackBar(context, ErrorMessage.serverError);
               // Otherwise, unexpected error, print and raise exception
@@ -225,14 +215,8 @@ class PropertyServices extends Services {
       response = await dio.get("users/$username/properties");
     } on DioError catch (e) {
       if (e.response != null) {
-        if (e.response.statusCode == 404) {
-          // TODO: change this status code as it means both
-          // user not found and no property for the user
-          // TODO: check if the server really responds with 404,
-          // I think it only sends an empty list
-          session.properties = BookList();
-          return;
-        }
+        if (e.response.statusCode == 404)
+          return showSnackBar(context, ErrorMessage.userNotFound);
         if (e.response.statusCode == 500)
           return showSnackBar(context, ErrorMessage.serverError);
         // Otherwise, unexpected error, print and raise exception
