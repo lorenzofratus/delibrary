@@ -1,9 +1,14 @@
+import 'dart:collection';
+
 import 'package:delibrary/src/model/property.dart';
+import 'package:flutter/material.dart';
 
+@immutable
 class PropertyList {
-  final List<Property> properties;
+  final UnmodifiableListView<Property> properties;
 
-  PropertyList({this.properties});
+  PropertyList({List<Property> properties})
+      : properties = UnmodifiableListView(properties ?? []);
 
   factory PropertyList.fromJson(List<dynamic> propertyList) {
     List<Property> items =

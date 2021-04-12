@@ -60,7 +60,7 @@ class WishServices extends Services {
         }
 
         // Wish removed successfully, update session
-        session.wishes.remove(book);
+        session.removeWish(book);
         showSnackBar(context, ConfirmMessage.wishRemoved);
         pop(context);
       },
@@ -97,7 +97,7 @@ class WishServices extends Services {
         }
 
         // Wish added successfully, update session
-        session.wishes.add(book);
+        session.addWish(book);
         showSnackBar(context, ConfirmMessage.wishAdded);
         pop(context);
       },
@@ -155,8 +155,8 @@ class WishServices extends Services {
             }
           }
 
-          session.wishes.remove(book);
-          session.properties.add(book);
+          session.removeWish(book);
+          session.addProperty(book);
           showSnackBar(context, ConfirmMessage.wishMoved);
           pop(context);
         });

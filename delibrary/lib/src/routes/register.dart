@@ -14,7 +14,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-  User _tempUser;
+  UserBuilder _tempUser;
   bool _loading;
 
   void initState() {
@@ -24,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void _resetTempUser() {
-    _tempUser = User();
+    _tempUser = UserBuilder();
   }
 
   void _disableRequests() {
@@ -42,7 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
   void _validateUser() async {
     if (_formKey.currentState.validate()) {
       _disableRequests();
-      await UserServices().registerUser(_tempUser, context);
+      await UserServices().registerUser(_tempUser.user, context);
     }
     _resetTempUser();
     _enableRequests();

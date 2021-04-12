@@ -32,7 +32,7 @@ class CardsList extends StatelessWidget {
       itemBuilder: (context, index) {
         if (index == booksList.length)
           return Center(heightFactor: 3.0, child: CircularProgressIndicator());
-        Book book = booksList.items[index];
+        Book book = booksList.getAt(index);
         return BookCard(book: book, onTap: onTap, wished: wishMap[book]);
       },
     );

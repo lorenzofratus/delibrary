@@ -17,7 +17,7 @@ class _ProfilePageState extends State<ProfileScreen> {
   final _passwordKey = GlobalKey<FormState>();
   bool _editingProfile = false;
   bool _editingPassword = false;
-  User _tempUser;
+  UserBuilder _tempUser;
 
   void initState() {
     super.initState();
@@ -25,7 +25,7 @@ class _ProfilePageState extends State<ProfileScreen> {
   }
 
   void _resetTempUser() {
-    _tempUser = User.copy(context.read<Session>().user);
+    _tempUser = context.read<Session>().user.builder;
   }
 
   void _startEditingProfile() {
@@ -66,7 +66,7 @@ class _ProfilePageState extends State<ProfileScreen> {
   }
 
   Future<void> _sendUpdate(Function callback) async {
-    await UserServices().updateUser(_tempUser, context);
+    await UserServices().updateUser(_tempUser.user, context);
     callback();
   }
 

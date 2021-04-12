@@ -142,9 +142,9 @@ class BooksSectionContainer extends StatelessWidget {
                   primary: false,
                   shrinkWrap: true,
                   children: [
-                    BookCardPreview(book: bookList?.get(0), onTap: onTap),
+                    BookCardPreview(book: bookList?.getAt(0), onTap: onTap),
                     if (bookList.length > 1)
-                      BookCardPreview(book: bookList?.get(1), onTap: onTap),
+                      BookCardPreview(book: bookList?.getAt(1), onTap: onTap),
                   ],
                 ),
                 DelibraryButton(

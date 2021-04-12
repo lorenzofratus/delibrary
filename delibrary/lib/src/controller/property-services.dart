@@ -101,7 +101,7 @@ class PropertyServices extends Services {
         }
 
         // Property removed successfully, update session
-        session.properties.remove(book);
+        session.removeProperty(book);
         showSnackBar(context, ConfirmMessage.propertyRemoved);
         pop(context);
       },
@@ -143,7 +143,7 @@ class PropertyServices extends Services {
         }
 
         // Property added successfully, update session
-        session.properties.add(book);
+        session.addProperty(book);
         showSnackBar(context, ConfirmMessage.propertyAdded);
         pop(context);
       },
@@ -196,8 +196,8 @@ class PropertyServices extends Services {
             }
           }
 
-          session.properties.remove(book);
-          session.wishes.add(book);
+          session.removeProperty(book);
+          session.addWish(book);
           showSnackBar(context, ConfirmMessage.propertyMoved);
           pop(context);
         });

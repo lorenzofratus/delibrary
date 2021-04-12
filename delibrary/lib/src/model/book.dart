@@ -2,6 +2,7 @@ import 'package:delibrary/src/model/property.dart';
 import 'package:delibrary/src/model/wish.dart';
 import 'package:flutter/material.dart';
 
+@immutable
 class Book {
   final Property property;
   final Wish wish;
@@ -44,6 +45,8 @@ class Book {
           );
   }
 
+  bool match(Book book) => book?.id == id;
+
   factory Book.fromJson(Map<String, dynamic> json) {
     return Book(
       id: json["id"],
@@ -52,6 +55,7 @@ class Book {
   }
 }
 
+@immutable
 class _VolumeInfo {
   final String title;
   final List<String> authors;
@@ -89,6 +93,7 @@ class _VolumeInfo {
   }
 }
 
+@immutable
 class _ImageLinks {
   final String small;
   final String large;

@@ -72,7 +72,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
     BookList nextPage = await _bookServices.getByQuery(_lastQuery,
         startIndex: _startIndex, maxResults: _maxResults);
     setState(() {
-      _resultsList.addAll(nextPage);
+      _resultsList = _resultsList.addPage(nextPage);
     });
   }
 

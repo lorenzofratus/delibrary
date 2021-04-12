@@ -1,28 +1,68 @@
+import 'package:flutter/material.dart';
+
+@immutable
 class User {
+  final String username;
+  final String name;
+  final String surname;
+  final String email;
+  final String password;
+
+  User(
+      {@required this.username,
+      this.name,
+      this.surname,
+      @required this.email,
+      this.password});
+
+  UserBuilder get builder => UserBuilder(this);
+
+  bool match(User user) => user?.username == username;
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> user = Map<String, dynamic>();
+    user["username"] = username;
+    user["name"] = name;
+    user["surname"] = surname;
+    user["email"] = email;
+    if (password != null) user["password"] = password;
+    return user;
+  }
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      username: json["username"],
+      name: json["name"],
+      surname: json["surname"],
+      email: json["email"],
+      password: json["password"],
+    );
+  }
+
+  String toString() {
+    return [username, name, surname, email, password].join(", ");
+  }
+}
+
+class UserBuilder {
   String _username;
   String _name;
   String _surname;
   String _email;
   String _password;
 
-  static const String _pattern =
-      r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|" +
-          r'"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
-  final RegExp _emailExp = RegExp(_pattern);
+  final RegExp _emailExp = RegExp(
+      r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])""");
 
-  User({username, name, surname, email, password}) {
-    _username = username;
-    _name = name;
-    _surname = surname;
-    _email = email;
-    _password = password;
+  UserBuilder([User user]) {
+    _username = user?.username ?? "";
+    _name = user?.name ?? "";
+    _surname = user?.surname ?? "";
+    _email = user?.email ?? "";
+    _password = user?.password ?? "";
   }
 
-  String get username => _username;
-  String get name => _name;
-  String get surname => _surname;
-  String get email => _email;
-  String get password => _password;
+  User get user => User.fromJson(this.toJson());
 
   FieldData get usernameField =>
       FieldData(text: _username, label: "Username", validator: null);
@@ -38,7 +78,7 @@ class User {
       label: "Conferma Password", validator: confirmPassword, obscurable: true);
 
   String setUsername(newValue) {
-    if (_username != null) return "Non è possibile modificare l'username.";
+    if (_username != "") return "Non è possibile modificare l'username.";
     newValue = newValue.trim();
     if (newValue.length > 255)
       return "L'username non può eccedere i 255 caratteri.";
@@ -97,13 +137,9 @@ class User {
 
   String confirmPassword(confirmValue) {
     confirmValue = confirmValue.trim();
-    if (_password == null) return "";
+    if (_password == "") return "";
     if (confirmValue != _password) return "Le due password non coincidono.";
     return null;
-  }
-
-  void resetPassword() {
-    _password = null;
   }
 
   Map<String, dynamic> toJson() {
@@ -114,31 +150,6 @@ class User {
     user["email"] = _email;
     if (_password != null) user["password"] = _password;
     return user;
-  }
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      username: json["username"],
-      name: json["name"],
-      surname: json["surname"],
-      email: json["email"],
-      password: json["password"],
-    );
-  }
-
-  factory User.copy(User user) {
-    if (user == null) return User();
-    return User(
-      username: user.username,
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-      password: user.password,
-    );
-  }
-
-  String toString() {
-    return [_username, _name, _surname, _email, _password].join(", ");
   }
 }
 

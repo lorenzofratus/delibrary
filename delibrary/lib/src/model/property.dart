@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+
+@immutable
 class Property {
   final int id;
   final String ownerUsername;
@@ -15,6 +18,7 @@ class Property {
   }
 }
 
+@immutable
 class Position {
   final String province;
   final String town;

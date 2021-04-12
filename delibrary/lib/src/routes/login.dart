@@ -14,7 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-  User _tempUser;
+  UserBuilder _tempUser;
   bool _loading;
 
   void initState() {
@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _resetTempUser() {
-    _tempUser = User();
+    _tempUser = UserBuilder();
   }
 
   void _disableRequests() {
@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
   void _validateUser() async {
     if (_formKey.currentState.validate()) {
       _disableRequests();
-      await UserServices().loginUser(_tempUser, context);
+      await UserServices().loginUser(_tempUser.user, context);
     }
     _resetTempUser();
     _enableRequests();

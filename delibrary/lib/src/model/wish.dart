@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+
+@immutable
 class Wish {
   final int id;
   final String ownerUsername;

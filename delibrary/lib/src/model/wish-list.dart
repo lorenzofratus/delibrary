@@ -1,9 +1,13 @@
+import 'dart:collection';
+
 import 'package:delibrary/src/model/wish.dart';
+import 'package:flutter/material.dart';
 
+@immutable
 class WishList {
-  final List<Wish> wishes;
+  final UnmodifiableListView<Wish> wishes;
 
-  WishList({this.wishes});
+  WishList({List<Wish> wishes}) : wishes = UnmodifiableListView(wishes ?? []);
 
   factory WishList.fromJson(List<dynamic> wishList) {
     List<Wish> items = wishList.map((i) => Wish.fromJson(i)).toList();

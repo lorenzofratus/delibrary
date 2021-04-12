@@ -1,4 +1,5 @@
 import 'package:delibrary/src/model/book-list.dart';
+import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,8 @@ class Session extends ChangeNotifier {
   User get user => _user;
 
   set user(User user) {
-    if (user != null) {
+    // Updates only if _user is null or they have the same username
+    if (_user?.match(user) ?? true) {
       _user = user;
       notifyListeners();
     }
@@ -64,6 +66,18 @@ class Session extends ChangeNotifier {
     }
   }
 
+  void addProperty(Book book) {
+    BookList oldList = properties;
+    _properties = oldList.add(book);
+    if (_properties != oldList) notifyListeners();
+  }
+
+  void removeProperty(Book book) {
+    BookList oldList = properties;
+    _properties = oldList.remove(book);
+    if (_properties != oldList) notifyListeners();
+  }
+
   // ** Wishes management **
 
   BookList get wishes => _wishes ?? BookList();
@@ -73,5 +87,17 @@ class Session extends ChangeNotifier {
       _wishes = wishes;
       notifyListeners();
     }
+  }
+
+  void addWish(Book book) {
+    BookList oldList = wishes;
+    _wishes = oldList.add(book);
+    if (_wishes != oldList) notifyListeners();
+  }
+
+  void removeWish(Book book) {
+    BookList oldList = wishes;
+    _wishes = oldList.remove(book);
+    if (_wishes != oldList) notifyListeners();
   }
 }
