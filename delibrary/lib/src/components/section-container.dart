@@ -1,9 +1,10 @@
+import 'dart:math';
+
 import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/card.dart';
 import 'package:delibrary/src/components/editable-field.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/user.dart';
-import 'package:delibrary/src/routes/list.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 
@@ -102,24 +103,10 @@ class BooksSectionContainer extends StatelessWidget {
   final String title;
   final BookList bookList;
   final Function onTap;
-  final Function onRefresh;
+  final Function onExpand;
 
   BooksSectionContainer(
-      {this.title = "", @required this.bookList, this.onTap, this.onRefresh});
-
-  void _seeMore(context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ListPage(
-          title: title,
-          bookList: bookList,
-          onTap: onTap,
-          onRefresh: onRefresh,
-        ),
-      ),
-    );
-  }
+      {this.title = "", @required this.bookList, this.onTap, this.onExpand});
 
   @override
   Widget build(BuildContext context) {
@@ -135,22 +122,25 @@ class BooksSectionContainer extends StatelessWidget {
             )
           : Column(
               children: [
-                GridView.count(
+                GridView.builder(
                   padding: EdgeInsets.only(top: 30.0),
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 30.0,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 30.0,
+                  ),
                   primary: false,
                   shrinkWrap: true,
-                  children: [
-                    BookCardPreview(book: bookList?.getAt(0), onTap: onTap),
-                    if (bookList.length > 1)
-                      BookCardPreview(book: bookList?.getAt(1), onTap: onTap),
-                  ],
+                  itemCount: min(bookList.length, 2),
+                  itemBuilder: (context, index) {
+                    return BookCardPreview(
+                        book: bookList?.getAt(index), onTap: onTap);
+                  },
                 ),
-                DelibraryButton(
-                  onPressed: () => _seeMore(context),
-                  text: "Vedi tutti",
-                ),
+                if (onExpand != null)
+                  DelibraryButton(
+                    onPressed: onExpand,
+                    text: "Vedi tutti",
+                  ),
               ],
             ),
     );

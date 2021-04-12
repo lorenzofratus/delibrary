@@ -53,6 +53,8 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
     print("We should fetch the exchanges...");
   }
 
+  //TODO: manage navigation (onExpand) see library.dart
+
   //TODO: change selected functions to go to the profile page of the other user
 
   Future<void> _selectedWaiting(Book book) async {
@@ -126,25 +128,21 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
             title: "In attesa",
             bookList: _waitingList,
             onTap: _selectedWaiting,
-            onRefresh: _downloadWaitingList,
           ),
           BooksSectionContainer(
             title: "Inviati",
             bookList: _sentList,
             onTap: _selectedSent,
-            onRefresh: _downloadSentList,
           ),
           BooksSectionContainer(
             title: "Rifiutati",
             bookList: _refusedList,
             onTap: _selectedRefused,
-            onRefresh: _downloadRefusedList,
           ),
           BooksSectionContainer(
             title: "Completati",
             bookList: _completedList,
             onTap: _selectedCompleted,
-            onRefresh: _downloadCompletedList,
           ),
         ],
       ),
