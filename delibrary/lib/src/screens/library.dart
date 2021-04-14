@@ -1,3 +1,5 @@
+import 'package:delibrary/src/components/cards-list.dart';
+import 'package:delibrary/src/components/draggable-modal-page.dart';
 import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
 import 'package:delibrary/src/controller/property-services.dart';
@@ -6,7 +8,6 @@ import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/routes/book-details.dart';
-import 'package:delibrary/src/routes/list.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:delibrary/src/shortcuts/refreshable.dart';
 import 'package:flutter/material.dart';
@@ -46,15 +47,17 @@ class _LibraryScreenState extends State<LibraryScreen> {
   }
 
   void _expandLibrary() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ListPage(
-          title: "Biblioteca",
-          bookList: context.select<Session, BookList>((s) => s.properties),
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => DraggableModalPage(
+        title: "Biblioteca",
+        child: CardsList(
+          booksList: context.select<Session, BookList>((s) => s.properties),
           onTap: _selectedLibrary,
-          onRefresh: _downloadPropertyList,
         ),
+        onClose: () => Navigator.pop(context),
       ),
     );
   }
@@ -73,15 +76,17 @@ class _LibraryScreenState extends State<LibraryScreen> {
   }
 
   void _expandWishlist() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ListPage(
-          title: "Wishlist",
-          bookList: context.select<Session, BookList>((s) => s.wishes),
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => DraggableModalPage(
+        title: "Wishlist",
+        child: CardsList(
+          booksList: context.select<Session, BookList>((s) => s.wishes),
           onTap: _selectedWishlist,
-          onRefresh: _downloadWishList,
         ),
+        onClose: () => Navigator.pop(context),
       ),
     );
   }

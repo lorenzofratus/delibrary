@@ -77,6 +77,7 @@ abstract class Services {
         ),
       ),
       isScrollControlled: true,
+      enableDrag: false,
       builder: (context) => PositionModal(
         onSubmit: (p, t) {
           pop(context);

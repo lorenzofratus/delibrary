@@ -55,9 +55,11 @@ class _PositionModalState extends State<PositionModal> {
       child: ListView(
         shrinkWrap: true,
         children: [
-          Text(
-            "Dove si trova il libro?",
-            style: Theme.of(context).textTheme.headline5,
+          Align(
+            child: Text(
+              "Dove si trova il libro?",
+              style: Theme.of(context).textTheme.headline5,
+            ),
           ),
           Form(
             key: _formKey,
