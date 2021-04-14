@@ -58,7 +58,15 @@ class PropertyServices extends Services {
 
     // Property list fetched, parse and return
     PropertyList propertyList = PropertyList.fromJson(response.data);
-    return _getBooksFromProperties(propertyList.properties);
+
+    // Remove properties whose owner is the logged in user.
+    Session session = context.read<Session>();
+    String username = session.user.username;
+    List<Property> properties = propertyList.properties
+        .where((p) => p.ownerUsername != username)
+        .toList();
+
+    return _getBooksFromProperties(properties);
   }
 
   Future<BookList> _getBooksFromProperties(List<Property> propertyList) async {
