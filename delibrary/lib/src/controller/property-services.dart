@@ -6,6 +6,7 @@ import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/property-list.dart';
 import 'package:delibrary/src/model/property.dart';
 import 'package:delibrary/src/model/session.dart';
+import 'package:delibrary/src/model/wish.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -126,8 +127,10 @@ class PropertyServices extends Services {
         Session session = context.read<Session>();
         String username = session.user.username;
 
+        Response response;
+
         try {
-          await dio.post("users/$username/properties/new", data: {
+          response = await dio.post("users/$username/properties/new", data: {
             "book": {"bookId": book.id},
             "position": position.toJson(),
           });
@@ -151,7 +154,10 @@ class PropertyServices extends Services {
         }
 
         // Property added successfully, update session
-        session.addProperty(book);
+        Property property = Property.fromJson(response.data);
+        Book newBook = book.setProperty(property);
+
+        session.addProperty(newBook);
         showSnackBar(context, ConfirmMessage.propertyAdded);
         pop(context);
       },
@@ -182,8 +188,10 @@ class PropertyServices extends Services {
             }
           }
 
+          Response response;
+
           try {
-            await dio
+            response = await dio
                 .post("users/$username/wishes/new", data: {"bookId": book.id});
           } on DioError catch (e) {
             if (e.response != null) {
@@ -204,8 +212,11 @@ class PropertyServices extends Services {
             }
           }
 
+          Wish wish = Wish.fromJson(response.data);
+          Book newBook = book.setWish(wish);
+
           session.removeProperty(book);
-          session.addWish(book);
+          session.addWish(newBook);
           showSnackBar(context, ConfirmMessage.propertyMoved);
           pop(context);
         });

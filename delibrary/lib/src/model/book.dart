@@ -47,6 +47,24 @@ class Book {
 
   bool match(Book book) => book?.id == id;
 
+  Book setProperty(Property newProperty) {
+    return Book(
+      id: id,
+      info: info,
+      property: newProperty ?? property,
+      wish: newProperty != null ? null : wish,
+    );
+  }
+
+  Book setWish(Wish newWish) {
+    return Book(
+      id: id,
+      info: info,
+      property: newWish != null ? null : property,
+      wish: newWish ?? wish,
+    );
+  }
+
   factory Book.fromJson(Map<String, dynamic> json) {
     return Book(
       id: json["id"],

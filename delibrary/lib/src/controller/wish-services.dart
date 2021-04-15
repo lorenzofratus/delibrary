@@ -74,8 +74,10 @@ class WishServices extends Services {
         Session session = context.read<Session>();
         String username = session.user.username;
 
+        Response response;
+
         try {
-          await dio
+          response = await dio
               .post("users/$username/wishes/new", data: {"bookId": book.id});
         } on DioError catch (e) {
           if (e.response != null) {
@@ -97,7 +99,10 @@ class WishServices extends Services {
         }
 
         // Wish added successfully, update session
-        session.addWish(book);
+        Wish wish = Wish.fromJson(response.data);
+        Book newBook = book.setWish(wish);
+
+        session.addWish(newBook);
         showSnackBar(context, ConfirmMessage.wishAdded);
         pop(context);
       },
@@ -131,8 +136,10 @@ class WishServices extends Services {
             }
           }
 
+          Response response;
+
           try {
-            await dio.post("users/$username/properties/new", data: {
+            response = await dio.post("users/$username/properties/new", data: {
               "book": {"bookId": book.id},
               "position": position.toJson(),
             });
@@ -155,8 +162,11 @@ class WishServices extends Services {
             }
           }
 
+          Property property = Property.fromJson(response.data);
+          Book newBook = book.setProperty(property);
+
           session.removeWish(book);
-          session.addProperty(book);
+          session.addProperty(newBook);
           showSnackBar(context, ConfirmMessage.wishMoved);
           pop(context);
         });
