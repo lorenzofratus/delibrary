@@ -15,23 +15,27 @@ class Book {
   Book({this.id, this.info, this.property, this.wish})
       : assert((property == null) || (wish == null));
 
-  String get title => info.title ?? "No title";
-  String get authors => info.authors.join(", ") ?? "";
-  String get publisher => info.publisher ?? "";
-  String get publishedYear =>
-      info.publishedDate?.split("-")?.first.toString() ?? "";
-  String get publishedDate => info.publishedDate ?? "";
-  String get description => info.description ?? "";
+  bool get hasDetails => info?.hasDetails ?? false;
 
-  Widget get smallImage => _getImage(info.small, 120.0);
-  Widget get largeImage => _getImage(info.large, 120.0);
-  Widget get previewImage => _getImage(info.small, 160.0);
+  String get title => info?.title ?? "No title";
+  String get subtitle => info?.subtitle ?? "";
+  List<String> get authorsList => info?.authors ?? [];
+  String get authors => info?.authors?.join(", ") ?? "";
+  String get publisher => info?.publisher ?? "";
+  String get publishedYear =>
+      info?.publishedDate?.split("-")?.first.toString() ?? "";
+  String get publishedDate => info?.publishedDate ?? "";
+  String get description => info?.description ?? "";
+
+  Widget get smallImage => _getImage(info?.small, 120.0);
+  Widget get largeImage => _getImage(info?.large, 120.0);
+  Widget get previewImage => _getImage(info?.small, 160.0);
 
   static Widget get placeholderImage => _getImage("", 120.0);
   static Widget get placeholderPreviewImage => _getImage("", 160.0);
 
   static Widget _getImage(String url, [double height]) {
-    return url.isEmpty
+    return url == null || url.isEmpty
         ? Image(
             image: placeholder,
             fit: BoxFit.cover,
@@ -76,6 +80,7 @@ class Book {
 @immutable
 class _VolumeInfo {
   final String title;
+  final String subtitle;
   final List<String> authors;
   final String publisher;
   final String publishedDate;
@@ -84,12 +89,16 @@ class _VolumeInfo {
 
   _VolumeInfo({
     this.title,
+    this.subtitle,
     this.authors,
     this.publisher,
     this.publishedDate,
     this.description,
     this.imageLinks,
   });
+
+  bool get hasDetails =>
+      authors != null || publisher != null || publishedDate != null;
 
   String get small => imageLinks?.small ?? "";
   String get large => imageLinks?.large ?? "";
@@ -100,6 +109,7 @@ class _VolumeInfo {
 
     return _VolumeInfo(
       title: json["title"],
+      subtitle: json["subtitle"],
       authors: authors,
       publisher: json["publisher"],
       publishedDate: json["publishedDate"],

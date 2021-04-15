@@ -7,7 +7,7 @@ import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/session.dart';
-import 'package:delibrary/src/routes/book-details.dart';
+import 'package:delibrary/src/routes/book-info.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:delibrary/src/shortcuts/refreshable.dart';
 import 'package:flutter/material.dart';
@@ -54,8 +54,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
       builder: (context) => DraggableModalPage(
         title: "Biblioteca",
         child: CardsList(
-          booksList: context.select<Session, BookList>((s) => s.properties),
+          bookList: context.select<Session, BookList>((s) => s.properties),
           onTap: _selectedLibrary,
+          reverse: true,
         ),
         onClose: () => Navigator.pop(context),
       ),
@@ -66,7 +67,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookDetailsPage(
+        builder: (context) => BookInfoPage(
           book: book,
           primaryAction: _propertyServices.removeProperty(book),
           secondaryAction: _propertyServices.movePropertyToWishList(book),
@@ -83,8 +84,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
       builder: (context) => DraggableModalPage(
         title: "Wishlist",
         child: CardsList(
-          booksList: context.select<Session, BookList>((s) => s.wishes),
+          bookList: context.select<Session, BookList>((s) => s.wishes),
           onTap: _selectedWishlist,
+          reverse: true,
         ),
         onClose: () => Navigator.pop(context),
       ),
@@ -95,7 +97,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookDetailsPage(
+        builder: (context) => BookInfoPage(
           book: book,
           primaryAction: _wishServices.removeWish(book),
           secondaryAction: _wishServices.moveWishToLibrary(book),

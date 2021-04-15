@@ -132,8 +132,9 @@ class BooksSectionContainer extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: min(bookList.length, 2),
                   itemBuilder: (context, index) {
+                    int reverseIdx = bookList.length - index - 1;
                     return BookCardPreview(
-                        book: bookList?.getAt(index), onTap: onTap);
+                        book: bookList?.getAt(reverseIdx), onTap: onTap);
                   },
                 ),
                 if (onExpand != null)

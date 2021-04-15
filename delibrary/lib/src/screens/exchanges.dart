@@ -4,7 +4,7 @@ import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
-import 'package:delibrary/src/routes/book-details.dart';
+import 'package:delibrary/src/routes/book-info.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:delibrary/src/shortcuts/refreshable.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +62,7 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookDetailsPage(
+        builder: (context) => BookInfoPage(
           book: book,
           primaryAction: _propertyServices.removeProperty(book),
           secondaryAction: _propertyServices.movePropertyToWishList(book),
@@ -77,7 +77,7 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookDetailsPage(
+        builder: (context) => BookInfoPage(
           book: book,
           primaryAction: _wishServices.removeWish(book),
           secondaryAction: _wishServices.moveWishToLibrary(book),
@@ -92,7 +92,7 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookDetailsPage(
+        builder: (context) => BookInfoPage(
           book: book,
           primaryAction: _wishServices.removeWish(book),
           secondaryAction: _wishServices.moveWishToLibrary(book),
@@ -107,7 +107,7 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookDetailsPage(
+        builder: (context) => BookInfoPage(
           book: book,
           primaryAction: _wishServices.removeWish(book),
           secondaryAction: _wishServices.moveWishToLibrary(book),

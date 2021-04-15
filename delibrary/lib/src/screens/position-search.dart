@@ -5,7 +5,7 @@ import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/session.dart';
-import 'package:delibrary/src/routes/book-details.dart';
+import 'package:delibrary/src/routes/book-info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,7 +59,7 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
     int selectedAction = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => BookDetailsPage(
+        builder: (context) => BookInfoPage(
           book: book,
           primaryAction: _propertyServices.addProperty(book),
           secondaryAction: _wishServices.addWish(book),
@@ -81,7 +81,7 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
           _resultsList != null
               ? Expanded(
                   child: CardsList(
-                    booksList: _resultsList,
+                    bookList: _resultsList,
                     controller: _listController,
                     onTap: _selectedBook,
                   ),

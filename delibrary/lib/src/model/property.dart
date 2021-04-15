@@ -9,6 +9,8 @@ class Property {
 
   Property({this.id, this.ownerUsername, this.bookId, this.position});
 
+  String get positionString => position.toString();
+
   factory Property.fromJson(Map<String, dynamic> json) {
     return Property(
         id: json["id"],
@@ -30,5 +32,18 @@ class Position {
     position["province"] = province;
     position["town"] = town;
     return position;
+  }
+
+  String _capitalize(String text) {
+    List<String> words = text.split(" ");
+    words = words
+        .map((word) => word.substring(0, 1).toUpperCase() + word.substring(1))
+        .toList();
+    return words.join(" ");
+  }
+
+  @override
+  String toString() {
+    return _capitalize(town) + " - " + _capitalize(province);
   }
 }

@@ -7,15 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CardsList extends StatelessWidget {
-  final BookList booksList;
+  final BookList bookList;
   final ScrollController controller;
   final Function onTap;
+  final bool reverse;
 
-  CardsList({@required this.booksList, this.controller, this.onTap});
+  CardsList({
+    @required this.bookList,
+    this.controller,
+    this.onTap,
+    this.reverse = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    if (booksList.isEmpty)
+    if (bookList.isEmpty)
       return PaddedContainer(
         child: Text(
           "Nessun libro trovato",
@@ -24,15 +30,16 @@ class CardsList extends StatelessWidget {
       );
 
     BookList wishList = context.read<Session>().wishes;
-    Map<Book, bool> wishMap = booksList.intersect(wishList);
+    Map<Book, bool> wishMap = bookList.intersect(wishList);
 
     return ListView.builder(
       controller: controller,
-      itemCount: booksList.length + (booksList.isComplete ? 0 : 1),
+      itemCount: bookList.length + (bookList.isComplete ? 0 : 1),
       itemBuilder: (context, index) {
-        if (index == booksList.length)
+        var realIdx = reverse ? bookList.length - index - 1 : index;
+        if (realIdx == bookList.length)
           return Center(heightFactor: 3.0, child: CircularProgressIndicator());
-        Book book = booksList.getAt(index);
+        Book book = bookList.getAt(realIdx);
         return BookCard(book: book, onTap: onTap, wished: wishMap[book]);
       },
     );
