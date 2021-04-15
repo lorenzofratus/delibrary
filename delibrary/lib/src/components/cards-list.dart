@@ -9,13 +9,11 @@ import 'package:provider/provider.dart';
 class CardsList extends StatelessWidget {
   final BookList bookList;
   final ScrollController controller;
-  final Function onTap;
   final bool reverse;
 
   CardsList({
     @required this.bookList,
     this.controller,
-    this.onTap,
     this.reverse = false,
   });
 
@@ -40,7 +38,7 @@ class CardsList extends StatelessWidget {
         if (realIdx == bookList.length)
           return Center(heightFactor: 3.0, child: CircularProgressIndicator());
         Book book = bookList.getAt(realIdx);
-        return BookCard(book: book, onTap: onTap, wished: wishMap[book]);
+        return BookCard(book: book, wished: wishMap[book]);
       },
     );
   }

@@ -2,11 +2,17 @@ import 'dart:math';
 
 import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/card.dart';
+import 'package:delibrary/src/components/cards-list.dart';
 import 'package:delibrary/src/components/editable-field.dart';
 import 'package:delibrary/src/model/book-list.dart';
+import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'draggable-modal-page.dart';
 
 class SectionContainer extends StatelessWidget {
   final String title;
@@ -102,48 +108,71 @@ class FormSectionContainer extends StatelessWidget {
 class BooksSectionContainer extends StatelessWidget {
   final String title;
   final BookList bookList;
-  final Function onTap;
   final Function onExpand;
 
   BooksSectionContainer(
-      {this.title = "", @required this.bookList, this.onTap, this.onExpand});
+      {this.title = "", @required this.bookList, this.onExpand});
+
+  void _expand(context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => DraggableModalPage(
+        title: title,
+        child: CardsList(
+          bookList: bookList,
+          reverse: true,
+        ),
+        onClose: () => Navigator.pop(context),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("Building " + title + " section container");
+    if (bookList.isEmpty)
+      return SectionContainer(
+        title: title,
+        child: PaddedContainer(
+          alignment: Alignment.center,
+          child: Text(
+            "Nessun libro trovato",
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ),
+      );
+
+    BookList wishList = context.read<Session>().wishes;
+    Map<Book, bool> wishMap = bookList.intersect(wishList);
+
     return SectionContainer(
       title: title,
-      child: (bookList == null || bookList.isEmpty)
-          ? PaddedContainer(
-              alignment: Alignment.center,
-              child: Text(
-                "Nessun libro trovato",
-                style: Theme.of(context).textTheme.headline6,
-              ),
-            )
-          : Column(
-              children: [
-                GridView.builder(
-                  padding: EdgeInsets.only(top: 30.0),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 30.0,
-                  ),
-                  primary: false,
-                  shrinkWrap: true,
-                  itemCount: min(bookList.length, 2),
-                  itemBuilder: (context, index) {
-                    int reverseIdx = bookList.length - index - 1;
-                    return BookCardPreview(
-                        book: bookList?.getAt(reverseIdx), onTap: onTap);
-                  },
-                ),
-                if (onExpand != null)
-                  DelibraryButton(
-                    onPressed: onExpand,
-                    text: "Vedi tutti",
-                  ),
-              ],
+      child: Column(
+        children: [
+          GridView.builder(
+            padding: EdgeInsets.only(top: 30.0),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 30.0,
             ),
+            primary: false,
+            shrinkWrap: true,
+            itemCount: min(bookList.length, 2),
+            itemBuilder: (context, index) {
+              int reverseIdx = bookList.length - index - 1;
+              Book book = bookList?.getAt(reverseIdx);
+              return BookCardPreview(book: book, wished: wishMap[book]);
+            },
+          ),
+          DelibraryButton(
+            // onPressed: () => _expand(context),
+            onPressed: onExpand,
+            text: "Vedi tutti",
+          ),
+        ],
+      ),
     );
   }
 }

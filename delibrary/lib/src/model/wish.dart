@@ -10,6 +10,6 @@ class Wish {
 
   factory Wish.fromJson(Map<String, dynamic> json) {
     return Wish(
-        id: json["id"], ownerUsername: json["owner"], bookId: json["bookId"]);
+        id: json["id"], ownerUsername: json["user"], bookId: json["bookId"]);
   }
 }

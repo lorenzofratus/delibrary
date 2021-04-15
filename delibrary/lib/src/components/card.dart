@@ -1,15 +1,23 @@
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/routes/book-info.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
   final Book book;
-  final Function onTap;
   final bool wished;
 
-  BookCard({@required this.book, this.onTap, this.wished = false});
+  BookCard({@required this.book, this.wished = false});
 
-  void _tappedBook() {
-    if (onTap != null) onTap(book);
+  void _tappedBook(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BookInfoPage(
+          book: book,
+          wished: wished,
+        ),
+      ),
+    );
   }
 
   @override
@@ -20,7 +28,7 @@ class BookCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: InkWell(
-        onTap: _tappedBook,
+        onTap: () => _tappedBook(context),
         child: Container(
           padding: EdgeInsets.all(20.0),
           child: Stack(
@@ -68,18 +76,26 @@ class BookCard extends StatelessWidget {
 
 class BookCardPreview extends StatelessWidget {
   final Book book;
-  final Function onTap;
+  final bool wished;
 
-  BookCardPreview({this.book, this.onTap});
+  BookCardPreview({@required this.book, this.wished});
 
-  void _tappedBook() {
-    if (onTap != null && book != null) onTap(book);
+  void _tappedBook(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BookInfoPage(
+          book: book,
+          wished: wished,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: _tappedBook,
+      onTap: () => _tappedBook(context),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
         child: book != null ? book.previewImage : Book.placeholderPreviewImage,

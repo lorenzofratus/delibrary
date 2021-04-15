@@ -1,6 +1,8 @@
 import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/expandable-text.dart';
 import 'package:delibrary/src/components/logo.dart';
+import 'package:delibrary/src/controller/property-services.dart';
+import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/session.dart';
@@ -11,27 +13,55 @@ import 'package:provider/provider.dart';
 class BookInfoPage extends StatelessWidget {
   final Book book;
   final bool wished;
-  final DelibraryAction primaryAction;
-  final DelibraryAction secondaryAction;
 
-  const BookInfoPage({
-    @required this.book,
-    this.wished = false,
-    this.primaryAction,
-    this.secondaryAction,
-  }) : assert(book != null);
+  final PropertyServices _propertyServices = PropertyServices();
+  final WishServices _wishServices = WishServices();
+
+  BookInfoPage({@required this.book, this.wished = false})
+      : assert(book != null);
 
   @override
   Widget build(BuildContext context) {
+    String username = context.read<Session>().user.username;
     bool hasProperty = book.property != null;
-    bool userProperty = hasProperty &&
-        book.property.ownerUsername == context.read<Session>().user.username;
+    bool userProperty = hasProperty && book.property.ownerUsername == username;
+    bool hasWish = book.wish != null;
+    bool userWish = hasWish && book.wish.ownerUsername == username;
+
+    DelibraryAction primaryAction;
+    DelibraryAction secondaryAction;
+
+    // TODO implement exchange actions
+    if (hasProperty) {
+      if (userProperty) {
+        // Property of current user
+        primaryAction = _propertyServices.removeProperty(book);
+        secondaryAction = _propertyServices.movePropertyToWishList(book);
+      } else {
+        // Property of another user
+        primaryAction = DelibraryAction(
+          //TODO implement exchange action
+          text: "Proponi uno scambio",
+          execute: (context) {},
+        );
+        secondaryAction = _propertyServices.addProperty(book);
+      }
+    } else if (userWish) {
+      // Wish of current user
+      primaryAction = _wishServices.removeWish(book);
+      secondaryAction = _wishServices.moveWishToLibrary(book);
+    } else {
+      // Global search
+      primaryAction = _propertyServices.addProperty(book);
+      secondaryAction = _wishServices.addWish(book);
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: DelibraryLogo(),
       ),
       body: _DraggableSheet(
+        book: book,
         wished: wished,
         background: Container(
           width: double.infinity,
@@ -188,11 +218,13 @@ class _Data extends StatelessWidget {
 class _DraggableSheet extends StatefulWidget {
   final Widget background;
   final List<Widget> foreground;
+  final Book book;
   final bool wished;
 
   _DraggableSheet({
     @required this.background,
     @required this.foreground,
+    @required this.book,
     this.wished = false,
   });
 
@@ -216,6 +248,13 @@ class _DraggableSheetState extends State<_DraggableSheet> {
         _fabPosition = _initialSheetChildSize * context.size.height;
       });
     });
+  }
+
+  void _toggleWished() {
+    if (widget.wished)
+      WishServices().removeWish(widget.book).execute(context);
+    else
+      WishServices().addWish(widget.book).execute(context);
   }
 
   @override
@@ -263,7 +302,7 @@ class _DraggableSheetState extends State<_DraggableSheet> {
             child: Icon(
               widget.wished ? Icons.favorite : Icons.favorite_outline,
             ),
-            onPressed: () {},
+            onPressed: _toggleWished,
           ),
         ),
       ],

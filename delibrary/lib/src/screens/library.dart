@@ -5,9 +5,7 @@ import 'package:delibrary/src/components/section-container.dart';
 import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
-import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/session.dart';
-import 'package:delibrary/src/routes/book-info.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:delibrary/src/shortcuts/refreshable.dart';
 import 'package:flutter/material.dart';
@@ -32,18 +30,10 @@ class _LibraryScreenState extends State<LibraryScreen> {
     Navigator.pushNamed(context, "/search");
   }
 
-  Future<void> _downloadPropertyList() async {
-    _propertyServices.updateSession(context);
-  }
-
-  Future<void> _downloadWishList() async {
-    _wishServices.updateSession(context);
-  }
-
   Future<void> _downloadLists() async {
     // This is done asynchronously, when it has finished the provider will notify and rebuild
-    _downloadPropertyList();
-    _downloadWishList();
+    _propertyServices.updateSession(context);
+    _wishServices.updateSession(context);
   }
 
   void _expandLibrary() {
@@ -52,26 +42,12 @@ class _LibraryScreenState extends State<LibraryScreen> {
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (context) => DraggableModalPage(
-        title: "Biblioteca",
+        title: "Libreria",
         child: CardsList(
           bookList: context.select<Session, BookList>((s) => s.properties),
-          onTap: _selectedLibrary,
           reverse: true,
         ),
         onClose: () => Navigator.pop(context),
-      ),
-    );
-  }
-
-  void _selectedLibrary(Book book) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BookInfoPage(
-          book: book,
-          primaryAction: _propertyServices.removeProperty(book),
-          secondaryAction: _propertyServices.movePropertyToWishList(book),
-        ),
       ),
     );
   }
@@ -85,23 +61,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
         title: "Wishlist",
         child: CardsList(
           bookList: context.select<Session, BookList>((s) => s.wishes),
-          onTap: _selectedWishlist,
           reverse: true,
         ),
         onClose: () => Navigator.pop(context),
-      ),
-    );
-  }
-
-  void _selectedWishlist(Book book) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BookInfoPage(
-          book: book,
-          primaryAction: _wishServices.removeWish(book),
-          secondaryAction: _wishServices.moveWishToLibrary(book),
-        ),
       ),
     );
   }
@@ -118,15 +80,13 @@ class _LibraryScreenState extends State<LibraryScreen> {
             actionIcon: Icons.add,
           ),
           BooksSectionContainer(
-            title: "Biblioteca",
+            title: "Libreria",
             bookList: context.select<Session, BookList>((s) => s.properties),
-            onTap: _selectedLibrary,
             onExpand: _expandLibrary,
           ),
           BooksSectionContainer(
             title: "Wishlist",
             bookList: context.select<Session, BookList>((s) => s.wishes),
-            onTap: _selectedWishlist,
             onExpand: _expandWishlist,
           ),
         ],
