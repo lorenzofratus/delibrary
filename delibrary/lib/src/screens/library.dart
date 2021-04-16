@@ -1,5 +1,3 @@
-import 'package:delibrary/src/components/cards-list.dart';
-import 'package:delibrary/src/components/draggable-modal-page.dart';
 import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
 import 'package:delibrary/src/controller/property-services.dart';
@@ -36,38 +34,6 @@ class _LibraryScreenState extends State<LibraryScreen> {
     _wishServices.updateSession(context);
   }
 
-  void _expandLibrary() {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) => DraggableModalPage(
-        title: "Libreria",
-        child: CardsList(
-          bookList: context.select<Session, BookList>((s) => s.properties),
-          reverse: true,
-        ),
-        onClose: () => Navigator.pop(context),
-      ),
-    );
-  }
-
-  void _expandWishlist() {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) => DraggableModalPage(
-        title: "Wishlist",
-        child: CardsList(
-          bookList: context.select<Session, BookList>((s) => s.wishes),
-          reverse: true,
-        ),
-        onClose: () => Navigator.pop(context),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Refreshable(
@@ -81,13 +47,13 @@ class _LibraryScreenState extends State<LibraryScreen> {
           ),
           BooksSectionContainer(
             title: "Libreria",
-            bookList: context.select<Session, BookList>((s) => s.properties),
-            onExpand: _expandLibrary,
+            provider: (context) =>
+                context.select<Session, BookList>((s) => s.properties),
           ),
           BooksSectionContainer(
             title: "Wishlist",
-            bookList: context.select<Session, BookList>((s) => s.wishes),
-            onExpand: _expandWishlist,
+            provider: (context) =>
+                context.select<Session, BookList>((s) => s.wishes),
           ),
         ],
       ),

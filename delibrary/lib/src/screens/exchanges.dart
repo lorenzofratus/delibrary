@@ -11,6 +11,7 @@ class ExchangesScreen extends StatefulWidget {
 }
 
 class _ExchangesScreenState extends State<ExchangesScreen> {
+  //TODO: remove lists, use the Session instead
   BookList _waitingList;
   BookList _sentList;
   BookList _refusedList;
@@ -31,8 +32,6 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
     print("We should fetch the exchanges...");
   }
 
-  //TODO: manage navigation (onExpand) see library.dart
-
   @override
   Widget build(BuildContext context) {
     return Refreshable(
@@ -42,19 +41,19 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
           PageTitle("I tuoi scambi"),
           BooksSectionContainer(
             title: "In attesa",
-            bookList: _waitingList,
+            provider: (context) => _waitingList,
           ),
           BooksSectionContainer(
             title: "Inviati",
-            bookList: _sentList,
+            provider: (context) => _sentList,
           ),
           BooksSectionContainer(
             title: "Rifiutati",
-            bookList: _refusedList,
+            provider: (context) => _refusedList,
           ),
           BooksSectionContainer(
             title: "Completati",
-            bookList: _completedList,
+            provider: (context) => _completedList,
           ),
         ],
       ),

@@ -107,11 +107,9 @@ class FormSectionContainer extends StatelessWidget {
 
 class BooksSectionContainer extends StatelessWidget {
   final String title;
-  final BookList bookList;
-  final Function onExpand;
+  final BookList Function(BuildContext) provider;
 
-  BooksSectionContainer(
-      {this.title = "", @required this.bookList, this.onExpand});
+  BooksSectionContainer({this.title = "", @required this.provider});
 
   void _expand(context) {
     showModalBottomSheet(
@@ -121,7 +119,7 @@ class BooksSectionContainer extends StatelessWidget {
       builder: (context) => DraggableModalPage(
         title: title,
         child: CardsList(
-          bookList: bookList,
+          bookList: provider(context),
           reverse: true,
         ),
         onClose: () => Navigator.pop(context),
@@ -131,7 +129,8 @@ class BooksSectionContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Building " + title + " section container");
+    BookList bookList = provider(context);
+
     if (bookList.isEmpty)
       return SectionContainer(
         title: title,
@@ -167,8 +166,7 @@ class BooksSectionContainer extends StatelessWidget {
             },
           ),
           DelibraryButton(
-            // onPressed: () => _expand(context),
-            onPressed: onExpand,
+            onPressed: () => _expand(context),
             text: "Vedi tutti",
           ),
         ],
