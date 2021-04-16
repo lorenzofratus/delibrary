@@ -116,13 +116,17 @@ class BooksSectionContainer extends StatelessWidget {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (context) => DraggableModalPage(
-        title: title,
-        child: CardsList(
-          bookList: provider(context),
-          reverse: true,
+      builder: (context) => Scaffold(
+        // Scaffold is here as a workaround to display snackbars above the bottom sheet
+        backgroundColor: Colors.transparent,
+        body: DraggableModalPage(
+          title: title,
+          child: CardsList(
+            bookList: provider(context),
+            reverse: true,
+          ),
+          onClose: () => Navigator.pop(context),
         ),
-        onClose: () => Navigator.pop(context),
       ),
     );
   }
