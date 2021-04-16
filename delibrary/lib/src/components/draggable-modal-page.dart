@@ -19,8 +19,8 @@ class DraggableModalPage extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(50.0),
-            topRight: Radius.circular(50.0),
+            topLeft: Radius.circular(40.0),
+            topRight: Radius.circular(40.0),
           ),
         ),
         child: Column(
@@ -52,8 +52,7 @@ class _DraggableModalTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          EdgeInsets.only(top: 30.0, bottom: 15.0, left: 50.0, right: 50.0),
+      margin: EdgeInsets.only(top: 30.0, bottom: 15.0, left: 40.0, right: 40.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

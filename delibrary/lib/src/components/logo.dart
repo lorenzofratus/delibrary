@@ -8,10 +8,12 @@ class DelibraryLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      animated ? "lib/assets/loading.gif" : "lib/assets/logo.png",
-      semanticLabel: "delibrary",
-      width: MediaQuery.of(context).size.width * (large ? 0.6 : 0.35),
+    return Container(
+      child: Image.asset(
+        animated ? "lib/assets/loading.gif" : "lib/assets/logo.png",
+        semanticLabel: "delibrary",
+        width: MediaQuery.of(context).size.width * (large ? 0.6 : 0.35),
+      ),
     );
   }
 }

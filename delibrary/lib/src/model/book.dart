@@ -47,6 +47,10 @@ class Book {
             placeholder: placeholder,
             image: NetworkImage(url),
             fit: BoxFit.cover,
+            fadeOutCurve: Curves.easeInOutCubic,
+            fadeOutDuration: Duration(milliseconds: 200),
+            fadeInCurve: Curves.easeInOutCubic,
+            fadeInDuration: Duration(milliseconds: 200),
             height: height,
           );
   }

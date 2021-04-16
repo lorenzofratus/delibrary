@@ -1,8 +1,8 @@
 import 'package:delibrary/src/components/card.dart';
+import 'package:delibrary/src/components/empty-list-sign.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/session.dart';
-import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,13 +19,7 @@ class CardsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (bookList?.isEmpty ?? true)
-      return PaddedContainer(
-        child: Text(
-          "Nessun libro trovato",
-          style: Theme.of(context).textTheme.headline5,
-        ),
-      );
+    if (bookList?.isEmpty ?? true) return EmptyListSign();
 
     BookList wishList = context.read<Session>().wishes;
     Map<Book, bool> wishMap = bookList.intersect(wishList);

@@ -4,11 +4,11 @@ import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/card.dart';
 import 'package:delibrary/src/components/cards-list.dart';
 import 'package:delibrary/src/components/editable-field.dart';
+import 'package:delibrary/src/components/empty-list-sign.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/user.dart';
-import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -140,13 +140,7 @@ class BooksSectionContainer extends StatelessWidget {
     if (bookList?.isEmpty ?? true)
       return SectionContainer(
         title: title,
-        child: PaddedContainer(
-          alignment: Alignment.center,
-          child: Text(
-            "Nessun libro trovato",
-            style: Theme.of(context).textTheme.headline6,
-          ),
-        ),
+        child: EmptyListSign(large: false),
       );
 
     BookList wishList = context.read<Session>().wishes;

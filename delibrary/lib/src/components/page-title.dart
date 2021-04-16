@@ -11,7 +11,7 @@ class PageTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(bottom: 10.0),
+        margin: EdgeInsets.only(bottom: 10.0),
         height: 66.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

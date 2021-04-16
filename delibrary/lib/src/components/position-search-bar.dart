@@ -49,8 +49,8 @@ class _PositionSearchBarState extends State<PositionSearchBar> {
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(50.0),
-          bottomRight: Radius.circular(50.0),
+          bottomLeft: Radius.circular(40.0),
+          bottomRight: Radius.circular(40.0),
         ),
       ),
       child: Column(

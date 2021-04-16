@@ -21,7 +21,7 @@ class EditableFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 10.0),
+      margin: EdgeInsets.only(top: 10.0),
       child: ObscurableFormField(
         obscurable: obscurable,
         validator: validator,

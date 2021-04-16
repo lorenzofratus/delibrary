@@ -14,14 +14,14 @@ class _CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 30.0),
+      margin: EdgeInsets.only(top: 30.0),
       child: TextButton(
         child: child,
         style: TextButton.styleFrom(
           backgroundColor: primary
               ? Theme.of(context).accentColor
               : Theme.of(context).cardColor,
-          primary: primary ? Colors.black : Colors.white,
+          primary: primary ? Colors.black : Colors.white70,
           minimumSize: Size.fromHeight(50.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25.0),
@@ -54,7 +54,7 @@ class LoadingButton extends _CustomButton {
             child: CircularProgressIndicator(
               strokeWidth: 3.0,
               valueColor: AlwaysStoppedAnimation<Color>(
-                primary ? Colors.black : Colors.white,
+                primary ? Colors.black : Colors.white70,
               ),
             ),
           ),

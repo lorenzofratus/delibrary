@@ -1,6 +1,6 @@
 import 'package:delibrary/src/components/cards-list.dart';
+import 'package:delibrary/src/components/custom-app-bar.dart';
 import 'package:delibrary/src/components/global-search-bar.dart';
-import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/controller/book-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:flutter/material.dart';
@@ -76,9 +76,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: DelibraryLogo(),
-      ),
+      appBar: CustomAppBar(),
       body: Column(
         children: [
           GlobalSearchBar(

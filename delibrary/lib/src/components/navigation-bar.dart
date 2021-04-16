@@ -28,6 +28,7 @@ class DelibraryNavigationBar extends BottomNavigationBar {
           selectedItemColor: Colors.amber[700],
           unselectedItemColor: Colors.white70,
           selectedFontSize: 20.0,
+          elevation: 0.0,
           showUnselectedLabels: false,
         );
 }

@@ -18,7 +18,7 @@ final ThemeData _delibraryTheme = ThemeData(
   textTheme: TextTheme(
     headline4: TextStyle(fontSize: 28.0),
     headline5: TextStyle(fontSize: 22.0),
-    headline6: TextStyle(fontSize: 16.0),
+    headline6: TextStyle(fontSize: 18.0, color: Colors.white70),
     button: TextStyle(
       fontSize: 20.0,
       fontWeight: FontWeight.w800,
@@ -31,6 +31,24 @@ final ThemeData _delibraryTheme = ThemeData(
     ),
   ),
 );
+
+class ScrollBehaviorModified extends ScrollBehavior {
+  const ScrollBehaviorModified();
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    switch (getPlatform(context)) {
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+      case TargetPlatform.android:
+        return const BouncingScrollPhysics();
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return const ClampingScrollPhysics();
+    }
+    return null;
+  }
+}
 
 void main() => runApp(
       ChangeNotifierProvider(
@@ -55,6 +73,8 @@ class DelibraryApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         DefaultCupertinoLocalizations.delegate
       ],
+      builder: (context, child) =>
+          ScrollConfiguration(behavior: ScrollBehaviorModified(), child: child),
       supportedLocales: [
         const Locale('it'),
       ],

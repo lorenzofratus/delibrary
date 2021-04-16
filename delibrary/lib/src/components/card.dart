@@ -24,7 +24,7 @@ class BookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     if (book == null) return null;
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+      margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),

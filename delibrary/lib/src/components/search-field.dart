@@ -15,7 +15,7 @@ class SearchFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 30.0),
+      margin: EdgeInsets.only(top: 30.0),
       child: ObscurableFormField(
         obscurable: obscurable,
         validator: validator,

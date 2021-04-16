@@ -1,6 +1,6 @@
 import 'package:delibrary/src/components/button.dart';
+import 'package:delibrary/src/components/custom-app-bar.dart';
 import 'package:delibrary/src/components/expandable-text.dart';
-import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/action.dart';
@@ -57,9 +57,7 @@ class BookInfoPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: DelibraryLogo(),
-      ),
+      appBar: CustomAppBar(),
       body: _DraggableSheet(
         book: book,
         wished: wished,
@@ -123,7 +121,7 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(bottom: 15.0),
+      margin: EdgeInsets.only(bottom: 15.0),
       child: ExpandableText(
         text ?? "",
         style: primary
@@ -147,7 +145,7 @@ class _Description extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15.0),
+      margin: EdgeInsets.symmetric(vertical: 15.0),
       child: ExpandableText(
         text ?? "",
         style: Theme.of(context).textTheme.headline6,
@@ -174,7 +172,7 @@ class _Chips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15.0),
+      margin: EdgeInsets.symmetric(vertical: 15.0),
       child: Column(
         children: [
           Text(
@@ -267,16 +265,16 @@ class _DraggableSheetState extends State<_DraggableSheet> {
             minChildSize: _initialSheetChildSize,
             maxChildSize: 0.9,
             builder: (context, scrollController) => Container(
-              padding: EdgeInsets.symmetric(horizontal: 50.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(50.0),
-                  topRight: Radius.circular(50.0),
+                  topLeft: Radius.circular(40.0),
+                  topRight: Radius.circular(40.0),
                 ),
               ),
               child: ListView(
-                padding: EdgeInsets.symmetric(vertical: 80.0),
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
                 controller: scrollController,
                 children: widget.foreground ?? [],
               ),

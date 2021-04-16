@@ -1,3 +1,4 @@
+import 'package:delibrary/src/components/custom-app-bar.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/navigation-bar.dart';
 import 'package:delibrary/src/controller/user-services.dart';
@@ -51,9 +52,7 @@ class _HomePageState extends State<HomePage> {
       );
 
     return Scaffold(
-      appBar: AppBar(
-        title: DelibraryLogo(),
-      ),
+      appBar: CustomAppBar(),
       body: IndexedStack(
         index: _selectedIndex,
         children: _mainRoutes,
