@@ -22,6 +22,7 @@ class BookCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (book == null) return null;
     return Card(
       margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
       shape: RoundedRectangleBorder(
@@ -49,13 +50,9 @@ class BookCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _BookInfo(book.title, bold: true),
-                        _BookInfo(book.authors),
-                        _BookInfo(
-                            [book.publisher, book.publishedYear]
-                                .where((x) => x.isNotEmpty)
-                                .join(", "),
-                            italic: true),
+                        _BookInfo(text: book.title, bold: true),
+                        _BookInfo(text: book.authors),
+                        _BookInfo(text: book.publishedInfo, italic: true),
                       ],
                     ),
                   ),
@@ -78,7 +75,7 @@ class BookCardPreview extends StatelessWidget {
   final Book book;
   final bool wished;
 
-  BookCardPreview({@required this.book, this.wished});
+  BookCardPreview({@required this.book, this.wished = false});
 
   void _tappedBook(context) {
     Navigator.push(
@@ -94,11 +91,12 @@ class BookCardPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (book == null) return null;
     return InkWell(
       onTap: () => _tappedBook(context),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
-        child: book != null ? book.previewImage : Book.placeholderPreviewImage,
+        child: book.previewImage,
       ),
     );
   }
@@ -109,7 +107,7 @@ class _BookInfo extends StatelessWidget {
   final bool bold;
   final bool italic;
 
-  _BookInfo(this.text, {this.bold = false, this.italic = false});
+  _BookInfo({this.text = "", this.bold = false, this.italic = false});
 
   @override
   Widget build(BuildContext context) {

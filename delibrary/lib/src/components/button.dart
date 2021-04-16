@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class _CustomButton extends StatelessWidget {
   final Widget child;
-  final Function onPressed;
+  final void Function() onPressed;
   final bool primary;
 
   _CustomButton({
-    @required this.child,
-    @required this.onPressed,
+    this.child,
+    this.onPressed,
     this.primary = true,
   });
 
@@ -33,46 +33,32 @@ class _CustomButton extends StatelessWidget {
   }
 }
 
-class DelibraryButton extends StatelessWidget {
-  final String text;
-  final Function onPressed;
-  final bool primary;
-
+class DelibraryButton extends _CustomButton {
   DelibraryButton({
-    @required this.text,
-    @required this.onPressed,
-    this.primary = true,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return _CustomButton(
-      child: Text(text),
-      onPressed: onPressed,
-      primary: primary,
-    );
-  }
+    String text = "",
+    void Function() onPressed,
+    bool primary = true,
+  }) : super(
+          child: Text(text),
+          onPressed: onPressed,
+          primary: primary,
+        );
 }
 
-class LoadingButton extends StatelessWidget {
-  final bool primary;
-  LoadingButton({this.primary = true});
-
-  @override
-  Widget build(BuildContext context) {
-    return _CustomButton(
-      child: SizedBox(
-        height: 25.0,
-        width: 25.0,
-        child: CircularProgressIndicator(
-          strokeWidth: 3.0,
-          valueColor: AlwaysStoppedAnimation<Color>(
-            primary ? Colors.black : Colors.white,
+class LoadingButton extends _CustomButton {
+  LoadingButton({bool primary = true})
+      : super(
+          child: SizedBox(
+            height: 25.0,
+            width: 25.0,
+            child: CircularProgressIndicator(
+              strokeWidth: 3.0,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                primary ? Colors.black : Colors.white,
+              ),
+            ),
           ),
-        ),
-      ),
-      onPressed: () => {},
-      primary: primary,
-    );
-  }
+          onPressed: null,
+          primary: primary,
+        );
 }

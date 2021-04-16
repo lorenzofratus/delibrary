@@ -4,9 +4,9 @@ import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 
 class GlobalSearchBar extends StatefulWidget {
-  final Function onSearch;
+  final void Function(String) onSearch;
 
-  GlobalSearchBar({@required this.onSearch});
+  GlobalSearchBar({@required this.onSearch}) : assert(onSearch != null);
 
   @override
   State<StatefulWidget> createState() => _GlobalSearchBarState();
@@ -18,7 +18,6 @@ class _GlobalSearchBarState extends State<GlobalSearchBar> {
   String _query = "";
 
   String _queryValidator(String query) {
-    query = query.trim();
     _query = query;
     return null;
   }

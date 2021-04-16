@@ -4,10 +4,11 @@ import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 
 class PositionSearchBar extends StatefulWidget {
-  final Function onSearch;
+  final void Function(String, String) onSearch;
   final Map<String, List<String>> provinces;
 
-  PositionSearchBar({@required this.onSearch, @required this.provinces});
+  PositionSearchBar({@required this.onSearch, @required this.provinces})
+      : assert(provinces != null);
 
   @override
   State<StatefulWidget> createState() => _PositionSearchBarState();
@@ -38,7 +39,8 @@ class _PositionSearchBarState extends State<PositionSearchBar> {
   }
 
   void _onPressed() {
-    if (_formKey.currentState.validate()) widget.onSearch(_province, _town);
+    if (widget.onSearch != null && _formKey.currentState.validate())
+      widget.onSearch(_province, _town);
   }
 
   @override

@@ -38,36 +38,39 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
     }
   }
 
-  void _setLastParameters(String query) {
-    setState(() {
-      _lastQuery = query;
-    });
-  }
-
-  void _scrollListToTop() {
+  Future<void> _scrollListToTop() async {
     if (_listController.hasClients)
-      _listController.animateTo(0.0,
+      await _listController.animateTo(0.0,
           duration: Duration(milliseconds: 350), curve: Curves.easeInOut);
   }
 
-  Future<void> _globalSearch(String query) async {
-    _setLastParameters(query);
-    _scrollListToTop();
-    BookList firstPage;
-    if (query.isNotEmpty) firstPage = await _bookServices.getByQuery(query);
+  void _setResultsList(BookList bookList) {
     setState(() {
-      _resultsList = firstPage;
+      _resultsList = bookList;
     });
   }
 
+  Future<void> _globalSearch(String query) async {
+    if (_lastQuery != query) {
+      _lastQuery = query;
+
+      await _scrollListToTop();
+      _setResultsList(null);
+
+      BookList firstPage;
+      if (query.isNotEmpty) firstPage = await _bookServices.getByQuery(query);
+      _setResultsList(firstPage);
+    }
+  }
+
   Future<void> _globalNext() async {
-    if (_resultsList.isComplete) return;
-    _startIndex += _maxResults;
-    BookList nextPage = await _bookServices.getByQuery(_lastQuery,
-        startIndex: _startIndex, maxResults: _maxResults);
-    setState(() {
-      _resultsList = _resultsList.addPage(nextPage);
-    });
+    if (!_resultsList.isComplete) {
+      _startIndex += _maxResults;
+
+      BookList nextPage = await _bookServices.getByQuery(_lastQuery,
+          startIndex: _startIndex, maxResults: _maxResults);
+      _setResultsList(_resultsList.addPage(nextPage));
+    }
   }
 
   @override

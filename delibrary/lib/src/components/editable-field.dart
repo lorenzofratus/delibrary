@@ -5,7 +5,7 @@ class EditableFormField extends StatelessWidget {
   final String text;
   final String label;
   final String hint;
-  final Function validator;
+  final String Function(String) validator;
   final bool editing;
   final bool obscurable;
 

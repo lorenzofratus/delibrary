@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'button.dart';
 
 class PositionModal extends StatefulWidget {
-  final Function onSubmit;
-  final Function onDiscard;
+  final void Function(String, String) onSubmit;
+  final void Function() onDiscard;
   final Map<String, List<String>> provinces;
 
   PositionModal({
     @required this.onSubmit,
     @required this.onDiscard,
     @required this.provinces,
-  });
+  }) : assert(provinces != null);
 
   @override
   State<StatefulWidget> createState() => _PositionModalState();
@@ -46,7 +46,8 @@ class _PositionModalState extends State<PositionModal> {
   }
 
   void _onSubmit() {
-    if (_formKey.currentState.validate()) widget.onSubmit(_province, _town);
+    if (widget.onSubmit != null && _formKey.currentState.validate())
+      widget.onSubmit(_province, _town);
   }
 
   @override

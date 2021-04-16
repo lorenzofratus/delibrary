@@ -52,9 +52,9 @@ class FormSectionContainer extends StatelessWidget {
   final String title;
   final Key formKey;
   final bool editing;
-  final Function startEditing;
-  final Function saveEditing;
-  final Function cancelEditing;
+  final void Function() startEditing;
+  final void Function() saveEditing;
+  final void Function() cancelEditing;
   final List<FieldData> fields;
 
   FormSectionContainer({
@@ -75,14 +75,15 @@ class FormSectionContainer extends StatelessWidget {
         key: formKey,
         child: Column(
           children: [
-            for (FieldData data in fields)
-              EditableFormField(
-                text: data.text,
-                label: data.label,
-                validator: data.validator,
-                editing: data.validator != null ? editing : false,
-                obscurable: data.obscurable,
-              ),
+            if (fields != null)
+              for (FieldData data in fields)
+                EditableFormField(
+                  text: data.text,
+                  label: data.label,
+                  validator: data.validator,
+                  editing: data.validator != null ? editing : false,
+                  obscurable: data.obscurable,
+                ),
             if (startEditing != null)
               editing
                   ? DelibraryButton(text: "Salva", onPressed: saveEditing)
@@ -109,7 +110,8 @@ class BooksSectionContainer extends StatelessWidget {
   final String title;
   final BookList Function(BuildContext) provider;
 
-  BooksSectionContainer({this.title = "", @required this.provider});
+  BooksSectionContainer({this.title = "", @required this.provider})
+      : assert(provider != null);
 
   void _expand(context) {
     showModalBottomSheet(
@@ -135,7 +137,7 @@ class BooksSectionContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     BookList bookList = provider(context);
 
-    if (bookList.isEmpty)
+    if (bookList?.isEmpty ?? true)
       return SectionContainer(
         title: title,
         child: PaddedContainer(

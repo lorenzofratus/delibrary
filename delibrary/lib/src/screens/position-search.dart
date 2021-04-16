@@ -12,42 +12,33 @@ class PositionSearchScreen extends StatefulWidget {
 }
 
 class _PositionSearchScreenState extends State<PositionSearchScreen> {
+  final PropertyServices _propertyServices = PropertyServices();
   String _lastProvince = "";
+  String _lastTown = "";
   BookList _resultsList;
-
-  ScrollController _listController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _listController = _listController ?? ScrollController();
   }
 
-  void _setLastParameters(String province, String town) {
-    setState(() {
-      _lastProvince = province;
-    });
-  }
-
-  void _scrollListToTop() {
-    if (_listController.hasClients)
-      _listController.animateTo(0.0,
-          duration: Duration(milliseconds: 350), curve: Curves.easeInOut);
-  }
-
-  Future<void> _positionSearch(String province, String town) async {
-    PropertyServices _propertyServices = PropertyServices();
-
-    _setLastParameters(province, town);
-    _scrollListToTop();
-
-    print("Location search. Province: " + province + " Town: " + town);
-
-    BookList bookList = await _propertyServices.getPropertiesByPosition(
-        context, province, town);
+  void _setResultsList(BookList bookList) {
     setState(() {
       _resultsList = bookList;
     });
+  }
+
+  Future<void> _positionSearch(String province, String town) async {
+    if (_lastProvince != province || _lastTown != town) {
+      _lastProvince = province;
+      _lastTown = town;
+
+      _setResultsList(null);
+
+      BookList bookList = await _propertyServices.getPropertiesByPosition(
+          context, province, town);
+      _setResultsList(bookList);
+    }
   }
 
   @override
@@ -63,7 +54,6 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
               ? Expanded(
                   child: CardsList(
                     bookList: _resultsList,
-                    controller: _listController,
                   ),
                 )
               : Center(

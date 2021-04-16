@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ObscurableFormField extends StatefulWidget {
-  final Function validator;
+  final String Function(String) validator;
   final TextEditingController controller;
   final InputDecoration decoration;
   final bool enabled;

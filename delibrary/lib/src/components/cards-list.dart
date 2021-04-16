@@ -19,7 +19,7 @@ class CardsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (bookList.isEmpty)
+    if (bookList?.isEmpty ?? true)
       return PaddedContainer(
         child: Text(
           "Nessun libro trovato",
@@ -34,7 +34,7 @@ class CardsList extends StatelessWidget {
       controller: controller,
       itemCount: bookList.length + (bookList.isComplete ? 0 : 1),
       itemBuilder: (context, index) {
-        var realIdx = reverse ? bookList.length - index - 1 : index;
+        int realIdx = reverse ? bookList.length - index - 1 : index;
         if (realIdx == bookList.length)
           return Center(heightFactor: 3.0, child: CircularProgressIndicator());
         Book book = bookList.getAt(realIdx);

@@ -6,7 +6,7 @@ class DraggableModalPage extends StatelessWidget {
   final void Function() onClose;
 
   DraggableModalPage(
-      {this.title, @required this.child, @required this.onClose});
+      {this.title = "", @required this.child, @required this.onClose});
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +26,12 @@ class DraggableModalPage extends StatelessWidget {
         child: Column(
           children: [
             ListView(
+              // ListView is here to allow the dragging
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
               controller: scrollController,
               children: [
-                _DraggableModalPill(),
                 _DraggableModalTitle(title: title, onClose: onClose),
               ],
             ),
@@ -43,33 +43,17 @@ class DraggableModalPage extends StatelessWidget {
   }
 }
 
-class _DraggableModalPill extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 25.0),
-        width: 30.0,
-        height: 3.0,
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.all(Radius.circular(1.5)),
-        ),
-      ),
-    );
-  }
-}
-
 class _DraggableModalTitle extends StatelessWidget {
   final String title;
   final void Function() onClose;
 
-  _DraggableModalTitle({this.title, @required this.onClose});
+  _DraggableModalTitle({this.title = "", @required this.onClose});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(bottom: 15.0, left: 50.0, right: 50.0),
+      padding:
+          EdgeInsets.only(top: 30.0, bottom: 15.0, left: 50.0, right: 50.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

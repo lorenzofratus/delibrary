@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class PageTitle extends StatelessWidget {
   final String text;
-  final Function action;
+  final void Function() action;
   final IconData actionIcon;
 
   PageTitle(this.text, {this.action, this.actionIcon})
@@ -17,9 +17,10 @@ class PageTitle extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: Text(text, style: Theme.of(context).textTheme.headline4),
-            ),
+            if (text != null)
+              Expanded(
+                child: Text(text, style: Theme.of(context).textTheme.headline4),
+              ),
             if (action != null)
               Container(
                 margin: EdgeInsets.only(left: 5.0),

@@ -2,13 +2,13 @@ import 'package:delibrary/src/components/obscurable-field.dart';
 import 'package:flutter/material.dart';
 
 class SearchFormField extends StatelessWidget {
-  final Function validator;
+  final String Function(String) validator;
   final String hint;
   final bool obscurable;
 
   SearchFormField({
     @required this.validator,
-    this.hint,
+    this.hint = "",
     this.obscurable = false,
   });
 
@@ -18,9 +18,9 @@ class SearchFormField extends StatelessWidget {
       padding: EdgeInsets.only(top: 30.0),
       child: ObscurableFormField(
         obscurable: obscurable,
-        validator: this.validator,
+        validator: validator,
         decoration: InputDecoration(
-          hintText: this.hint,
+          hintText: hint,
           filled: true,
           fillColor: Theme.of(context).cardColor,
           contentPadding: EdgeInsets.symmetric(horizontal: 25.0),

@@ -125,7 +125,7 @@ class _Title extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(bottom: 15.0),
       child: ExpandableText(
-        text,
+        text ?? "",
         style: primary
             ? Theme.of(context).textTheme.headline4.copyWith(
                   color: Theme.of(context).accentColor,
@@ -149,7 +149,7 @@ class _Description extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15.0),
       child: ExpandableText(
-        text,
+        text ?? "",
         style: Theme.of(context).textTheme.headline6,
         maxLines: 8,
       ),
@@ -157,11 +157,19 @@ class _Description extends StatelessWidget {
   }
 }
 
+class _DataType {
+  static const IconData author = Icons.edit;
+  static const IconData publisher = Icons.store;
+  static const IconData date = Icons.calendar_today;
+  static const IconData user = Icons.person;
+  static const IconData position = Icons.place;
+}
+
 class _Chips extends StatelessWidget {
   final String title;
   final Map<String, IconData> data;
 
-  _Chips({this.title, this.data});
+  _Chips({this.title = "", this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +185,7 @@ class _Chips extends StatelessWidget {
           ),
           Wrap(
             spacing: 10.0,
-            children: data.entries
+            children: (data?.entries ?? [])
                 .map((entry) => _Data(entry.key, type: entry.value))
                 .toList(),
           ),
@@ -187,32 +195,12 @@ class _Chips extends StatelessWidget {
   }
 }
 
-class _DataType {
-  static const IconData author = Icons.edit;
-  static const IconData publisher = Icons.store;
-  static const IconData date = Icons.calendar_today;
-  static const IconData user = Icons.person;
-  static const IconData position = Icons.place;
-}
-
-class _Data extends StatelessWidget {
-  final String text;
-  final IconData type;
-
-  _Data(this.text, {this.type});
-
-  @override
-  Widget build(BuildContext context) {
-    return Chip(
-      avatar: type != null
-          ? Icon(
-              type,
-              size: 15.0,
-            )
-          : null,
-      label: Text(text),
-    );
-  }
+class _Data extends Chip {
+  _Data(String text, {IconData type})
+      : super(
+          avatar: type != null ? Icon(type, size: 15.0) : null,
+          label: Text(text),
+        );
 }
 
 class _DraggableSheet extends StatefulWidget {
@@ -251,10 +239,12 @@ class _DraggableSheetState extends State<_DraggableSheet> {
   }
 
   void _toggleWished() {
-    if (widget.wished)
-      WishServices().removeWish(widget.book).execute(context);
-    else
-      WishServices().addWish(widget.book).execute(context);
+    if (widget.book != null) {
+      if (widget.wished)
+        WishServices().removeWish(widget.book).execute(context);
+      else
+        WishServices().addWish(widget.book).execute(context);
+    }
   }
 
   @override
@@ -288,7 +278,7 @@ class _DraggableSheetState extends State<_DraggableSheet> {
               child: ListView(
                 padding: EdgeInsets.symmetric(vertical: 80.0),
                 controller: scrollController,
-                children: widget.foreground,
+                children: widget.foreground ?? [],
               ),
             ),
           ),

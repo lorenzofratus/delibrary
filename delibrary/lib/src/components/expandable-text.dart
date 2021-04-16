@@ -25,7 +25,7 @@ class _ExpandableTextState extends State<ExpandableText> {
     return GestureDetector(
       onTap: _toggleExpanded,
       child: Text(
-        widget.text,
+        widget.text ?? "",
         style: widget.style,
         maxLines: expanded ? null : widget.maxLines,
         overflow: expanded ? TextOverflow.visible : TextOverflow.ellipsis,

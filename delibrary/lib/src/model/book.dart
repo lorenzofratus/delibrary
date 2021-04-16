@@ -25,6 +25,8 @@ class Book {
   String get publishedYear =>
       info?.publishedDate?.split("-")?.first.toString() ?? "";
   String get publishedDate => info?.publishedDate ?? "";
+  String get publishedInfo =>
+      [publisher, publishedYear].where((x) => x.isNotEmpty).join(", ");
   String get description => info?.description ?? "";
 
   Widget get smallImage => _getImage(info?.small, 120.0);
