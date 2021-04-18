@@ -14,9 +14,7 @@ import 'package:provider/provider.dart';
 class WishServices extends Services {
   WishServices()
       : super(BaseOptions(
-          // baseUrl: "https://delibrary.herokuapp.com/v1/users/",
-          baseUrl: "http://10.9.0.5:8080/v1/",
-          // baseUrl: "http://localhost:8080/v1/",
+          baseUrl: "https://delibrary.herokuapp.com/v1/",
           connectTimeout: 20000,
           receiveTimeout: 20000,
         ));
