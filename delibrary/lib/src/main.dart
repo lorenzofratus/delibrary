@@ -1,3 +1,4 @@
+import 'package:delibrary/src/routes/archive.dart';
 import 'package:delibrary/src/routes/global-search.dart';
 import 'package:delibrary/src/routes/home.dart';
 import 'package:delibrary/src/routes/login.dart';
@@ -85,6 +86,7 @@ class DelibraryApp extends StatelessWidget {
         "/login": (context) => LoginPage(),
         "/register": (context) => RegisterPage(),
         "/search": (context) => GlobalSearchPage(),
+        "/archive": (context) => ArchivePage(),
       },
     );
   }

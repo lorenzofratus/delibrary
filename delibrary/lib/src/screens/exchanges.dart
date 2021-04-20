@@ -14,8 +14,6 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
   //TODO: remove lists, use the Session instead
   BookList _waitingList;
   BookList _sentList;
-  BookList _refusedList;
-  BookList _completedList;
 
   @override
   void initState() {
@@ -23,13 +21,14 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
     _downloadLists();
   }
 
+  void _openArchive() {
+    Navigator.pushNamed(context, "/archive");
+  }
+
   Future<void> _downloadLists() async {
     //TODO: fetch the book lists
     _waitingList = BookList();
     _sentList = BookList();
-    _refusedList = BookList();
-    _completedList = BookList();
-    print("We should fetch the exchanges...");
   }
 
   @override
@@ -38,7 +37,11 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
       onRefresh: _downloadLists,
       child: PaddedListView(
         children: [
-          PageTitle("I tuoi scambi"),
+          PageTitle(
+            "I tuoi scambi attivi",
+            action: _openArchive,
+            actionIcon: Icons.archive_outlined,
+          ),
           BooksSectionContainer(
             title: "In attesa",
             provider: (context) => _waitingList,
@@ -46,14 +49,6 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
           BooksSectionContainer(
             title: "Inviati",
             provider: (context) => _sentList,
-          ),
-          BooksSectionContainer(
-            title: "Rifiutati",
-            provider: (context) => _refusedList,
-          ),
-          BooksSectionContainer(
-            title: "Completati",
-            provider: (context) => _completedList,
           ),
         ],
       ),
