@@ -10,11 +10,14 @@ class CardsList extends StatelessWidget {
   final BookList bookList;
   final ScrollController controller;
   final bool reverse;
+  final void Function() nextPage;
+  final int _nextPageTreshold = 3;
 
   CardsList({
     @required this.bookList,
     this.controller,
     this.reverse = false,
+    this.nextPage,
   });
 
   @override
@@ -28,9 +31,13 @@ class CardsList extends StatelessWidget {
       controller: controller,
       itemCount: bookList.length + (bookList.isComplete ? 0 : 1),
       itemBuilder: (context, index) {
+        if (index == bookList.length - _nextPageTreshold && nextPage != null)
+          nextPage();
+
         int realIdx = reverse ? bookList.length - index - 1 : index;
         if (realIdx == bookList.length)
           return Center(heightFactor: 3.0, child: CircularProgressIndicator());
+
         Book book = bookList.getAt(realIdx);
         return BookCard(book: book, wished: wishMap[book]);
       },

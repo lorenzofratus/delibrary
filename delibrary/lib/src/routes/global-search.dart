@@ -16,33 +16,6 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   int _startIndex = 0;
   int _maxResults = 10;
   BookList _resultsList;
-  ScrollController _listController;
-
-  @override
-  void initState() {
-    super.initState();
-    _listController = ScrollController();
-    _listController.addListener(_scrollListener);
-  }
-
-  @override
-  void dispose() {
-    _listController.removeListener(_scrollListener);
-    super.dispose();
-  }
-
-  void _scrollListener() {
-    if (_listController.position.pixels ==
-        _listController.position.maxScrollExtent) {
-      _globalNext();
-    }
-  }
-
-  Future<void> _scrollListToTop() async {
-    if (_listController.hasClients)
-      await _listController.animateTo(0.0,
-          duration: Duration(milliseconds: 350), curve: Curves.easeInOut);
-  }
 
   void _setResultsList(BookList bookList) {
     setState(() {
@@ -53,8 +26,6 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
   Future<void> _globalSearch(String query) async {
     if (_lastQuery != query) {
       _lastQuery = query;
-
-      await _scrollListToTop();
       _setResultsList(null);
 
       BookList firstPage;
@@ -87,7 +58,7 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
                 ? Expanded(
                     child: CardsList(
                       bookList: _resultsList,
-                      controller: _listController,
+                      nextPage: _globalNext,
                     ),
                   )
                 : Center(
