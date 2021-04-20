@@ -58,54 +58,92 @@ class BookInfoPage extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBar(),
-      body: _DraggableSheet(
-        book: book,
-        wished: wished,
-        background: Container(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.65,
-          child: book.largeImage,
-        ),
-        foreground: [
-          // Book information
-          _Title(book.title),
-          if (book.subtitle.isNotEmpty) _Title(book.subtitle, false),
-          if (book.description.isNotEmpty) _Description(book.description),
+      body: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.65,
+            child: book.largeImage,
+          ),
+          if (wished)
+            Positioned(
+              top: 15.0,
+              right: 15.0,
+              child: FloatingActionButton(
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                foregroundColor: Theme.of(context).accentColor,
+                child: Icon(Icons.favorite),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Il libro è nella wishlist"),
+                    ),
+                  );
+                },
+              ),
+            ),
+          DraggableScrollableSheet(
+            initialChildSize: 0.4,
+            minChildSize: 0.4,
+            maxChildSize: 0.9,
+            builder: (context, scrollController) => Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40.0),
+                  topRight: Radius.circular(40.0),
+                ),
+              ),
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
+                controller: scrollController,
+                children: [
+                  // Book information
+                  _Title(book.title),
+                  if (book.subtitle.isNotEmpty) _Title(book.subtitle, false),
+                  if (book.description.isNotEmpty)
+                    _Description(book.description),
 
-          if (book.hasDetails)
-            _Chips(
-              title: "Dettagli volume",
-              data: {
-                for (String author in book.authorsList)
-                  author: _DataType.author,
-                if (book.publisher.isNotEmpty)
-                  book.publisher: _DataType.publisher,
-                if (book.publishedDate.isNotEmpty)
-                  book.publishedDate: _DataType.date,
-              },
-            ),
+                  if (book.hasDetails)
+                    _Chips(
+                      title: "Dettagli volume",
+                      data: {
+                        for (String author in book.authorsList)
+                          author: _DataType.author,
+                        if (book.publisher.isNotEmpty)
+                          book.publisher: _DataType.publisher,
+                        if (book.publishedDate.isNotEmpty)
+                          book.publishedDate: _DataType.date,
+                      },
+                    ),
 
-          if (hasProperty && !userProperty)
-            _Chips(
-              title: "Dettagli copia fisica",
-              data: {
-                book.property.ownerUsername: _DataType.user,
-                book.property.positionString: _DataType.position,
-              },
-            ),
+                  // Property information
+                  if (hasProperty && !userProperty)
+                    _Chips(
+                      title: "Dettagli copia fisica",
+                      data: {
+                        book.property.ownerUsername: _DataType.user,
+                        book.property.positionString: _DataType.position,
+                      },
+                    ),
 
-          // Possible actions on the book
-          if (primaryAction != null)
-            DelibraryButton(
-              text: primaryAction.text,
-              onPressed: () => primaryAction.execute(context),
+                  // Possible actions on the book
+                  if (primaryAction != null)
+                    DelibraryButton(
+                      text: primaryAction.text,
+                      onPressed: () => primaryAction.execute(context),
+                    ),
+                  if (secondaryAction != null)
+                    DelibraryButton(
+                      text: secondaryAction.text,
+                      onPressed: () => secondaryAction.execute(context),
+                      primary: false,
+                    ),
+                ],
+              ),
             ),
-          if (secondaryAction != null)
-            DelibraryButton(
-              text: secondaryAction.text,
-              onPressed: () => secondaryAction.execute(context),
-              primary: false,
-            ),
+          ),
         ],
       ),
     );
@@ -199,101 +237,4 @@ class _Data extends Chip {
           avatar: type != null ? Icon(type, size: 15.0) : null,
           label: Text(text),
         );
-}
-
-class _DraggableSheet extends StatefulWidget {
-  final Widget background;
-  final List<Widget> foreground;
-  final Book book;
-  final bool wished;
-
-  _DraggableSheet({
-    @required this.background,
-    @required this.foreground,
-    @required this.book,
-    this.wished = false,
-  });
-
-  @override
-  State<StatefulWidget> createState() => _DraggableSheetState();
-}
-
-class _DraggableSheetState extends State<_DraggableSheet> {
-  double _initialSheetChildSize = 0.4;
-  double _dragScrollSheetExtent = 0;
-
-  double _widgetHeight = 0;
-  double _fabPosition = 0;
-  double _fabPositionPadding = 30;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        _fabPosition = _initialSheetChildSize * context.size.height;
-      });
-    });
-  }
-
-  void _toggleWished() {
-    if (widget.book != null) {
-      if (widget.wished)
-        WishServices().removeWish(widget.book).execute(context);
-      else
-        WishServices().addWish(widget.book).execute(context);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        widget.background,
-        NotificationListener<DraggableScrollableNotification>(
-          onNotification: (notification) {
-            setState(() {
-              _widgetHeight = context.size.height;
-              _dragScrollSheetExtent = notification.extent;
-
-              _fabPosition = _dragScrollSheetExtent * _widgetHeight;
-            });
-            return;
-          },
-          child: DraggableScrollableSheet(
-            initialChildSize: _initialSheetChildSize,
-            minChildSize: _initialSheetChildSize,
-            maxChildSize: 0.9,
-            builder: (context, scrollController) => Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40.0),
-                  topRight: Radius.circular(40.0),
-                ),
-              ),
-              child: ListView(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
-                controller: scrollController,
-                children: widget.foreground ?? [],
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: _fabPosition - _fabPositionPadding,
-          right: _fabPositionPadding,
-          child: FloatingActionButton(
-            backgroundColor: Theme.of(context).primaryColor,
-            foregroundColor: Theme.of(context).accentColor,
-            child: Icon(
-              widget.wished ? Icons.favorite : Icons.favorite_outline,
-            ),
-            onPressed: _toggleWished,
-          ),
-        ),
-      ],
-    );
-  }
 }
