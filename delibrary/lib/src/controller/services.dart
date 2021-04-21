@@ -1,5 +1,5 @@
 import 'package:delibrary/src/components/position-modal.dart';
-import 'package:delibrary/src/model/property.dart';
+import 'package:delibrary/src/model/position.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -79,9 +79,9 @@ abstract class Services {
       isScrollControlled: true,
       enableDrag: false,
       builder: (context) => PositionModal(
-        onSubmit: (p, t) {
+        onSubmit: (pos) {
           pop(context);
-          position = Position(p, t);
+          position = pos;
         },
         onDiscard: () {
           pop(context);

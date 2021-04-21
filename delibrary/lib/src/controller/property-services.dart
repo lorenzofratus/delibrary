@@ -3,6 +3,7 @@ import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/position.dart';
 import 'package:delibrary/src/model/property-list.dart';
 import 'package:delibrary/src/model/property.dart';
 import 'package:delibrary/src/model/session.dart';

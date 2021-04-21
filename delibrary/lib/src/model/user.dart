@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'field-data.dart';
+
 @immutable
 class User {
   final String username;
@@ -151,18 +153,4 @@ class UserBuilder {
     if (_password != null) user["password"] = _password;
     return user;
   }
-}
-
-class FieldData {
-  final String text;
-  final String label;
-  final Function validator;
-  final bool obscurable;
-
-  FieldData({
-    this.text = "",
-    this.label = "",
-    this.validator,
-    this.obscurable = false,
-  });
 }

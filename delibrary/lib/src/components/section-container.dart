@@ -7,8 +7,8 @@ import 'package:delibrary/src/components/editable-field.dart';
 import 'package:delibrary/src/components/empty-list-sign.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/field-data.dart';
 import 'package:delibrary/src/model/session.dart';
-import 'package:delibrary/src/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,11 +1,12 @@
 import 'package:delibrary/src/components/search-field.dart';
+import 'package:delibrary/src/model/position.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 
 import 'button.dart';
 
 class PositionModal extends StatefulWidget {
-  final void Function(String, String) onSubmit;
+  final void Function(Position) onSubmit;
   final void Function() onDiscard;
   final Map<String, List<String>> provinces;
 
@@ -21,33 +22,17 @@ class PositionModal extends StatefulWidget {
 
 class _PositionModalState extends State<PositionModal> {
   final _formKey = GlobalKey<FormState>();
+  PositionBuilder _tempPosition;
 
-  String _province = "";
-  String _town = "";
-
-  String _provinceValidator(String province) {
-    province = province.trim().toLowerCase();
-    if (province.isEmpty)
-      return "La provincia non può essere vuota.";
-    else if (!widget.provinces.containsKey(province))
-      return "Questa provincia non esiste.";
-    _province = province;
-    return null;
-  }
-
-  String _townValidator(String town) {
-    town = town.trim().toLowerCase();
-    if (town.isEmpty)
-      return "Il comune non può essere vuoto.";
-    else if (!widget.provinces[_province].contains(town))
-      return "Questo comune non esiste nella provincia.";
-    _town = town;
-    return null;
+  @override
+  void initState() {
+    super.initState();
+    _tempPosition = PositionBuilder(widget.provinces);
   }
 
   void _onSubmit() {
     if (widget.onSubmit != null && _formKey.currentState.validate())
-      widget.onSubmit(_province, _town);
+      widget.onSubmit(_tempPosition.position);
   }
 
   @override
@@ -67,12 +52,12 @@ class _PositionModalState extends State<PositionModal> {
             child: Column(
               children: [
                 SearchFormField(
-                  validator: _provinceValidator,
-                  hint: "Provincia",
+                  validator: _tempPosition.provinceField.validator,
+                  hint: _tempPosition.provinceField.label,
                 ),
                 SearchFormField(
-                  validator: _townValidator,
-                  hint: "Comune",
+                  validator: _tempPosition.townField.validator,
+                  hint: _tempPosition.townField.label,
                 )
               ],
             ),

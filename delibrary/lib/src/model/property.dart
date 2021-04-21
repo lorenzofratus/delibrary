@@ -1,3 +1,4 @@
+import 'package:delibrary/src/model/position.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -17,33 +18,5 @@ class Property {
         ownerUsername: json["owner"],
         bookId: json["bookId"],
         position: Position(json["province"], json["town"]));
-  }
-}
-
-@immutable
-class Position {
-  final String province;
-  final String town;
-
-  Position(this.province, this.town);
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> position = Map<String, dynamic>();
-    position["province"] = province;
-    position["town"] = town;
-    return position;
-  }
-
-  String _capitalize(String text) {
-    List<String> words = text.split(" ");
-    words = words
-        .map((word) => word.substring(0, 1).toUpperCase() + word.substring(1))
-        .toList();
-    return words.join(" ");
-  }
-
-  @override
-  String toString() {
-    return _capitalize(town) + " - " + _capitalize(province);
   }
 }

@@ -2,6 +2,7 @@ import 'package:delibrary/src/components/cards-list.dart';
 import 'package:delibrary/src/components/position-search-bar.dart';
 import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/model/book-list.dart';
+import 'package:delibrary/src/model/position.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,14 +14,8 @@ class PositionSearchScreen extends StatefulWidget {
 
 class _PositionSearchScreenState extends State<PositionSearchScreen> {
   final PropertyServices _propertyServices = PropertyServices();
-  String _lastProvince = "";
-  String _lastTown = "";
+  Position _lastPosition;
   BookList _resultsList;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void _setResultsList(BookList bookList) {
     setState(() {
@@ -28,17 +23,15 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
     });
   }
 
-  Future<void> _positionSearch(String province, String town) async {
-    if (_lastProvince != province || _lastTown != town) {
-      _lastProvince = province;
-      _lastTown = town;
-
+  Future<void> _positionSearch(Position position) async {
+    if (!position.match(_lastPosition)) {
       _setResultsList(null);
 
       BookList bookList = await _propertyServices.getPropertiesByPosition(
-          context, province, town);
+          context, position.province, position.town);
       _setResultsList(bookList);
     }
+    _lastPosition = position;
   }
 
   @override
@@ -49,7 +42,7 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
           provinces: context.read<Session>().provinces,
           onSearch: _positionSearch,
         ),
-        if (_lastProvince.isNotEmpty)
+        if (_lastPosition?.isNotEmpty ?? false)
           _resultsList != null
               ? Expanded(
                   child: CardsList(
