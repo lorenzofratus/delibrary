@@ -93,6 +93,15 @@ abstract class Services {
     return position;
   }
 
+  void replace(BuildContext context, Widget route) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => route,
+      ),
+    );
+  }
+
   void navigateTo(BuildContext context, String routeName) {
     Navigator.pushReplacementNamed(context, routeName);
   }

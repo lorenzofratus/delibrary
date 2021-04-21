@@ -66,12 +66,30 @@ class Book {
     );
   }
 
+  Book removeProperty() {
+    return Book(
+      id: id,
+      info: info,
+      property: null,
+      wish: wish,
+    );
+  }
+
   Book setWish(Wish newWish) {
     return Book(
       id: id,
       info: info,
       property: newWish != null ? null : property,
       wish: newWish ?? wish,
+    );
+  }
+
+  Book removeWish() {
+    return Book(
+      id: id,
+      info: info,
+      property: property,
+      wish: null,
     );
   }
 

@@ -47,11 +47,12 @@ class BookList {
   BookList remove(Book book) {
     if (book == null || !items.contains(book)) return this;
     List<Book> self = items.toList();
-    self.remove(book);
-    return BookList(
-      totalItems: totalItems - 1,
-      items: self,
-    );
+    if (self.remove(book))
+      return BookList(
+        totalItems: totalItems - 1,
+        items: self,
+      );
+    return this;
   }
 
   BookList add(Book book) {

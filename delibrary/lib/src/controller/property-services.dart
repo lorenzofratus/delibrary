@@ -7,6 +7,7 @@ import 'package:delibrary/src/model/property-list.dart';
 import 'package:delibrary/src/model/property.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/wish.dart';
+import 'package:delibrary/src/routes/book-info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -110,7 +111,9 @@ class PropertyServices extends Services {
         // Property removed successfully, update session
         session.removeProperty(book);
         showSnackBar(context, ConfirmMessage.propertyRemoved);
-        pop(context);
+
+        Book newBook = book.removeProperty();
+        replace(context, BookInfoPage(book: newBook));
       },
     );
   }
@@ -157,7 +160,7 @@ class PropertyServices extends Services {
 
         session.addProperty(newBook);
         showSnackBar(context, ConfirmMessage.propertyAdded);
-        pop(context);
+        replace(context, BookInfoPage(book: newBook));
       },
     );
   }
@@ -216,7 +219,7 @@ class PropertyServices extends Services {
           session.removeProperty(book);
           session.addWish(newBook);
           showSnackBar(context, ConfirmMessage.propertyMoved);
-          pop(context);
+          replace(context, BookInfoPage(book: newBook, wished: true));
         });
   }
 

@@ -7,6 +7,7 @@ import 'package:delibrary/src/model/property.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/wish-list.dart';
 import 'package:delibrary/src/model/wish.dart';
+import 'package:delibrary/src/routes/book-info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -60,7 +61,9 @@ class WishServices extends Services {
         // Wish removed successfully, update session
         session.removeWish(book);
         showSnackBar(context, ConfirmMessage.wishRemoved);
-        pop(context);
+
+        Book newBook = book.removeWish();
+        replace(context, BookInfoPage(book: newBook));
       },
     );
   }
@@ -102,7 +105,7 @@ class WishServices extends Services {
 
         session.addWish(newBook);
         showSnackBar(context, ConfirmMessage.wishAdded);
-        pop(context);
+        replace(context, BookInfoPage(book: newBook, wished: true));
       },
     );
   }
@@ -166,7 +169,7 @@ class WishServices extends Services {
           session.removeWish(book);
           session.addProperty(newBook);
           showSnackBar(context, ConfirmMessage.wishMoved);
-          pop(context);
+          replace(context, BookInfoPage(book: newBook));
         });
   }
 
