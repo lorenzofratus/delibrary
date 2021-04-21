@@ -68,16 +68,8 @@ abstract class Services {
 
     await showModalBottomSheet(
       context: context,
-      elevation: 2.0,
-      backgroundColor: Theme.of(context).primaryColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40.0),
-          topRight: Radius.circular(40.0),
-        ),
-      ),
+      backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      enableDrag: false,
       builder: (context) => PositionModal(
         onSubmit: (pos) {
           pop(context);

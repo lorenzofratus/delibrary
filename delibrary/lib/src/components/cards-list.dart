@@ -12,33 +12,51 @@ class CardsList extends StatelessWidget {
   final bool reverse;
   final void Function() nextPage;
   final int _nextPageTreshold = 3;
+  final List<Widget> leading;
 
   CardsList({
     @required this.bookList,
     this.controller,
     this.reverse = false,
     this.nextPage,
+    this.leading,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (bookList?.isEmpty ?? true) return EmptyListSign();
+    int leadLength = leading?.length ?? 0;
+    int endOfList = leadLength + bookList.length;
+
+    if (bookList?.isEmpty ?? true)
+      return ListView(
+        controller: controller,
+        children: [
+          if (leading != null) ...leading,
+          EmptyListSign(),
+        ],
+      );
 
     BookList wishList = context.read<Session>().wishes;
     Map<Book, bool> wishMap = bookList.intersect(wishList);
 
     return ListView.builder(
       controller: controller,
-      itemCount: bookList.length + (bookList.isComplete ? 0 : 1),
+      itemCount: endOfList + (bookList.isComplete ? 0 : 1),
       itemBuilder: (context, index) {
-        if (index == bookList.length - _nextPageTreshold && nextPage != null)
+        // Check when to load next page
+        if (index == endOfList - _nextPageTreshold && nextPage != null)
           nextPage();
 
-        int realIdx = reverse ? bookList.length - index - 1 : index;
-        if (realIdx == bookList.length)
+        // Leading widgets
+        if (index < leadLength) return leading[index];
+
+        int realIdx = reverse ? endOfList + leadLength - index - 1 : index;
+        // Trailing load indicator (only if loading a new page)
+        if (realIdx == endOfList)
           return Center(heightFactor: 3.0, child: CircularProgressIndicator());
 
-        Book book = bookList.getAt(realIdx);
+        // Real card list
+        Book book = bookList.getAt(realIdx - leadLength);
         return BookCard(book: book, wished: wishMap[book]);
       },
     );

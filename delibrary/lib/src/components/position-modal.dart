@@ -1,6 +1,7 @@
+import 'package:delibrary/src/components/draggable-modal-page.dart';
 import 'package:delibrary/src/components/search-field.dart';
 import 'package:delibrary/src/model/position.dart';
-import 'package:delibrary/src/shortcuts/padded-container.dart';
+import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
 
 import 'button.dart';
@@ -37,9 +38,9 @@ class _PositionModalState extends State<PositionModal> {
 
   @override
   Widget build(BuildContext context) {
-    return PaddedContainer(
-      child: ListView(
-        shrinkWrap: true,
+    return DraggableModalPage(
+      builder: (context, scrollController) => PaddedListView(
+        controller: scrollController,
         children: [
           Align(
             child: Text(

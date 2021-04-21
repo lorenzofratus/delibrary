@@ -1,11 +1,13 @@
 import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/custom-app-bar.dart';
+import 'package:delibrary/src/components/draggable-modal-page.dart';
 import 'package:delibrary/src/components/expandable-text.dart';
 import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/session.dart';
+import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -82,66 +84,52 @@ class BookInfoPage extends StatelessWidget {
                 },
               ),
             ),
-          DraggableScrollableSheet(
-            initialChildSize: 0.4,
-            minChildSize: 0.4,
-            maxChildSize: 0.9,
-            builder: (context, scrollController) => Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40.0),
-                  topRight: Radius.circular(40.0),
-                ),
-              ),
-              child: ListView(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
-                controller: scrollController,
-                children: [
-                  // Book information
-                  _Title(book.title),
-                  if (book.subtitle.isNotEmpty) _Title(book.subtitle, false),
-                  if (book.description.isNotEmpty)
-                    _Description(book.description),
+          DraggableModalPage(
+            builder: (context, scrollController) => PaddedListView(
+              extraPadding: true,
+              controller: scrollController,
+              children: [
+                // Book information
+                _Title(book.title),
+                if (book.subtitle.isNotEmpty) _Title(book.subtitle, false),
+                if (book.description.isNotEmpty) _Description(book.description),
 
-                  if (book.hasDetails)
-                    _Chips(
-                      title: "Dettagli volume",
-                      data: {
-                        for (String author in book.authorsList)
-                          author: _DataType.author,
-                        if (book.publisher.isNotEmpty)
-                          book.publisher: _DataType.publisher,
-                        if (book.publishedDate.isNotEmpty)
-                          book.publishedDate: _DataType.date,
-                      },
-                    ),
+                if (book.hasDetails)
+                  _Chips(
+                    title: "Dettagli volume",
+                    data: {
+                      for (String author in book.authorsList)
+                        author: _DataType.author,
+                      if (book.publisher.isNotEmpty)
+                        book.publisher: _DataType.publisher,
+                      if (book.publishedDate.isNotEmpty)
+                        book.publishedDate: _DataType.date,
+                    },
+                  ),
 
-                  // Property information
-                  if (hasProperty && !userProperty)
-                    _Chips(
-                      title: "Dettagli copia fisica",
-                      data: {
-                        book.property.ownerUsername: _DataType.user,
-                        book.property.positionString: _DataType.position,
-                      },
-                    ),
+                // Property information
+                if (hasProperty && !userProperty)
+                  _Chips(
+                    title: "Dettagli copia fisica",
+                    data: {
+                      book.property.ownerUsername: _DataType.user,
+                      book.property.positionString: _DataType.position,
+                    },
+                  ),
 
-                  // Possible actions on the book
-                  if (primaryAction != null)
-                    DelibraryButton(
-                      text: primaryAction.text,
-                      onPressed: () => primaryAction.execute(context),
-                    ),
-                  if (secondaryAction != null)
-                    DelibraryButton(
-                      text: secondaryAction.text,
-                      onPressed: () => secondaryAction.execute(context),
-                      primary: false,
-                    ),
-                ],
-              ),
+                // Possible actions on the book
+                if (primaryAction != null)
+                  DelibraryButton(
+                    text: primaryAction.text,
+                    onPressed: () => primaryAction.execute(context),
+                  ),
+                if (secondaryAction != null)
+                  DelibraryButton(
+                    text: secondaryAction.text,
+                    onPressed: () => secondaryAction.execute(context),
+                    primary: false,
+                  ),
+              ],
             ),
           ),
         ],
@@ -169,6 +157,7 @@ class _Title extends StatelessWidget {
             : Theme.of(context).textTheme.headline5.copyWith(
                   fontStyle: FontStyle.italic,
                 ),
+        textAlign: TextAlign.center,
         maxLines: 2,
       ),
     );

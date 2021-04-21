@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 class ExpandableText extends StatefulWidget {
   final String text;
   final TextStyle style;
+  final TextAlign textAlign;
   final int maxLines;
 
-  ExpandableText(this.text, {this.style, this.maxLines = 1});
+  ExpandableText(this.text, {this.style, this.textAlign, this.maxLines = 1});
 
   @override
   State<StatefulWidget> createState() => _ExpandableTextState();
@@ -27,6 +28,7 @@ class _ExpandableTextState extends State<ExpandableText> {
       child: Text(
         widget.text ?? "",
         style: widget.style,
+        textAlign: widget.textAlign,
         maxLines: expanded ? null : widget.maxLines,
         overflow: expanded ? TextOverflow.visible : TextOverflow.ellipsis,
       ),
