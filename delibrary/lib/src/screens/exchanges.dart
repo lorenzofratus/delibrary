@@ -4,6 +4,7 @@ import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:delibrary/src/shortcuts/refreshable.dart';
 import 'package:flutter/material.dart';
+import 'package:delibrary/src/controller/exchange-services.dart';
 
 class ExchangesScreen extends StatefulWidget {
   @override
@@ -11,9 +12,7 @@ class ExchangesScreen extends StatefulWidget {
 }
 
 class _ExchangesScreenState extends State<ExchangesScreen> {
-  //TODO: remove lists, use the Session instead
-  BookList _waitingList;
-  BookList _sentList;
+  final ExchangeServices _exchangeServices = ExchangeServices();
 
   @override
   void initState() {
@@ -26,9 +25,7 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
   }
 
   Future<void> _downloadLists() async {
-    //TODO: fetch the book lists
-    _waitingList = BookList();
-    _sentList = BookList();
+    _exchangeServices.updateSession(context);
   }
 
   @override
@@ -44,11 +41,11 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
           ),
           BooksSectionContainer(
             title: "In attesa",
-            provider: (context) => _waitingList,
+            provider: (context) => BookList(), // TODO
           ),
           BooksSectionContainer(
             title: "Inviati",
-            provider: (context) => _sentList,
+            provider: (context) => BookList(), // TODO
           ),
         ],
       ),
