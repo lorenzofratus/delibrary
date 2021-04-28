@@ -1,17 +1,36 @@
 import 'dart:collection';
 
 import 'package:delibrary/src/model/exchange.dart';
-import 'package:flutter/material.dart';
 
-@immutable
 class ExchangeList {
-  final UnmodifiableListView<Exchange> exchanges;
-  ExchangeList({List<Exchange> exchanges})
-      : exchanges = UnmodifiableListView(exchanges ?? []);
+  final UnmodifiableListView<Exchange> items;
+  ExchangeList({List<Exchange> items})
+      : items = UnmodifiableListView(items ?? []);
 
-  factory ExchangeList.fromJson(List<dynamic> exchangeList) {
-    List<Exchange> items =
-        exchangeList.map((i) => Exchange.fromJson(i)).toList();
-    return ExchangeList(exchanges: items);
+  get proposed => items.where((e) => e.status == ExchangeStatus.PROPOSED);
+
+  get refused => items.where((e) => e.status == ExchangeStatus.REFUSED);
+
+  get agreed => items.where((e) => e.status == ExchangeStatus.AGREED);
+
+  get happened => items.where((e) => e.status == ExchangeStatus.HAPPENED);
+
+  ExchangeList add(Exchange exchange) {
+    if (exchange == null || items.contains(exchange)) return this;
+    List<Exchange> self = items.toList();
+    self.add(exchange);
+    return ExchangeList(items: self);
+  }
+
+  ExchangeList remove(Exchange exchange) {
+    if (exchange == null || !items.contains(exchange)) return this;
+    List<Exchange> self = items.toList();
+    self.remove(exchange);
+    return ExchangeList(items: self);
+  }
+
+  Exchange getAt(int i) {
+    if (items != null && 0 <= i && i < items.length) return items[i];
+    return null;
   }
 }

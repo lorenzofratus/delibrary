@@ -1,12 +1,13 @@
-import 'package:delibrary/src/model/property.dart';
+import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/temp-exchange.dart';
 
 class Exchange {
   final int id;
   final String buyerUsername;
   final String sellerUsername;
-  final Property property;
-  final Property payment;
-  final String status;
+  final Book property;
+  final Book payment;
+  final ExchangeStatus status;
 
   Exchange(
       {this.id,
@@ -16,14 +17,33 @@ class Exchange {
       this.payment,
       this.status});
 
-  factory Exchange.fromJson(Map<String, dynamic> json) {
+  factory Exchange.fromTemp(TempExchange tempExchange, Book property,
+      [Book payment]) {
     return Exchange(
-        id: json['id'],
-        buyerUsername: json['buyer'],
-        sellerUsername: json['seller'],
-        property: Property.fromJson(json['property']),
-        payment:
-            json['payment'] != null ? Property.fromJson(json['payment']) : null,
-        status: json['status']);
+        id: tempExchange.id,
+        buyerUsername: tempExchange.buyerUsername,
+        sellerUsername: tempExchange.sellerUsername,
+        property: property,
+        payment: payment,
+        status: ExchangeStatus.from[tempExchange.status]);
   }
+}
+
+enum ExchangeStatus { from, PROPOSED, AGREED, REFUSED, HAPPENED }
+
+extension ExchangeStatusIndex on ExchangeStatus {
+  operator [](String key) => (name) {
+        switch (name) {
+          case 'proposed':
+            return ExchangeStatus.PROPOSED;
+          case 'agreed':
+            return ExchangeStatus.AGREED;
+          case 'refused':
+            return ExchangeStatus.REFUSED;
+          case 'happened':
+            return ExchangeStatus.HAPPENED;
+          default:
+            throw RangeError("Stato dell'Exchange non valido.");
+        }
+      }(key);
 }

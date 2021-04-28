@@ -1,5 +1,7 @@
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/exchange-list.dart';
+import 'package:delibrary/src/model/exchange.dart';
 import 'package:delibrary/src/model/user.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,7 @@ class Session extends ChangeNotifier {
 
   BookList _properties;
   BookList _wishes;
+  ExchangeList _exchanges;
 
   // ** Session management **
 
@@ -23,6 +26,7 @@ class Session extends ChangeNotifier {
     _user = null;
     _properties = null;
     _wishes = null;
+    _exchanges = null;
   }
 
   // ** User management **
@@ -99,5 +103,32 @@ class Session extends ChangeNotifier {
     BookList oldList = wishes;
     _wishes = oldList.remove(book);
     if (_wishes != oldList) notifyListeners();
+  }
+
+  // ** Exchanges management **
+
+  ExchangeList get exchanges => _exchanges ?? ExchangeList();
+  ExchangeList get proposed => _exchanges?.proposed ?? ExchangeList();
+  ExchangeList get refused => _exchanges?.refused ?? ExchangeList();
+  ExchangeList get agreed => _exchanges?.agreed ?? ExchangeList();
+  ExchangeList get happened => _exchanges?.happened ?? ExchangeList();
+
+  set exchanges(ExchangeList exchanges) {
+    if (exchanges != null) {
+      _exchanges = exchanges;
+      notifyListeners();
+    }
+  }
+
+  void addExchange(Exchange exchange) {
+    ExchangeList oldList = exchanges;
+    _exchanges = oldList.add(exchange);
+    if (_exchanges != oldList) notifyListeners();
+  }
+
+  void removeExchange(Exchange exchange) {
+    ExchangeList oldList = exchanges;
+    _exchanges = oldList.remove(exchange);
+    if (_exchanges != oldList) notifyListeners();
   }
 }

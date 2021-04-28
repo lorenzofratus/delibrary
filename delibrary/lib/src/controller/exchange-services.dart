@@ -1,6 +1,11 @@
+import 'package:delibrary/src/controller/book-services.dart';
 import 'package:delibrary/src/controller/services.dart';
+import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/exchange-list.dart';
+import 'package:delibrary/src/model/exchange.dart';
+import 'package:delibrary/src/model/temp-exchange-list.dart';
 import 'package:delibrary/src/model/session.dart';
+import 'package:delibrary/src/model/temp-exchange.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +17,26 @@ class ExchangeServices extends Services {
             connectTimeout: 20000,
             receiveTimeout: 20000));
 
+  Future<ExchangeList> _getExchangesFromTempExchanges(
+      List<TempExchange> tempExchangeList) async {
+    print(
+        "[Exchange services] Getting info for each book from Google Books...");
+    List<Exchange> exchangeList = [];
+    BookServices bookServices = BookServices();
+
+    await Future.forEach(tempExchangeList, (tempExchange) async {
+      Book property = await bookServices.getById(tempExchange.property.bookId);
+      Book payment = tempExchange.payment != null
+          ? await bookServices.getById(tempExchange.payment.bookId)
+          : null;
+      exchangeList.add(Exchange.fromTemp(tempExchange, property, payment));
+    });
+
+    return ExchangeList(items: exchangeList);
+  }
+
   Future<void> updateSession(BuildContext context) async {
-    print("[Exchange services] Getting properties from Delibrary...");
+    print("[Exchange services] Getting exchanges from Delibrary...");
 
     Response response;
     Session session = context.read<Session>();
@@ -35,10 +58,9 @@ class ExchangeServices extends Services {
     }
 
     // Exchanges list fetched, parse and update session
-    ExchangeList exchangeList = ExchangeList.fromJson(response.data);
-
-    // TODO **IMPORTANT** You have not retrieved the information about the books
-    // insiede the properties of the exchange.
-    print(exchangeList);
+    TempExchangeList tempExchangeList =
+        TempExchangeList.fromJson(response.data);
+    session.exchanges =
+        await _getExchangesFromTempExchanges(tempExchangeList.exchanges);
   }
 }
