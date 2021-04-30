@@ -7,7 +7,7 @@ class Exchange {
   final String sellerUsername;
   final Book property;
   final Book payment;
-  final ExchangeStatus status;
+  ExchangeStatus status;
 
   Exchange(
       {this.id,

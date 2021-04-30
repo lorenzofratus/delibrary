@@ -131,4 +131,14 @@ class Session extends ChangeNotifier {
     _exchanges = oldList.remove(exchange);
     if (_exchanges != oldList) notifyListeners();
   }
+
+  void refuse(Exchange exchange) {
+    _exchanges = exchanges.refuse(exchange);
+    notifyListeners();
+  }
+
+  void happen(Exchange exchange) {
+    _exchanges = exchanges.happen(exchange);
+    notifyListeners();
+  }
 }

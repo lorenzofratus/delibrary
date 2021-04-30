@@ -122,6 +122,9 @@ class ErrorMessage {
       "Il server non ha trovato l'utente cercato.";
   static const String wrongCredentials =
       "L'username o la password inseriti non sono validi.";
+
+  static String alreadyInExchange =
+      "Questa proprietà è già coinvolta in uno scambio";
 }
 
 class ConfirmMessage {
@@ -133,4 +136,9 @@ class ConfirmMessage {
   static const String wishAdded = "Libro aggiunto alla wishlist!";
   static const String wishMoved = "Libro spostato nella libreria!";
   static const String wishRemoved = "Libro rimosso dalla wishlist!";
+
+  static const String exchangeRemoved = "Scambio annullato con successo!";
+  static const String exchangeAdded = "Scambio proposto con successo!";
+  static const String exchangeRefused = "Scambio rifiutato con successo!";
+  static const String exchangeHappened = "Scambio completato con successo!";
 }

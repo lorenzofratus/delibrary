@@ -33,4 +33,16 @@ class ExchangeList {
     if (items != null && 0 <= i && i < items.length) return items[i];
     return null;
   }
+
+  ExchangeList refuse(Exchange exchange) {
+    items.singleWhere((element) => element == exchange).status =
+        ExchangeStatus.REFUSED;
+    return ExchangeList(items: items);
+  }
+
+  ExchangeList happen(Exchange exchange) {
+    items.singleWhere((element) => element == exchange).status =
+        ExchangeStatus.HAPPENED;
+    return ExchangeList(items: items);
+  }
 }
