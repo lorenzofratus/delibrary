@@ -93,6 +93,7 @@ flutter:
 
   # Assets import
   assets:
+    - lib/assets/unknown.png
     - lib/assets/placeholder.png
     - lib/assets/logo.png
     - lib/assets/2.0x/logo.png
