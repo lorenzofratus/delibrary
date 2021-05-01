@@ -98,9 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     onTap: _goToLogin,
                     child: Text(
                       "Già registrato? Login",
-                      style: Theme.of(context).textTheme.headline6.copyWith(
-                            color: Colors.white70,
-                          ),
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
                 ),

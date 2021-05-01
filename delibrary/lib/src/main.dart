@@ -17,9 +17,9 @@ final ThemeData _delibraryTheme = ThemeData(
   accentColor: Colors.amber[700],
   fontFamily: "Lato",
   textTheme: TextTheme(
-    headline4: TextStyle(fontSize: 28.0),
-    headline5: TextStyle(fontSize: 22.0),
-    headline6: TextStyle(fontSize: 18.0, color: Colors.white70),
+    headline4: TextStyle(fontSize: 28.0, color: Colors.white),
+    headline5: TextStyle(fontSize: 22.0, color: Colors.white),
+    headline6: TextStyle(fontSize: 18.0, color: Colors.white),
     button: TextStyle(
       fontSize: 20.0,
       fontWeight: FontWeight.w800,

@@ -92,9 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                     onTap: _goToRegister,
                     child: Text(
                       "Non hai un account? Registrati",
-                      style: Theme.of(context).textTheme.headline6.copyWith(
-                            color: Colors.white70,
-                          ),
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
                 ),

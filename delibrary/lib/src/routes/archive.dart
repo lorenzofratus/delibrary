@@ -1,10 +1,13 @@
 import 'package:delibrary/src/components/custom-app-bar.dart';
 import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
-import 'package:delibrary/src/model/book-list.dart';
+import 'package:delibrary/src/controller/exchange-services.dart';
+import 'package:delibrary/src/model/exchange-list.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:delibrary/src/shortcuts/refreshable.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ArchivePage extends StatefulWidget {
   @override
@@ -12,9 +15,7 @@ class ArchivePage extends StatefulWidget {
 }
 
 class _ArchivePageState extends State<ArchivePage> {
-  //TODO: remove lists, use the Session instead
-  BookList _refusedList;
-  BookList _completedList;
+  final ExchangeServices _exchangeServices = ExchangeServices();
 
   @override
   void initState() {
@@ -23,9 +24,7 @@ class _ArchivePageState extends State<ArchivePage> {
   }
 
   Future<void> _downloadLists() async {
-    //TODO: fetch the book lists
-    _refusedList = BookList();
-    _completedList = BookList();
+    _exchangeServices.updateSession(context);
   }
 
   @override
@@ -37,13 +36,15 @@ class _ArchivePageState extends State<ArchivePage> {
         child: PaddedListView(
           children: [
             PageTitle("I tuoi scambi archiviati"),
-            BooksSectionContainer(
+            ExchangesSectionContainer(
               title: "Rifiutati",
-              provider: (context) => _refusedList,
+              provider: (context) =>
+                  context.select<Session, ExchangeList>((s) => s.refused),
             ),
-            BooksSectionContainer(
+            ExchangesSectionContainer(
               title: "Completati",
-              provider: (context) => _completedList,
+              provider: (context) =>
+                  context.select<Session, ExchangeList>((s) => s.happened),
             ),
           ],
         ),

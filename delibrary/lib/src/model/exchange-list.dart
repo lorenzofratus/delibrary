@@ -1,19 +1,46 @@
 import 'dart:collection';
 
+import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/exchange.dart';
+import 'package:flutter/material.dart';
 
+@immutable
 class ExchangeList {
   final UnmodifiableListView<Exchange> items;
   ExchangeList({List<Exchange> items})
       : items = UnmodifiableListView(items ?? []);
 
-  get proposed => items.where((e) => e.status == ExchangeStatus.PROPOSED);
+  int get length => items?.length ?? 0;
+  bool get isEmpty => items?.isEmpty ?? true;
 
-  get refused => items.where((e) => e.status == ExchangeStatus.REFUSED);
+  Exchange getAt(int i) {
+    if (items != null && 0 <= i && i < items.length) return items[i];
+    return null;
+  }
 
-  get agreed => items.where((e) => e.status == ExchangeStatus.AGREED);
+  // Both waiting and sent are in the proposed state
+  get waiting => _filter(ExchangeStatus.proposed, false);
+  get sent => _filter(ExchangeStatus.proposed, true);
+  get refused => _filter(ExchangeStatus.refused);
+  get agreed => _filter(ExchangeStatus.agreed);
+  get happened => _filter(ExchangeStatus.happened);
 
-  get happened => items.where((e) => e.status == ExchangeStatus.HAPPENED);
+  ExchangeList _filter(ExchangeStatus status, [bool isBuyer]) {
+    return ExchangeList(
+      items: items.where(
+        (e) {
+          if (isBuyer != null)
+            return e.isBuyer == isBuyer && e.status == status;
+          return e.status == status;
+        },
+      ).toList(),
+    );
+  }
+
+  //TODO: needs revision
+  bool containsBook(Book book) {
+    return items.any((e) => e.involves(book));
+  }
 
   ExchangeList add(Exchange exchange) {
     if (exchange == null || items.contains(exchange)) return this;
@@ -29,20 +56,23 @@ class ExchangeList {
     return ExchangeList(items: self);
   }
 
-  Exchange getAt(int i) {
-    if (items != null && 0 <= i && i < items.length) return items[i];
-    return null;
-  }
-
   ExchangeList refuse(Exchange exchange) {
-    items.singleWhere((element) => element == exchange).status =
-        ExchangeStatus.REFUSED;
-    return ExchangeList(items: items);
+    if (exchange == null || !items.contains(exchange)) return this;
+    List<Exchange> self = items.toList();
+    int index = self.indexOf(exchange);
+    Exchange newExchange = exchange.setStatus(ExchangeStatus.refused);
+    self.remove(exchange);
+    self.insert(index, newExchange);
+    return ExchangeList(items: self);
   }
 
   ExchangeList happen(Exchange exchange) {
-    items.singleWhere((element) => element == exchange).status =
-        ExchangeStatus.HAPPENED;
-    return ExchangeList(items: items);
+    if (exchange == null || !items.contains(exchange)) return this;
+    List<Exchange> self = items.toList();
+    int index = self.indexOf(exchange);
+    Exchange newExchange = exchange.setStatus(ExchangeStatus.happened);
+    self.remove(exchange);
+    self.insert(index, newExchange);
+    return ExchangeList(items: self);
   }
 }

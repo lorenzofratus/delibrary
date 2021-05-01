@@ -1,4 +1,5 @@
 import 'package:delibrary/src/controller/book-services.dart';
+import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book.dart';
@@ -21,11 +22,11 @@ class ExchangeServices extends Services {
 
   Future<Exchange> _getExchangeFromTempExchange(
       TempExchange tempExchange) async {
-    BookServices bookServices = BookServices();
-    Book property = await bookServices.getById(tempExchange.property.bookId);
-    Book payment = tempExchange.payment != null
-        ? await bookServices.getById(tempExchange.payment.bookId)
-        : null;
+    PropertyServices propertyServices = PropertyServices();
+    Book property =
+        await propertyServices.getBookFromProperty(tempExchange.property);
+    Book payment =
+        await propertyServices.getBookFromProperty(tempExchange.payment);
     return Exchange.fromTemp(tempExchange, property, payment);
   }
 
@@ -74,7 +75,7 @@ class ExchangeServices extends Services {
           }
         }
 
-        TempExchange tempExchange = TempExchange.fromJson(response.data);
+        TempExchange tempExchange = TempExchange.fromJson(response.data, true);
         Exchange exchange = await _getExchangeFromTempExchange(tempExchange);
         session.addExchange(exchange);
         showSnackBar(context, ConfirmMessage.exchangeAdded);
@@ -83,6 +84,7 @@ class ExchangeServices extends Services {
   }
 
   DelibraryAction refuse(Exchange exchange) {
+    //TODO: ask for confirmation
     return DelibraryAction(
       text: "Rifiuta lo scambio",
       execute: (BuildContext context) async {
@@ -107,13 +109,14 @@ class ExchangeServices extends Services {
         }
 
         // Property removed successfully, update session
-        session.refuse(exchange);
+        session.refuseExchange(exchange);
         showSnackBar(context, ConfirmMessage.exchangeRefused);
       },
     );
   }
 
   DelibraryAction remove(Exchange exchange) {
+    //TODO: ask for confirmation
     return DelibraryAction(
       text: "Annulla lo scambio",
       execute: (BuildContext context) async {
@@ -175,7 +178,7 @@ class ExchangeServices extends Services {
         }
 
         // Property removed successfully, update session
-        session.happen(exchange);
+        session.happenExchange(exchange);
         showSnackBar(context, ConfirmMessage.exchangeHappened);
       },
     );
@@ -184,12 +187,13 @@ class ExchangeServices extends Services {
   Future<void> updateSession(BuildContext context) async {
     print("[Exchange services] Getting exchanges from Delibrary...");
 
-    Response response;
+    Response responseB, responseS;
     Session session = context.read<Session>();
     String username = session.user.username;
 
     try {
-      response = await dio.get("users/$username/exchanges");
+      responseB = await dio.get("users/$username/exchanges/buyer");
+      responseS = await dio.get("users/$username/exchanges/seller");
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 404)
@@ -204,9 +208,13 @@ class ExchangeServices extends Services {
     }
 
     // Exchanges list fetched, parse and update session
-    TempExchangeList tempExchangeList =
-        TempExchangeList.fromJson(response.data);
-    session.exchanges =
-        await _getExchangesFromTempExchanges(tempExchangeList.exchanges);
+    TempExchangeList tempBuyerList =
+        TempExchangeList.fromJson(responseB.data, true);
+    TempExchangeList tempSellerList =
+        TempExchangeList.fromJson(responseS.data, false);
+    session.exchanges = await _getExchangesFromTempExchanges([
+      ...tempBuyerList.exchanges,
+      ...tempSellerList.exchanges,
+    ]);
   }
 }

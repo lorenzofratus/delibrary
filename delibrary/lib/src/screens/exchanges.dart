@@ -1,10 +1,12 @@
 import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
-import 'package:delibrary/src/model/book-list.dart';
+import 'package:delibrary/src/model/exchange-list.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:delibrary/src/shortcuts/refreshable.dart';
 import 'package:flutter/material.dart';
 import 'package:delibrary/src/controller/exchange-services.dart';
+import 'package:provider/provider.dart';
 
 class ExchangesScreen extends StatefulWidget {
   @override
@@ -39,13 +41,20 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
             action: _openArchive,
             actionIcon: Icons.archive_outlined,
           ),
-          BooksSectionContainer(
+          ExchangesSectionContainer(
             title: "In attesa",
-            provider: (context) => BookList(), // TODO
+            provider: (context) =>
+                context.select<Session, ExchangeList>((s) => s.waiting),
           ),
-          BooksSectionContainer(
+          ExchangesSectionContainer(
             title: "Inviati",
-            provider: (context) => BookList(), // TODO
+            provider: (context) =>
+                context.select<Session, ExchangeList>((s) => s.sent),
+          ),
+          ExchangesSectionContainer(
+            title: "Confermati",
+            provider: (context) =>
+                context.select<Session, ExchangeList>((s) => s.agreed),
           ),
         ],
       ),

@@ -1,4 +1,4 @@
-import 'package:delibrary/src/components/card.dart';
+import 'package:delibrary/src/components/book-card.dart';
 import 'package:delibrary/src/components/empty-list-sign.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
@@ -6,20 +6,22 @@ import 'package:delibrary/src/model/session.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CardsList extends StatelessWidget {
+class BookCardsList extends StatelessWidget {
   final BookList bookList;
   final ScrollController controller;
   final bool reverse;
   final void Function() nextPage;
   final int _nextPageTreshold = 3;
   final List<Widget> leading;
+  final bool showOwner;
 
-  CardsList({
+  BookCardsList({
     @required this.bookList,
     this.controller,
     this.reverse = false,
     this.nextPage,
     this.leading,
+    this.showOwner = false,
   });
 
   @override
@@ -57,7 +59,11 @@ class CardsList extends StatelessWidget {
 
         // Real card list
         Book book = bookList.getAt(realIdx - leadLength);
-        return BookCard(book: book, wished: wishMap[book]);
+        return BookCard(
+          book: book,
+          wished: wishMap[book],
+          showOwner: showOwner,
+        );
       },
     );
   }

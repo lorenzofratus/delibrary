@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class BookCard extends StatelessWidget {
   final Book book;
   final bool wished;
+  final bool showOwner;
 
-  BookCard({@required this.book, this.wished = false});
+  BookCard({@required this.book, this.wished = false, this.showOwner = false});
 
   void _tappedBook(context) {
     Navigator.push(
@@ -37,22 +38,34 @@ class BookCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: Container(
+                  Flexible(
+                    flex: 3,
+                    fit: FlexFit.tight,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
                       child: book.smallImage,
-                      width: MediaQuery.of(context).size.width * 0.2,
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 20.0),
-                    width: MediaQuery.of(context).size.width * 0.45,
+                  Spacer(),
+                  Flexible(
+                    flex: 6,
+                    fit: FlexFit.tight,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _BookInfo(text: book.title, bold: true),
                         _BookInfo(text: book.authors),
                         _BookInfo(text: book.publishedInfo, italic: true),
+                        if (showOwner && book.property != null)
+                          _BookInfo(
+                            text: book.property.ownerUsername,
+                            icon: Icons.person,
+                          ),
+                        if (showOwner && book.property != null)
+                          _BookInfo(
+                            text: book.property.positionString,
+                            icon: Icons.place,
+                          ),
                       ],
                     ),
                   ),
@@ -96,7 +109,7 @@ class BookCardPreview extends StatelessWidget {
       onTap: () => _tappedBook(context),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
-        child: book.previewImage,
+        child: book.smallImage,
       ),
     );
   }
@@ -104,20 +117,40 @@ class BookCardPreview extends StatelessWidget {
 
 class _BookInfo extends StatelessWidget {
   final String text;
+  final IconData icon;
   final bool bold;
   final bool italic;
 
-  _BookInfo({this.text = "", this.bold = false, this.italic = false});
+  _BookInfo({
+    this.text = "",
+    this.icon,
+    this.bold = false,
+    this.italic = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: Theme.of(context).textTheme.headline6.copyWith(
-            fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-            fontStyle: italic ? FontStyle.italic : FontStyle.normal,
-          ),
+    return RichText(
       overflow: TextOverflow.ellipsis,
+      text: TextSpan(
+        children: [
+          if (icon != null)
+            WidgetSpan(
+              child: Icon(
+                icon,
+                size: Theme.of(context).textTheme.headline6.fontSize,
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+          TextSpan(
+            text: (icon != null ? " " : "") + text,
+            style: Theme.of(context).textTheme.headline6.copyWith(
+                  fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+                  fontStyle: italic ? FontStyle.italic : FontStyle.normal,
+                ),
+          ),
+        ],
+      ),
     );
   }
 }

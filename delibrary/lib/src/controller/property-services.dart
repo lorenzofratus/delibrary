@@ -70,16 +70,22 @@ class PropertyServices extends Services {
     return _getBooksFromProperties(properties);
   }
 
+  Future<Book> getBookFromProperty(Property property) async {
+    if (property == null) return null;
+    Book book = await BookServices().getById(property.bookId);
+    return book != null
+        ? Book(id: book.id, info: book.info, property: property)
+        : null;
+  }
+
   Future<BookList> _getBooksFromProperties(List<Property> propertyList) async {
     print(
         "[Properties services] Getting info for each book from Google Books...");
     List<Book> bookList = [];
-    BookServices bookServices = BookServices();
 
     await Future.forEach(propertyList, (property) async {
-      Book book = await bookServices.getById(property.bookId);
-      if (book != null)
-        bookList.add(Book(id: book.id, info: book.info, property: property));
+      Book book = await getBookFromProperty(property);
+      if (book != null) bookList.add(book);
     });
 
     return BookList(totalItems: bookList.length, items: bookList);

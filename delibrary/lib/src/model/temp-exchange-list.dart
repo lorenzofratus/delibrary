@@ -9,9 +9,9 @@ class TempExchangeList {
   TempExchangeList({List<TempExchange> exchanges})
       : exchanges = UnmodifiableListView(exchanges ?? []);
 
-  factory TempExchangeList.fromJson(List<dynamic> exchangeList) {
+  factory TempExchangeList.fromJson(List<dynamic> exchangeList, bool isBuyer) {
     List<TempExchange> items =
-        exchangeList.map((i) => TempExchange.fromJson(i)).toList();
+        exchangeList.map((i) => TempExchange.fromJson(i, isBuyer)).toList();
     return TempExchangeList(exchanges: items);
   }
 }

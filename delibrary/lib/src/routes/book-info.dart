@@ -1,12 +1,14 @@
 import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/custom-app-bar.dart';
 import 'package:delibrary/src/components/draggable-modal-page.dart';
-import 'package:delibrary/src/components/expandable-text.dart';
+import 'package:delibrary/src/components/info-fields.dart';
+import 'package:delibrary/src/controller/exchange-services.dart';
 import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book.dart';
 import 'package:delibrary/src/model/session.dart';
+import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ class BookInfoPage extends StatelessWidget {
 
   final PropertyServices _propertyServices = PropertyServices();
   final WishServices _wishServices = WishServices();
+  final ExchangeServices _exchangeServices = ExchangeServices();
 
   BookInfoPage({@required this.book, this.wished = false})
       : assert(book != null);
@@ -25,28 +28,29 @@ class BookInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String username = context.read<Session>().user.username;
+    bool hasExchange = context.read<Session>().hasActiveExchange(book);
     bool hasProperty = book.property != null;
     bool userProperty = hasProperty && book.property.ownerUsername == username;
     bool hasWish = book.wish != null;
     bool userWish = hasWish && book.wish.ownerUsername == username;
 
-    DelibraryAction primaryAction;
-    DelibraryAction secondaryAction;
+    DelibraryAction primaryAction, secondaryAction;
+    String alert;
 
-    // TODO implement exchange actions
     if (hasProperty) {
       if (userProperty) {
         // Property of current user
         primaryAction = _propertyServices.removeProperty(book);
         secondaryAction = _propertyServices.movePropertyToWishList(book);
+        if (hasExchange) alert = "Questo libro è richiesto per uno scambio";
       } else {
-        // Property of another user
-        primaryAction = DelibraryAction(
-          //TODO implement exchange action
-          text: "Proponi uno scambio",
-          execute: (context) {},
-        );
-        secondaryAction = _propertyServices.addProperty(book);
+        if (hasExchange)
+          alert = "Hai proposto uno scambio per questo libro";
+        else {
+          // Property of another user, no active exchange
+          primaryAction = _exchangeServices.propose(book.property);
+          secondaryAction = _propertyServices.addProperty(book);
+        }
       }
     } else if (userWish) {
       // Wish of current user
@@ -90,31 +94,46 @@ class BookInfoPage extends StatelessWidget {
               controller: scrollController,
               children: [
                 // Book information
-                _Title(book.title),
-                if (book.subtitle.isNotEmpty) _Title(book.subtitle, false),
-                if (book.description.isNotEmpty) _Description(book.description),
+                InfoTitle(book.title),
+                if (book.subtitle.isNotEmpty) InfoTitle(book.subtitle, false),
+                if (book.description.isNotEmpty)
+                  InfoDescription(book.description),
 
                 if (book.hasDetails)
-                  _Chips(
+                  InfoChips(
                     title: "Dettagli volume",
                     data: {
                       for (String author in book.authorsList)
-                        author: _DataType.author,
+                        author: InfoDataType.author,
                       if (book.publisher.isNotEmpty)
-                        book.publisher: _DataType.publisher,
+                        book.publisher: InfoDataType.publisher,
                       if (book.publishedDate.isNotEmpty)
-                        book.publishedDate: _DataType.date,
+                        book.publishedDate: InfoDataType.date,
                     },
                   ),
 
                 // Property information
                 if (hasProperty && !userProperty)
-                  _Chips(
+                  InfoChips(
                     title: "Dettagli copia fisica",
                     data: {
-                      book.property.ownerUsername: _DataType.user,
-                      book.property.positionString: _DataType.position,
+                      book.property.ownerUsername: InfoDataType.user,
+                      book.property.positionString: InfoDataType.position,
                     },
+                  ),
+
+                // Active exchange alert
+                if (alert != null)
+                  PaddedContainer(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Text(
+                      alert,
+                      style: Theme.of(context).textTheme.headline6,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
 
                 // Possible actions on the book
@@ -136,94 +155,4 @@ class BookInfoPage extends StatelessWidget {
       ),
     );
   }
-}
-
-class _Title extends StatelessWidget {
-  final String text;
-  final bool primary;
-
-  _Title(this.text, [this.primary = true]);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 15.0),
-      child: ExpandableText(
-        text ?? "",
-        style: primary
-            ? Theme.of(context).textTheme.headline4.copyWith(
-                  color: Theme.of(context).accentColor,
-                )
-            : Theme.of(context).textTheme.headline5.copyWith(
-                  fontStyle: FontStyle.italic,
-                ),
-        textAlign: TextAlign.center,
-        maxLines: 2,
-      ),
-    );
-  }
-}
-
-class _Description extends StatelessWidget {
-  final String text;
-
-  _Description(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 15.0),
-      child: ExpandableText(
-        text ?? "",
-        style: Theme.of(context).textTheme.headline6,
-        maxLines: 8,
-      ),
-    );
-  }
-}
-
-class _DataType {
-  static const IconData author = Icons.edit;
-  static const IconData publisher = Icons.store;
-  static const IconData date = Icons.calendar_today;
-  static const IconData user = Icons.person;
-  static const IconData position = Icons.place;
-}
-
-class _Chips extends StatelessWidget {
-  final String title;
-  final Map<String, IconData> data;
-
-  _Chips({this.title = "", this.data});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 15.0),
-      child: Column(
-        children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headline6.copyWith(
-                  color: Theme.of(context).accentColor,
-                ),
-          ),
-          Wrap(
-            spacing: 10.0,
-            children: (data?.entries ?? [])
-                .map((entry) => _Data(entry.key, type: entry.value))
-                .toList(),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Data extends Chip {
-  _Data(String text, {IconData type})
-      : super(
-          avatar: type != null ? Icon(type, size: 15.0) : null,
-          label: Text(text),
-        );
 }

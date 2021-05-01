@@ -21,7 +21,7 @@ class _CustomButton extends StatelessWidget {
           backgroundColor: primary
               ? Theme.of(context).accentColor
               : Theme.of(context).cardColor,
-          primary: primary ? Colors.black : Colors.white70,
+          primary: primary ? Colors.black : Colors.white,
           minimumSize: Size.fromHeight(50.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25.0),
@@ -54,7 +54,7 @@ class LoadingButton extends _CustomButton {
             child: CircularProgressIndicator(
               strokeWidth: 3.0,
               valueColor: AlwaysStoppedAnimation<Color>(
-                primary ? Colors.black : Colors.white70,
+                primary ? Colors.black : Colors.white,
               ),
             ),
           ),

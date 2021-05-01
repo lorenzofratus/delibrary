@@ -108,7 +108,9 @@ class Session extends ChangeNotifier {
   // ** Exchanges management **
 
   ExchangeList get exchanges => _exchanges ?? ExchangeList();
-  ExchangeList get proposed => _exchanges?.proposed ?? ExchangeList();
+  // Both waiting and sent are in the proposed state
+  ExchangeList get waiting => _exchanges?.waiting ?? ExchangeList();
+  ExchangeList get sent => _exchanges?.sent ?? ExchangeList();
   ExchangeList get refused => _exchanges?.refused ?? ExchangeList();
   ExchangeList get agreed => _exchanges?.agreed ?? ExchangeList();
   ExchangeList get happened => _exchanges?.happened ?? ExchangeList();
@@ -118,6 +120,13 @@ class Session extends ChangeNotifier {
       _exchanges = exchanges;
       notifyListeners();
     }
+  }
+
+  //TODO: needs revision
+  bool hasActiveExchange(Book book) {
+    return waiting.containsBook(book) ||
+        sent.containsBook(book) ||
+        agreed.containsBook(book);
   }
 
   void addExchange(Exchange exchange) {
@@ -132,12 +141,12 @@ class Session extends ChangeNotifier {
     if (_exchanges != oldList) notifyListeners();
   }
 
-  void refuse(Exchange exchange) {
+  void refuseExchange(Exchange exchange) {
     _exchanges = exchanges.refuse(exchange);
     notifyListeners();
   }
 
-  void happen(Exchange exchange) {
+  void happenExchange(Exchange exchange) {
     _exchanges = exchanges.happen(exchange);
     notifyListeners();
   }

@@ -26,7 +26,7 @@ class DelibraryNavigationBar extends BottomNavigationBar {
           currentIndex: currentIndex,
           onTap: onTap,
           selectedItemColor: Colors.amber[700],
-          unselectedItemColor: Colors.white70,
+          unselectedItemColor: Colors.white,
           selectedFontSize: 20.0,
           elevation: 0.0,
           showUnselectedLabels: false,

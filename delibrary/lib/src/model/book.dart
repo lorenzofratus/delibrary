@@ -29,12 +29,8 @@ class Book {
       [publisher, publishedYear].where((x) => x.isNotEmpty).join(", ");
   String get description => info?.description ?? "";
 
-  Widget get smallImage => _getImage(info?.small, 120.0);
-  Widget get largeImage => _getImage(info?.large, 120.0);
-  Widget get previewImage => _getImage(info?.small, 160.0);
-
-  static Widget get placeholderImage => _getImage("", 120.0);
-  static Widget get placeholderPreviewImage => _getImage("", 160.0);
+  Widget get smallImage => _getImage(info?.small, 130.0);
+  Widget get largeImage => _getImage(info?.large, null);
 
   static Widget _getImage(String url, [double height]) {
     return url == null || url.isEmpty
