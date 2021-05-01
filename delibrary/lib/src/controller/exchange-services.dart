@@ -1,4 +1,3 @@
-import 'package:delibrary/src/controller/book-services.dart';
 import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/action.dart';
@@ -92,7 +91,7 @@ class ExchangeServices extends Services {
         String username = session.user.username;
 
         try {
-          await dio.put("users/$username/exchanges/${exchange.id}");
+          await dio.put("users/$username/exchanges/${exchange.id}/refuse");
         } on DioError catch (e) {
           if (e.response != null) {
             if (e.response.statusCode == 404)
@@ -124,7 +123,7 @@ class ExchangeServices extends Services {
         String username = session.user.username;
 
         try {
-          await dio.delete("users/$username/exchanges/${exchange.id}/refuse");
+          await dio.delete("users/$username/exchanges/${exchange.id}");
         } on DioError catch (e) {
           if (e.response != null) {
             if (e.response.statusCode == 404)
