@@ -146,10 +146,43 @@ class ExchangeServices extends Services {
     );
   }
 
-  DelibraryAction agree(Exchange exchange) {
+  DelibraryAction agree(Exchange exchange, Property payment) {
     return DelibraryAction(
         text: "Accetta lo scambio",
-        execute: (BuildContext context) async {/* TODO */});
+        execute: (BuildContext context) async {
+          Session session = context.read<Session>();
+          String username = session.user.username;
+
+          try {
+            await dio
+                .put("users/$username/exchanges/${exchange.id}/agree", data: {
+              "owner": exchange.buyerUsername,
+              "bookId": payment.bookId,
+              "id": payment.id,
+              "position": {
+                "province": payment.position.province,
+                "town": payment.position.town
+              }
+            });
+          } on DioError catch (e) {
+            if (e.response != null) {
+              if (e.response.statusCode == 404)
+                return showSnackBar(context, ErrorMessage.userNotFound);
+              if (e.response.statusCode == 500)
+                return showSnackBar(context, ErrorMessage.serverError);
+              // Otherwise, unexpected error, print and raise exception
+              errorOnResponse(e);
+            } else {
+              // Generic error before the request is sent, print
+              errorOnRequest(e, false);
+              return showSnackBar(context, ErrorMessage.checkConnection);
+            }
+          }
+
+          // Property removed successfully, update session
+          session.agreeExchange(exchange);
+          showSnackBar(context, ConfirmMessage.exchangeAgreed);
+        });
   }
 
   DelibraryAction happen(Exchange exchange) {

@@ -141,4 +141,5 @@ class ConfirmMessage {
   static const String exchangeAdded = "Scambio proposto con successo!";
   static const String exchangeRefused = "Scambio rifiutato con successo!";
   static const String exchangeHappened = "Scambio completato con successo!";
+  static const String exchangeAgreed = "Scambio accettato con successo!";
 }

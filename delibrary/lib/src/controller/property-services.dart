@@ -259,4 +259,31 @@ class PropertyServices extends Services {
     PropertyList propertyList = PropertyList.fromJson(response.data);
     session.properties = await _getBooksFromProperties(propertyList.properties);
   }
+
+  DelibraryAction getPropertiesOf(String username) {
+    return DelibraryAction(
+        text: "Scegli un libro",
+        execute: (BuildContext context) async {
+          Response response;
+          try {
+            response = await dio.get("users/$username/properties");
+          } on DioError catch (e) {
+            if (e.response != null) {
+              if (e.response.statusCode == 404)
+                return showSnackBar(context, ErrorMessage.userNotFound);
+              if (e.response.statusCode == 500)
+                return showSnackBar(context, ErrorMessage.serverError);
+              // Otherwise, unexpected error, print and raise exception
+              errorOnResponse(e);
+            } else {
+              // Generic error before the request is sent, print
+              errorOnRequest(e, false);
+              return showSnackBar(context, ErrorMessage.checkConnection);
+            }
+          }
+          // Property list fetched, parse and update session
+          PropertyList propertyList = PropertyList.fromJson(response.data);
+          return await _getBooksFromProperties(propertyList.properties);
+        });
+  }
 }
