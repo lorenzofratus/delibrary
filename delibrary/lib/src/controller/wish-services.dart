@@ -29,7 +29,11 @@ class WishServices extends Services {
     await Future.forEach(wishList, (wish) async {
       Book book = await bookServices.getById(wish.bookId);
       if (book != null)
-        bookList.add(Book(id: book.id, info: book.info, wish: wish));
+        bookList.add(Book(
+          id: book.id,
+          info: book.info,
+          wish: wish,
+        ));
     });
 
     return BookList(totalItems: bookList.length, items: bookList);

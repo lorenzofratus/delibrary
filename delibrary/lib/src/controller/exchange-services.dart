@@ -146,7 +146,7 @@ class ExchangeServices extends Services {
     );
   }
 
-  DelibraryAction agree(Exchange exchange, Property payment) {
+  DelibraryAction agree(Exchange exchange, Book payment) {
     return DelibraryAction(
         text: "Accetta lo scambio",
         execute: (BuildContext context) async {
@@ -154,14 +154,15 @@ class ExchangeServices extends Services {
           String username = session.user.username;
 
           try {
+            //TODO: potremmo mandare direttamente l'oggetto payment.property implementando il metodo toJson
             await dio
                 .put("users/$username/exchanges/${exchange.id}/agree", data: {
               "owner": exchange.buyerUsername,
-              "bookId": payment.bookId,
-              "id": payment.id,
+              "bookId": payment.property.bookId,
+              "id": payment.property.id,
               "position": {
-                "province": payment.position.province,
-                "town": payment.position.town
+                "province": payment.property.position.province,
+                "town": payment.property.position.town
               }
             });
           } on DioError catch (e) {

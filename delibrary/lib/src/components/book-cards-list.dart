@@ -2,12 +2,14 @@ import 'package:delibrary/src/components/book-card.dart';
 import 'package:delibrary/src/components/empty-list-sign.dart';
 import 'package:delibrary/src/model/book-list.dart';
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/exchange.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BookCardsList extends StatelessWidget {
   final BookList bookList;
+  final Exchange exchange;
   final ScrollController controller;
   final bool reverse;
   final void Function() nextPage;
@@ -17,6 +19,7 @@ class BookCardsList extends StatelessWidget {
 
   BookCardsList({
     @required this.bookList,
+    this.exchange,
     this.controller,
     this.reverse = false,
     this.nextPage,
@@ -61,6 +64,7 @@ class BookCardsList extends StatelessWidget {
         Book book = bookList.getAt(realIdx - leadLength);
         return BookCard(
           book: book,
+          exchange: exchange,
           wished: wishMap[book],
           showOwner: showOwner,
         );

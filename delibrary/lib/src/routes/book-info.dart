@@ -7,6 +7,7 @@ import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/wish-services.dart';
 import 'package:delibrary/src/model/action.dart';
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/exchange.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
@@ -16,13 +17,14 @@ import 'package:provider/provider.dart';
 
 class BookInfoPage extends StatelessWidget {
   final Book book;
+  final Exchange exchange;
   final bool wished;
 
   final PropertyServices _propertyServices = PropertyServices();
   final WishServices _wishServices = WishServices();
   final ExchangeServices _exchangeServices = ExchangeServices();
 
-  BookInfoPage({@required this.book, this.wished = false})
+  BookInfoPage({@required this.book, this.exchange, this.wished = false})
       : assert(book != null);
 
   @override
@@ -37,7 +39,9 @@ class BookInfoPage extends StatelessWidget {
     DelibraryAction primaryAction, secondaryAction;
     String alert;
 
-    if (hasProperty) {
+    if (exchange != null) {
+      primaryAction = _exchangeServices.agree(exchange, book);
+    } else if (hasProperty) {
       if (userProperty) {
         // Property of current user
         primaryAction = _propertyServices.removeProperty(book);

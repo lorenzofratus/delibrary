@@ -1,13 +1,19 @@
 import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/exchange.dart';
 import 'package:delibrary/src/routes/book-info.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
   final Book book;
+  final Exchange exchange;
   final bool wished;
   final bool showOwner;
 
-  BookCard({@required this.book, this.wished = false, this.showOwner = false});
+  BookCard(
+      {@required this.book,
+      this.exchange,
+      this.wished = false,
+      this.showOwner = false});
 
   void _tappedBook(context) {
     Navigator.push(
@@ -15,6 +21,7 @@ class BookCard extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => BookInfoPage(
           book: book,
+          exchange: exchange,
           wished: wished,
         ),
       ),

@@ -24,6 +24,8 @@ class Exchange {
     this.isBuyer,
   });
 
+  String get myUsername => isBuyer ? buyerUsername : sellerUsername;
+  String get otherUsername => isBuyer ? sellerUsername : buyerUsername;
   Widget get myBookImage => _getImage(isBuyer ? payment : property);
   Widget get otherBookImage => _getImage(isBuyer ? property : payment);
 
