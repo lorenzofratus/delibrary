@@ -151,5 +151,8 @@ class Session extends ChangeNotifier {
     notifyListeners();
   }
 
-  void agreeExchange(Exchange exchange) {/* TODO */}
+  void agreeExchange(Exchange exchange, Book payment) {
+    _exchanges = exchanges.agree(exchange, payment);
+    notifyListeners();
+  }
 }

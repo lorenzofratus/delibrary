@@ -19,4 +19,13 @@ class Property {
         bookId: json["bookId"],
         position: Position(json["province"], json["town"]));
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> property = Map<String, dynamic>();
+    property["id"] = this.id;
+    property["owner"] = this.ownerUsername;
+    property["bookId"] = this.bookId;
+    property["position"] = this.position.toJson();
+    return property;
+  }
 }

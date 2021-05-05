@@ -154,17 +154,8 @@ class ExchangeServices extends Services {
           String username = session.user.username;
 
           try {
-            //TODO: potremmo mandare direttamente l'oggetto payment.property implementando il metodo toJson
-            await dio
-                .put("users/$username/exchanges/${exchange.id}/agree", data: {
-              "owner": exchange.buyerUsername,
-              "bookId": payment.property.bookId,
-              "id": payment.property.id,
-              "position": {
-                "province": payment.property.position.province,
-                "town": payment.property.position.town
-              }
-            });
+            await dio.put("users/$username/exchanges/${exchange.id}/agree",
+                data: payment.property.toJson());
           } on DioError catch (e) {
             if (e.response != null) {
               if (e.response.statusCode == 404)
@@ -180,8 +171,7 @@ class ExchangeServices extends Services {
             }
           }
 
-          // Property removed successfully, update session
-          session.agreeExchange(exchange);
+          session.agreeExchange(exchange, payment);
           showSnackBar(context, ConfirmMessage.exchangeAgreed);
         });
   }
@@ -210,7 +200,6 @@ class ExchangeServices extends Services {
           }
         }
 
-        // Property removed successfully, update session
         session.happenExchange(exchange);
         showSnackBar(context, ConfirmMessage.exchangeHappened);
       },

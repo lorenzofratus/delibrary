@@ -75,4 +75,20 @@ class ExchangeList {
     self.insert(index, newExchange);
     return ExchangeList(items: self);
   }
+
+  ExchangeList agree(Exchange exchange, Book payment) {
+    if (exchange == null || !items.contains(exchange)) return this;
+    List<Exchange> self = items.toList();
+    int index = self.indexOf(exchange);
+    Exchange newExchange = Exchange(
+        id: exchange.id,
+        buyerUsername: exchange.buyerUsername,
+        sellerUsername: exchange.sellerUsername,
+        property: exchange.property,
+        payment: payment,
+        status: ExchangeStatus.agreed);
+    self.remove(exchange);
+    self.insert(index, newExchange);
+    return ExchangeList(items: self);
+  }
 }
