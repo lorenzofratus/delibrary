@@ -49,7 +49,7 @@ class BookInfoPage extends StatelessWidget {
         if (hasExchange) alert = "Questo libro è richiesto per uno scambio";
       } else {
         if (hasExchange)
-          alert = "Hai proposto uno scambio per questo libro";
+          alert = "Questo libro è coinvolto in uno scambio attivo";
         else {
           // Property of another user, no active exchange
           primaryAction = _exchangeServices.propose(book.property);

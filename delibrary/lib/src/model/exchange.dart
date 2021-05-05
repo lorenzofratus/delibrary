@@ -57,6 +57,19 @@ class Exchange {
     );
   }
 
+  Exchange setPayment(Book newPayment) {
+    if (payment != null || newPayment == null) return this;
+    return Exchange(
+      id: id,
+      buyerUsername: buyerUsername,
+      sellerUsername: sellerUsername,
+      property: property,
+      payment: newPayment,
+      status: ExchangeStatus.agreed,
+      isBuyer: isBuyer,
+    );
+  }
+
   factory Exchange.fromTemp(TempExchange tempExchange, Book property,
       [Book payment]) {
     return Exchange(
