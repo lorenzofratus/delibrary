@@ -88,10 +88,9 @@ class ExchangeServices extends Services {
       text: "Rifiuta lo scambio",
       execute: (BuildContext context) async {
         Session session = context.read<Session>();
-        String username = session.user.username;
 
         try {
-          await dio.put("users/$username/exchanges/${exchange.id}/refuse");
+          await dio.put("exchanges/${exchange.id}/refuse");
         } on DioError catch (e) {
           if (e.response != null) {
             if (e.response.statusCode == 404)
@@ -120,10 +119,9 @@ class ExchangeServices extends Services {
       text: "Annulla lo scambio",
       execute: (BuildContext context) async {
         Session session = context.read<Session>();
-        String username = session.user.username;
 
         try {
-          await dio.delete("users/$username/exchanges/${exchange.id}");
+          await dio.delete("exchanges/${exchange.id}");
         } on DioError catch (e) {
           if (e.response != null) {
             if (e.response.statusCode == 404)
@@ -151,10 +149,9 @@ class ExchangeServices extends Services {
         text: "Accetta lo scambio",
         execute: (BuildContext context) async {
           Session session = context.read<Session>();
-          String username = session.user.username;
 
           try {
-            await dio.put("users/$username/exchanges/${exchange.id}/agree",
+            await dio.put("exchanges/${exchange.id}/agree",
                 data: payment.property.toJson());
           } on DioError catch (e) {
             if (e.response != null) {
@@ -181,10 +178,9 @@ class ExchangeServices extends Services {
       text: "Scambio completato",
       execute: (BuildContext context) async {
         Session session = context.read<Session>();
-        String username = session.user.username;
 
         try {
-          await dio.put("users/$username/exchanges/${exchange.id}/happen");
+          await dio.put("exchanges/${exchange.id}/happen");
         } on DioError catch (e) {
           if (e.response != null) {
             if (e.response.statusCode == 404)
