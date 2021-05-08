@@ -1,13 +1,11 @@
 import 'package:delibrary/src/controller/property-services.dart';
 import 'package:delibrary/src/controller/services.dart';
-import 'package:delibrary/src/model/action.dart';
-import 'package:delibrary/src/model/book.dart';
-import 'package:delibrary/src/model/exchange-list.dart';
-import 'package:delibrary/src/model/exchange.dart';
-import 'package:delibrary/src/model/property.dart';
-import 'package:delibrary/src/model/temp-exchange-list.dart';
+import 'package:delibrary/src/model/utils/action.dart';
+import 'package:delibrary/src/model/primary/book.dart';
+import 'package:delibrary/src/model/primary/exchange-list.dart';
+import 'package:delibrary/src/model/primary/exchange.dart';
+import 'package:delibrary/src/model/secondary/property.dart';
 import 'package:delibrary/src/model/session.dart';
-import 'package:delibrary/src/model/temp-exchange.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,28 +17,29 @@ class ExchangeServices extends Services {
             connectTimeout: 20000,
             receiveTimeout: 20000));
 
-  Future<Exchange> _getExchangeFromTempExchange(
-      TempExchange tempExchange) async {
+  Future<Exchange> _getExchangeFromJson(
+      Map<String, dynamic> json, bool isBuyer) async {
     PropertyServices propertyServices = PropertyServices();
-    Book property =
-        await propertyServices.getBookFromProperty(tempExchange.property);
-    Book payment =
-        await propertyServices.getBookFromProperty(tempExchange.payment);
-    return Exchange.fromTemp(tempExchange, property, payment);
+
+    Book property = await propertyServices
+        .getBookFromProperty(Property.fromJson(json['property']));
+    Book payment = await propertyServices
+        .getBookFromProperty(Property.fromJson(json['payment']));
+
+    json['property'] = property;
+    json['payment'] = payment;
+    json['isBuyer'] = isBuyer;
+
+    return Exchange.fromJson(json);
   }
 
-  Future<ExchangeList> _getExchangesFromTempExchanges(
-      List<TempExchange> tempExchangeList) async {
-    print(
-        "[Exchange services] Getting info for each book from Google Books...");
-    List<Exchange> exchangeList = [];
+  Future<ExchangeList> _getExchangeListFromJsonList(
+      List<dynamic> jsonList, bool isBuyer) async {
+    List<Exchange> items = [];
+    for (Map json in jsonList)
+      items.add(await _getExchangeFromJson(json, isBuyer));
 
-    await Future.forEach(tempExchangeList, (tempExchange) async {
-      Exchange exchange = await _getExchangeFromTempExchange(tempExchange);
-      exchangeList.add(exchange);
-    });
-
-    return ExchangeList(items: exchangeList);
+    return ExchangeList(items: items);
   }
 
   DelibraryAction propose(Property property) {
@@ -74,8 +73,7 @@ class ExchangeServices extends Services {
           }
         }
 
-        TempExchange tempExchange = TempExchange.fromJson(response.data, true);
-        Exchange exchange = await _getExchangeFromTempExchange(tempExchange);
+        Exchange exchange = await _getExchangeFromJson(response.data, true);
         session.addExchange(exchange);
         showSnackBar(context, ConfirmMessage.exchangeAdded);
       },
@@ -226,13 +224,13 @@ class ExchangeServices extends Services {
     }
 
     // Exchanges list fetched, parse and update session
-    TempExchangeList tempBuyerList =
-        TempExchangeList.fromJson(responseB.data, true);
-    TempExchangeList tempSellerList =
-        TempExchangeList.fromJson(responseS.data, false);
-    session.exchanges = await _getExchangesFromTempExchanges([
-      ...tempBuyerList.exchanges,
-      ...tempSellerList.exchanges,
+    ExchangeList buyerList =
+        await _getExchangeListFromJsonList(responseB.data, true);
+    ExchangeList sellerList =
+        await _getExchangeListFromJsonList(responseS.data, false);
+    session.exchanges = ExchangeList(items: [
+      ...buyerList.items,
+      ...sellerList.items,
     ]);
   }
 }

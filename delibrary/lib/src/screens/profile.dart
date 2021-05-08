@@ -2,7 +2,7 @@ import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
 import 'package:delibrary/src/controller/user-services.dart';
 import 'package:delibrary/src/model/session.dart';
-import 'package:delibrary/src/model/user.dart';
+import 'package:delibrary/src/model/primary/user.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,4 +1,4 @@
-import 'package:delibrary/src/model/exchange.dart';
+import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/routes/exchange-info.dart';
 import 'package:flutter/material.dart';
 

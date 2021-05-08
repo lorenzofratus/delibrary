@@ -1,6 +1,6 @@
 import 'package:delibrary/src/components/draggable-modal-page.dart';
 import 'package:delibrary/src/components/search-field.dart';
-import 'package:delibrary/src/model/position.dart';
+import 'package:delibrary/src/model/utils/position.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:flutter/material.dart';
 

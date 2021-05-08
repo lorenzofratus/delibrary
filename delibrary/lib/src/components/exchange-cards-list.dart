@@ -1,7 +1,7 @@
 import 'package:delibrary/src/components/empty-list-sign.dart';
 import 'package:delibrary/src/components/exchange-card.dart';
-import 'package:delibrary/src/model/exchange-list.dart';
-import 'package:delibrary/src/model/exchange.dart';
+import 'package:delibrary/src/model/primary/exchange-list.dart';
+import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:flutter/material.dart';
 
 class ExchangeCardsList extends StatelessWidget {

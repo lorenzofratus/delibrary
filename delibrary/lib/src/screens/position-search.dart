@@ -1,8 +1,8 @@
 import 'package:delibrary/src/components/book-cards-list.dart';
 import 'package:delibrary/src/components/position-search-bar.dart';
 import 'package:delibrary/src/controller/property-services.dart';
-import 'package:delibrary/src/model/book-list.dart';
-import 'package:delibrary/src/model/position.dart';
+import 'package:delibrary/src/model/primary/book-list.dart';
+import 'package:delibrary/src/model/utils/position.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

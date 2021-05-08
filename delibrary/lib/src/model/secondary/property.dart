@@ -1,4 +1,4 @@
-import 'package:delibrary/src/model/position.dart';
+import 'package:delibrary/src/model/utils/position.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -13,6 +13,7 @@ class Property {
   String get positionString => position.toString();
 
   factory Property.fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
     return Property(
         id: json["id"],
         ownerUsername: json["owner"],

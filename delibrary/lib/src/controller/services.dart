@@ -1,5 +1,5 @@
 import 'package:delibrary/src/components/position-modal.dart';
-import 'package:delibrary/src/model/position.dart';
+import 'package:delibrary/src/model/utils/position.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';

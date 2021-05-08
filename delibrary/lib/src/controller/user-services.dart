@@ -1,7 +1,7 @@
 import 'package:delibrary/src/controller/position-services.dart';
 import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/session.dart';
-import 'package:delibrary/src/model/user.dart';
+import 'package:delibrary/src/model/primary/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

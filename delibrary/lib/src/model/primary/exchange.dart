@@ -1,12 +1,12 @@
-import 'package:delibrary/src/model/book.dart';
-import 'package:delibrary/src/model/temp-exchange.dart';
+import 'package:delibrary/src/model/primary/book.dart';
+import 'package:delibrary/src/model/primary/user.dart';
 import 'package:flutter/material.dart';
 
 @immutable
 class Exchange {
-  final int id;
-  final String buyerUsername;
-  final String sellerUsername;
+  final String id;
+  final User buyer;
+  final User seller;
   final Book property;
   final Book payment;
   final bool isBuyer;
@@ -16,16 +16,16 @@ class Exchange {
 
   Exchange({
     this.id,
-    this.buyerUsername,
-    this.sellerUsername,
+    this.buyer,
+    this.seller,
     this.property,
     this.payment,
     this.status,
     this.isBuyer,
   });
 
-  String get myUsername => isBuyer ? buyerUsername : sellerUsername;
-  String get otherUsername => isBuyer ? sellerUsername : buyerUsername;
+  String get myUsername => isBuyer ? buyer.username : seller.username;
+  String get otherUsername => isBuyer ? seller.username : buyer.username;
   Widget get myBookImage => _getImage(isBuyer ? payment : property);
   Widget get otherBookImage => _getImage(isBuyer ? property : payment);
 
@@ -48,8 +48,8 @@ class Exchange {
   Exchange setStatus(ExchangeStatus newStatus) {
     return Exchange(
       id: id,
-      buyerUsername: buyerUsername,
-      sellerUsername: sellerUsername,
+      buyer: buyer,
+      seller: seller,
       property: property,
       payment: payment,
       status: newStatus ?? status,
@@ -61,8 +61,8 @@ class Exchange {
     if (payment != null || newPayment == null) return this;
     return Exchange(
       id: id,
-      buyerUsername: buyerUsername,
-      sellerUsername: sellerUsername,
+      buyer: buyer,
+      seller: seller,
       property: property,
       payment: newPayment,
       status: ExchangeStatus.agreed,
@@ -70,16 +70,15 @@ class Exchange {
     );
   }
 
-  factory Exchange.fromTemp(TempExchange tempExchange, Book property,
-      [Book payment]) {
+  factory Exchange.fromJson(Map<String, dynamic> json) {
     return Exchange(
-      id: tempExchange.id,
-      buyerUsername: tempExchange.buyerUsername,
-      sellerUsername: tempExchange.sellerUsername,
-      property: property,
-      payment: payment,
-      status: ExchangeStatus.from[tempExchange.status],
-      isBuyer: tempExchange.isBuyer,
+      id: json['id'].toString(),
+      buyer: User.fromJson(json['buyer']),
+      seller: User.fromJson(json['seller']),
+      property: json['property'],
+      payment: json['payment'],
+      status: ExchangeStatus.from[json['status']],
+      isBuyer: json['isBuyer'],
     );
   }
 }

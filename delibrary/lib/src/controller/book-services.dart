@@ -1,6 +1,6 @@
 import 'package:delibrary/src/controller/services.dart';
-import 'package:delibrary/src/model/book-list.dart';
-import 'package:delibrary/src/model/book.dart';
+import 'package:delibrary/src/model/primary/book-list.dart';
+import 'package:delibrary/src/model/primary/book.dart';
 import 'package:dio/dio.dart';
 
 class BookServices extends Services {

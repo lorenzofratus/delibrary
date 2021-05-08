@@ -5,10 +5,10 @@ import 'package:delibrary/src/components/draggable-modal-page.dart';
 import 'package:delibrary/src/components/info-fields.dart';
 import 'package:delibrary/src/controller/exchange-services.dart';
 import 'package:delibrary/src/controller/property-services.dart';
-import 'package:delibrary/src/model/action.dart';
-import 'package:delibrary/src/model/book-list.dart';
-import 'package:delibrary/src/model/book.dart';
-import 'package:delibrary/src/model/exchange.dart';
+import 'package:delibrary/src/model/utils/action.dart';
+import 'package:delibrary/src/model/primary/book-list.dart';
+import 'package:delibrary/src/model/primary/book.dart';
+import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 

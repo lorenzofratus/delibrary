@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:delibrary/src/model/property.dart';
+import 'package:delibrary/src/model/secondary/property.dart';
 import 'package:flutter/material.dart';
 
 @immutable

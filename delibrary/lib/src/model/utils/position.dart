@@ -1,4 +1,4 @@
-import 'package:delibrary/src/model/field-data.dart';
+import 'package:delibrary/src/model/utils/field-data.dart';
 import 'package:flutter/material.dart';
 
 @immutable

@@ -1,6 +1,6 @@
 import 'package:delibrary/src/components/button.dart';
 import 'package:delibrary/src/components/search-field.dart';
-import 'package:delibrary/src/model/position.dart';
+import 'package:delibrary/src/model/utils/position.dart';
 import 'package:delibrary/src/shortcuts/padded-container.dart';
 import 'package:flutter/material.dart';
 

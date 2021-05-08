@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'field-data.dart';
+import '../utils/field-data.dart';
 
 @immutable
 class User {
