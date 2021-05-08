@@ -1,7 +1,7 @@
 import 'package:delibrary/src/components/custom-app-bar.dart';
 import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
-import 'package:delibrary/src/controller/exchange-services.dart';
+import 'package:delibrary/src/controller/internal/exchange-services.dart';
 import 'package:delibrary/src/model/primary/exchange-list.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';

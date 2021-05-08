@@ -1,4 +1,4 @@
-import 'package:delibrary/src/controller/book-services.dart';
+import 'package:delibrary/src/controller/external/book-services.dart';
 import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/utils/action.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';

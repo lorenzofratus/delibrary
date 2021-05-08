@@ -1,7 +1,7 @@
 import 'package:delibrary/src/components/book-cards-list.dart';
 import 'package:delibrary/src/components/custom-app-bar.dart';
 import 'package:delibrary/src/components/global-search-bar.dart';
-import 'package:delibrary/src/controller/book-services.dart';
+import 'package:delibrary/src/controller/external/book-services.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
 import 'package:flutter/material.dart';
 

@@ -1,7 +1,7 @@
 import 'package:delibrary/src/components/page-title.dart';
 import 'package:delibrary/src/components/section-container.dart';
-import 'package:delibrary/src/controller/property-services.dart';
-import 'package:delibrary/src/controller/wish-services.dart';
+import 'package:delibrary/src/controller/internal/property-services.dart';
+import 'package:delibrary/src/controller/internal/wish-services.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';

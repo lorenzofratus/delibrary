@@ -1,6 +1,6 @@
 import 'package:delibrary/src/components/book-cards-list.dart';
 import 'package:delibrary/src/components/position-search-bar.dart';
-import 'package:delibrary/src/controller/property-services.dart';
+import 'package:delibrary/src/controller/internal/property-services.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
 import 'package:delibrary/src/model/utils/position.dart';
 import 'package:delibrary/src/model/session.dart';

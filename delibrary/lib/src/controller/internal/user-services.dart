@@ -1,4 +1,4 @@
-import 'package:delibrary/src/controller/position-services.dart';
+import 'package:delibrary/src/controller/external/position-services.dart';
 import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/primary/user.dart';

@@ -5,7 +5,7 @@ import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
 import 'package:delibrary/src/shortcuts/refreshable.dart';
 import 'package:flutter/material.dart';
-import 'package:delibrary/src/controller/exchange-services.dart';
+import 'package:delibrary/src/controller/internal/exchange-services.dart';
 import 'package:provider/provider.dart';
 
 class ExchangesScreen extends StatefulWidget {

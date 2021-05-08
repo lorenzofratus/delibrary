@@ -1,4 +1,4 @@
-import 'package:delibrary/src/controller/property-services.dart';
+import 'package:delibrary/src/controller/internal/property-services.dart';
 import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/utils/action.dart';
 import 'package:delibrary/src/model/primary/book.dart';

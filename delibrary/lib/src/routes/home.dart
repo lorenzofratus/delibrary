@@ -1,7 +1,7 @@
 import 'package:delibrary/src/components/custom-app-bar.dart';
 import 'package:delibrary/src/components/logo.dart';
 import 'package:delibrary/src/components/navigation-bar.dart';
-import 'package:delibrary/src/controller/user-services.dart';
+import 'package:delibrary/src/controller/internal/user-services.dart';
 import 'package:delibrary/src/screens/exchanges.dart';
 import 'package:delibrary/src/screens/library.dart';
 import 'package:delibrary/src/screens/position-search.dart';
