@@ -1,29 +1,18 @@
-import 'dart:collection';
-
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/exchange.dart';
+import 'package:delibrary/src/model/primary/item-list.dart';
 import 'package:flutter/material.dart';
 
 @immutable
-class ExchangeList {
-  final UnmodifiableListView<Exchange> items;
-  ExchangeList({List<Exchange> items})
-      : items = UnmodifiableListView(items ?? []);
-
-  int get length => items?.length ?? 0;
-  bool get isEmpty => items?.isEmpty ?? true;
-
-  Exchange getAt(int i) {
-    if (items != null && 0 <= i && i < items.length) return items[i];
-    return null;
-  }
+class ExchangeList extends ItemList<Exchange> {
+  ExchangeList({List<Exchange> items}) : super(items: items);
 
   // Both waiting and sent are in the proposed state
-  get waiting => _filter(ExchangeStatus.proposed, false);
-  get sent => _filter(ExchangeStatus.proposed, true);
-  get refused => _filter(ExchangeStatus.refused);
-  get agreed => _filter(ExchangeStatus.agreed);
-  get happened => _filter(ExchangeStatus.happened);
+  ExchangeList get waiting => _filter(ExchangeStatus.proposed, false);
+  ExchangeList get sent => _filter(ExchangeStatus.proposed, true);
+  ExchangeList get refused => _filter(ExchangeStatus.refused);
+  ExchangeList get agreed => _filter(ExchangeStatus.agreed);
+  ExchangeList get happened => _filter(ExchangeStatus.happened);
 
   ExchangeList _filter(ExchangeStatus status, [bool isBuyer]) {
     return ExchangeList(

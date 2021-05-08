@@ -1,19 +1,20 @@
+import 'package:delibrary/src/model/primary/item.dart';
 import 'package:delibrary/src/model/secondary/property.dart';
 import 'package:delibrary/src/model/secondary/wish.dart';
 import 'package:flutter/material.dart';
 
 @immutable
-class Book {
+class Book extends Item {
   final Property property;
   final Wish wish;
-  final String id;
   final _VolumeInfo info;
 
   static final AssetImage placeholder =
       AssetImage("lib/assets/placeholder.png");
 
-  Book({this.id, this.info, this.property, this.wish})
-      : assert((property == null) || (wish == null));
+  Book({id, this.info, this.property, this.wish})
+      : assert((property == null) || (wish == null)),
+        super(id: id);
 
   bool get hasDetails => info?.hasDetails ?? false;
 
@@ -50,8 +51,6 @@ class Book {
             height: height,
           );
   }
-
-  bool match(Book book) => book?.id == id;
 
   Book setProperty(Property newProperty) {
     return Book(

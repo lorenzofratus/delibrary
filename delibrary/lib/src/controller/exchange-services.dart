@@ -33,6 +33,7 @@ class ExchangeServices extends Services {
     return Exchange.fromJson(json);
   }
 
+  // TODO: could be moved to exchangelist if the server sends an object and not an array
   Future<ExchangeList> _getExchangeListFromJsonList(
       List<dynamic> jsonList, bool isBuyer) async {
     List<Exchange> items = [];
@@ -229,8 +230,8 @@ class ExchangeServices extends Services {
     ExchangeList sellerList =
         await _getExchangeListFromJsonList(responseS.data, false);
     session.exchanges = ExchangeList(items: [
-      ...buyerList.items,
-      ...sellerList.items,
+      ...buyerList.toList(),
+      ...sellerList.toList(),
     ]);
   }
 }

@@ -1,10 +1,10 @@
 import 'package:delibrary/src/model/primary/book.dart';
+import 'package:delibrary/src/model/primary/item.dart';
 import 'package:delibrary/src/model/primary/user.dart';
 import 'package:flutter/material.dart';
 
 @immutable
-class Exchange {
-  final String id;
+class Exchange extends Item {
   final User buyer;
   final User seller;
   final Book property;
@@ -15,14 +15,14 @@ class Exchange {
   static final AssetImage unknown = AssetImage("lib/assets/unknown.png");
 
   Exchange({
-    this.id,
+    id,
     this.buyer,
     this.seller,
     this.property,
     this.payment,
     this.status,
     this.isBuyer,
-  });
+  }) : super(id: id);
 
   String get myUsername => isBuyer ? buyer.username : seller.username;
   String get otherUsername => isBuyer ? seller.username : buyer.username;
