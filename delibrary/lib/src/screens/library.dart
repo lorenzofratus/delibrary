@@ -1,5 +1,5 @@
 import 'package:delibrary/src/components/page-title.dart';
-import 'package:delibrary/src/components/section-container.dart';
+import 'package:delibrary/src/components/sections/items.dart';
 import 'package:delibrary/src/controller/internal/property-services.dart';
 import 'package:delibrary/src/controller/internal/wish-services.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
@@ -45,12 +45,12 @@ class _LibraryScreenState extends State<LibraryScreen> {
             action: _addBook,
             actionIcon: Icons.add,
           ),
-          BooksSectionContainer(
+          ItemsSectionContainer(
             title: "Libreria",
             provider: (context) =>
                 context.select<Session, BookList>((s) => s.properties),
           ),
-          BooksSectionContainer(
+          ItemsSectionContainer(
             title: "Wishlist",
             provider: (context) =>
                 context.select<Session, BookList>((s) => s.wishes),

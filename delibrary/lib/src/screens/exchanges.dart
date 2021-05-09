@@ -1,5 +1,5 @@
 import 'package:delibrary/src/components/page-title.dart';
-import 'package:delibrary/src/components/section-container.dart';
+import 'package:delibrary/src/components/sections/items.dart';
 import 'package:delibrary/src/model/primary/exchange-list.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/shortcuts/padded-list-view.dart';
@@ -41,17 +41,17 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
             action: _openArchive,
             actionIcon: Icons.archive_outlined,
           ),
-          ExchangesSectionContainer(
+          ItemsSectionContainer(
             title: "In attesa",
             provider: (context) =>
                 context.select<Session, ExchangeList>((s) => s.waiting),
           ),
-          ExchangesSectionContainer(
+          ItemsSectionContainer(
             title: "Inviati",
             provider: (context) =>
                 context.select<Session, ExchangeList>((s) => s.sent),
           ),
-          ExchangesSectionContainer(
+          ItemsSectionContainer(
             title: "Confermati",
             provider: (context) =>
                 context.select<Session, ExchangeList>((s) => s.agreed),

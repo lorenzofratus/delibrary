@@ -1,5 +1,6 @@
 import 'package:delibrary/src/controller/external/book-services.dart';
 import 'package:delibrary/src/controller/services.dart';
+import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/model/utils/action.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
 import 'package:delibrary/src/model/primary/book.dart';
@@ -260,11 +261,11 @@ class PropertyServices extends Services {
     session.properties = await _getBooksFromProperties(propertyList.properties);
   }
 
-  Future<BookList> getPropertiesOf(
-      BuildContext context, String username) async {
+  Future<BookList> getPropertiesFromExchange(
+      BuildContext context, Exchange exchange) async {
     Response response;
     try {
-      response = await dio.get("users/$username/properties");
+      response = await dio.get("users/${exchange.otherUsername}/properties");
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 404) {
@@ -286,6 +287,7 @@ class PropertyServices extends Services {
     }
     // Property list fetched, parse and update session
     PropertyList propertyList = PropertyList.fromJson(response.data);
-    return await _getBooksFromProperties(propertyList.properties);
+    BookList bookList = await _getBooksFromProperties(propertyList.properties);
+    return bookList.setParent(exchange);
   }
 }

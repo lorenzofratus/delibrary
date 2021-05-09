@@ -7,6 +7,12 @@ import 'package:flutter/material.dart';
 class ExchangeList extends ItemList<Exchange> {
   ExchangeList({List<Exchange> items}) : super(items: items);
 
+  @override
+  bool get isComplete => true;
+
+  @override
+  Map<Exchange, bool> getWishedMap(BuildContext context) => {};
+
   // Both waiting and sent are in the proposed state
   ExchangeList get waiting => _filter(ExchangeStatus.proposed, false);
   ExchangeList get sent => _filter(ExchangeStatus.proposed, true);

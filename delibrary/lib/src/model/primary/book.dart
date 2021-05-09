@@ -1,3 +1,5 @@
+import 'package:delibrary/src/components/cards/book-card.dart';
+import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/model/primary/item.dart';
 import 'package:delibrary/src/model/secondary/property.dart';
 import 'package:delibrary/src/model/secondary/wish.dart';
@@ -51,6 +53,21 @@ class Book extends Item {
             height: height,
           );
   }
+
+  @override
+  BookCard getCard({
+    bool preview = false,
+    bool wished = false,
+    bool showOwner = false,
+    Exchange parent,
+  }) =>
+      BookCard(
+        book: this,
+        preview: preview,
+        wished: wished,
+        showOwner: showOwner,
+        exchange: parent,
+      );
 
   Book setProperty(Property newProperty) {
     return Book(

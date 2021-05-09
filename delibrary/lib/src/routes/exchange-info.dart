@@ -1,5 +1,5 @@
-import 'package:delibrary/src/components/book-cards-list.dart';
 import 'package:delibrary/src/components/button.dart';
+import 'package:delibrary/src/components/cards/item-cards-list.dart';
 import 'package:delibrary/src/components/custom-app-bar.dart';
 import 'package:delibrary/src/components/draggable-modal-page.dart';
 import 'package:delibrary/src/components/info-fields.dart';
@@ -21,9 +21,9 @@ class ExchangeInfoPage extends StatelessWidget {
   ExchangeInfoPage({@required this.exchange}) : assert(exchange != null);
 
   void _chooseBook(BuildContext context) async {
-    Future<BookList> bookList = _propertyServices.getPropertiesOf(
+    Future<BookList> bookList = _propertyServices.getPropertiesFromExchange(
       context,
-      exchange.otherUsername,
+      exchange,
     );
     showModalBottomSheet(
       context: context,
@@ -37,10 +37,9 @@ class ExchangeInfoPage extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData)
               return DraggableModalPage(
-                builder: (context, scrollController) => BookCardsList(
+                builder: (context, scrollController) => ItemCardsList<BookList>(
                   controller: scrollController,
-                  bookList: snapshot.data,
-                  exchange: exchange,
+                  itemList: snapshot.data,
                   reverse: true,
                   leading: [
                     Container(
@@ -100,7 +99,6 @@ class ExchangeInfoPage extends StatelessWidget {
         if (exchange.isBuyer) {
           secondaryAction = _exchangeServices.remove(exchange);
         } else {
-          //TODO: display list of books
           primaryAction =
               DelibraryAction(text: "Scegli un libro", execute: _chooseBook);
           secondaryAction = _exchangeServices.refuse(exchange);
@@ -117,8 +115,8 @@ class ExchangeInfoPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(),
       backgroundColor: Theme.of(context).primaryColor,
-      body: BookCardsList(
-        bookList: bookList,
+      body: ItemCardsList<BookList>(
+        itemList: bookList,
         showOwner: true,
         leading: [
           PaddedContainer(

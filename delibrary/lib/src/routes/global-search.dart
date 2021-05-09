@@ -1,4 +1,4 @@
-import 'package:delibrary/src/components/book-cards-list.dart';
+import 'package:delibrary/src/components/cards/item-cards-list.dart';
 import 'package:delibrary/src/components/custom-app-bar.dart';
 import 'package:delibrary/src/components/global-search-bar.dart';
 import 'package:delibrary/src/controller/external/book-services.dart';
@@ -56,8 +56,8 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
           if (_lastQuery.isNotEmpty)
             _resultsList != null
                 ? Expanded(
-                    child: BookCardsList(
-                      bookList: _resultsList,
+                    child: ItemCardsList<BookList>(
+                      itemList: _resultsList,
                       nextPage: _globalNext,
                     ),
                   )

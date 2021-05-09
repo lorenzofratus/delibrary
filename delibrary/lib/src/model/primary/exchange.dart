@@ -1,3 +1,4 @@
+import 'package:delibrary/src/components/cards/exchange-card.dart';
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/item.dart';
 import 'package:delibrary/src/model/primary/user.dart';
@@ -38,6 +39,18 @@ class Exchange extends Item {
           )
         : book.smallImage;
   }
+
+  @override
+  ExchangeCard getCard({
+    bool preview = false,
+    bool wished = false,
+    bool showOwner = false,
+    Exchange parent,
+  }) =>
+      ExchangeCard(
+        exchange: this,
+        preview: preview,
+      );
 
   //TODO: needs revision
   bool involves(Book book) {

@@ -1,5 +1,5 @@
 import 'package:delibrary/src/components/page-title.dart';
-import 'package:delibrary/src/components/section-container.dart';
+import 'package:delibrary/src/components/sections/form.dart';
 import 'package:delibrary/src/controller/internal/user-services.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/primary/user.dart';

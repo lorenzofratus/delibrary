@@ -1,4 +1,4 @@
-import 'package:delibrary/src/components/book-cards-list.dart';
+import 'package:delibrary/src/components/cards/item-cards-list.dart';
 import 'package:delibrary/src/components/position-search-bar.dart';
 import 'package:delibrary/src/controller/internal/property-services.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
@@ -45,8 +45,8 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
         if (_lastPosition?.isNotEmpty ?? false)
           _resultsList != null
               ? Expanded(
-                  child: BookCardsList(
-                    bookList: _resultsList,
+                  child: ItemCardsList<BookList>(
+                    itemList: _resultsList,
                   ),
                 )
               : Center(
