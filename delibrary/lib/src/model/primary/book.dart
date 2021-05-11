@@ -19,6 +19,8 @@ class Book extends Item {
         super(id: id);
 
   bool get hasDetails => info?.hasDetails ?? false;
+  bool get hasProperty => property != null;
+  bool get hasWish => wish != null;
 
   String get title => info?.title ?? "No title";
   String get subtitle => info?.subtitle ?? "";
@@ -34,6 +36,9 @@ class Book extends Item {
 
   Widget get smallImage => _getImage(info?.small, 130.0);
   Widget get largeImage => _getImage(info?.large, null);
+
+  @override
+  Widget get backgroundImage => largeImage;
 
   static Widget _getImage(String url, [double height]) {
     return url == null || url.isEmpty
@@ -68,6 +73,14 @@ class Book extends Item {
         showOwner: showOwner,
         exchange: parent,
       );
+
+  bool userProperty(String username) {
+    return hasProperty && property.ownerUsername == username;
+  }
+
+  bool userWish(String username) {
+    return hasWish && wish.ownerUsername == username;
+  }
 
   Book setProperty(Property newProperty) {
     return Book(

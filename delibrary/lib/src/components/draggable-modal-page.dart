@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 
-class DraggableModalPage extends StatelessWidget {
+class DraggableModalPage extends StatefulWidget {
   final Widget Function(BuildContext, ScrollController) builder;
 
   DraggableModalPage({@required this.builder}) : assert(builder != null);
+
+  @override
+  _DraggableModalPageState createState() => _DraggableModalPageState();
+}
+
+class _DraggableModalPageState extends State<DraggableModalPage> {
+  Widget cachedChild;
+
+  Widget _getChild(BuildContext context, ScrollController scrollController) {
+    if (cachedChild == null)
+      cachedChild = widget.builder(context, scrollController);
+    return cachedChild;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +32,7 @@ class DraggableModalPage extends StatelessWidget {
             topRight: Radius.circular(40.0),
           ),
         ),
-        child: builder(context, scrollController),
+        child: _getChild(context, scrollController),
       ),
     );
   }

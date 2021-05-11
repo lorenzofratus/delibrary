@@ -30,6 +30,9 @@ class Exchange extends Item {
   Widget get myBookImage => _getImage(isBuyer ? payment : property);
   Widget get otherBookImage => _getImage(isBuyer ? property : payment);
 
+  @override
+  Widget get backgroundImage => otherBookImage;
+
   static Widget _getImage(Book book) {
     return book == null
         ? Image(

@@ -34,10 +34,10 @@ class ExchangeServices extends Services {
   }
 
   // TODO: could be moved to exchangelist if the server sends an object and not an array
-  Future<ExchangeList> _getExchangeListFromJsonList(
-      List<dynamic> jsonList, bool isBuyer) async {
+  Future<ExchangeList> _getExchangeListFromJson(
+      Map<String, dynamic> json, bool isBuyer) async {
     List<Exchange> items = [];
-    for (Map json in jsonList)
+    for (Map json in json['items'])
       items.add(await _getExchangeFromJson(json, isBuyer));
 
     return ExchangeList(items: items);
@@ -209,8 +209,8 @@ class ExchangeServices extends Services {
     String username = session.user.username;
 
     try {
-      responseB = await dio.get("users/$username/exchanges/buyer");
-      responseS = await dio.get("users/$username/exchanges/seller");
+      responseB = await dio.get("users/$username/exchanges/active/buyer");
+      responseS = await dio.get("users/$username/exchanges/active/seller");
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 404)
@@ -226,9 +226,9 @@ class ExchangeServices extends Services {
 
     // Exchanges list fetched, parse and update session
     ExchangeList buyerList =
-        await _getExchangeListFromJsonList(responseB.data, true);
+        await _getExchangeListFromJson(responseB.data, true);
     ExchangeList sellerList =
-        await _getExchangeListFromJsonList(responseS.data, false);
+        await _getExchangeListFromJson(responseS.data, false);
     session.exchanges = ExchangeList(items: [
       ...buyerList.toList(),
       ...sellerList.toList(),

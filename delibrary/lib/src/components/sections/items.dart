@@ -1,10 +1,9 @@
 import 'dart:math';
 
 import 'package:delibrary/src/components/button.dart';
-import 'package:delibrary/src/components/cards/item-cards-list.dart';
-import 'package:delibrary/src/components/draggable-modal-page.dart';
 import 'package:delibrary/src/components/empty-list-sign.dart';
 import 'package:delibrary/src/components/sections/container.dart';
+import 'package:delibrary/src/components/utils/list-expander.dart';
 import 'package:delibrary/src/model/primary/item-list.dart';
 import 'package:delibrary/src/model/primary/item.dart';
 import 'package:flutter/material.dart';
@@ -26,26 +25,6 @@ class _ItemsChildren extends StatelessWidget {
   final ItemList Function(BuildContext) provider;
 
   _ItemsChildren({this.title = "", @required this.provider});
-
-  void _expandSection(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) => Scaffold(
-        // Scaffold is here as a workaround to display snackbars above the bottom sheet
-        backgroundColor: Colors.transparent,
-        body: DraggableModalPage(
-          builder: (context, scrollController) => ItemCardsList(
-            controller: scrollController,
-            itemList: provider(context),
-            reverse: true,
-            leading: [_ExpandedLeading(title)],
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,47 +55,11 @@ class _ItemsChildren extends StatelessWidget {
           },
         ),
         DelibraryButton(
-          onPressed: () => _expandSection(context),
+          onPressed: () => ListExpander.display(
+              context, title, (context) async => provider(context)),
           text: "Vedi tutti",
         ),
       ],
-    );
-  }
-}
-
-class _ExpandedLeading extends StatelessWidget {
-  final String title;
-
-  _ExpandedLeading([this.title = ""]);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 30.0, left: 40.0, right: 40.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // To keep the title centered
-          IconButton(
-            icon: Icon(Icons.close),
-            disabledColor: Colors.transparent,
-            onPressed: null,
-          ),
-          Flexible(
-            child: Text(
-              title,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headline5.copyWith(
-                    color: Theme.of(context).accentColor,
-                  ),
-            ),
-          ),
-          IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ),
     );
   }
 }

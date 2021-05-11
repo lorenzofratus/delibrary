@@ -1,6 +1,6 @@
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/exchange.dart';
-import 'package:delibrary/src/routes/book-info.dart';
+import 'package:delibrary/src/routes/info-pages/book-info.dart';
 import 'package:flutter/material.dart';
 
 import 'item-card.dart';
@@ -20,7 +20,7 @@ class BookCard extends ItemCard<Book> {
 
   @override
   Widget getInfoPage(BuildContext context) {
-    return BookInfoPage(book: item, exchange: exchange, wished: wished);
+    return BookInfoPage(item: item, parent: exchange, wished: wished);
   }
 
   @override

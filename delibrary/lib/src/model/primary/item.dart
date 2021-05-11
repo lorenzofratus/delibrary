@@ -10,6 +10,8 @@ abstract class Item {
 
   bool match(Item item) => item?.id == id;
 
+  Widget get backgroundImage;
+
   ItemCard getCard({
     bool preview = false,
     bool wished = false,

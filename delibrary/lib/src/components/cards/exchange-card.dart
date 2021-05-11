@@ -1,6 +1,6 @@
 import 'package:delibrary/src/components/cards/item-card.dart';
 import 'package:delibrary/src/model/primary/exchange.dart';
-import 'package:delibrary/src/routes/exchange-info.dart';
+import 'package:delibrary/src/routes/info-pages/exchange-info.dart';
 import 'package:flutter/material.dart';
 
 class ExchangeCard extends ItemCard<Exchange> {
@@ -11,7 +11,7 @@ class ExchangeCard extends ItemCard<Exchange> {
 
   @override
   Widget getInfoPage(BuildContext context) {
-    return ExchangeInfoPage(exchange: item);
+    return ExchangeInfoPage(item: item);
   }
 
   @override
