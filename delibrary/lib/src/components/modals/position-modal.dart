@@ -1,10 +1,10 @@
-import 'package:delibrary/src/components/draggable-modal-page.dart';
-import 'package:delibrary/src/components/search-field.dart';
+import 'package:delibrary/src/components/modals/draggable-modal-page.dart';
+import 'package:delibrary/src/components/form-fields/search-field.dart';
 import 'package:delibrary/src/model/utils/position.dart';
-import 'package:delibrary/src/shortcuts/padded-list-view.dart';
+import 'package:delibrary/src/components/utils/padded-list-view.dart';
 import 'package:flutter/material.dart';
 
-import 'button.dart';
+import '../utils/button.dart';
 
 class PositionModal extends StatefulWidget {
   final void Function(Position) onSubmit;

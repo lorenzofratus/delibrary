@@ -1,10 +1,10 @@
-import 'package:delibrary/src/components/info-fields.dart';
+import 'package:delibrary/src/components/utils/info-fields.dart';
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/routes/info-pages/item-info.dart';
-import 'package:delibrary/src/shortcuts/padded-container.dart';
-import 'package:delibrary/src/shortcuts/padded-list-view.dart';
+import 'package:delibrary/src/components/utils/padded-container.dart';
+import 'package:delibrary/src/components/utils/padded-list-view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

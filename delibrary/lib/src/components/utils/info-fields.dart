@@ -1,4 +1,4 @@
-import 'package:delibrary/src/components/expandable-text.dart';
+import 'package:delibrary/src/components/utils/expandable-text.dart';
 import 'package:flutter/material.dart';
 
 class InfoTitle extends StatelessWidget {

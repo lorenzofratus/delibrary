@@ -1,5 +1,5 @@
 import 'package:delibrary/src/components/cards/item-cards-list.dart';
-import 'package:delibrary/src/components/draggable-modal-page.dart';
+import 'package:delibrary/src/components/modals/draggable-modal-page.dart';
 import 'package:delibrary/src/model/primary/item-list.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:delibrary/src/components/obscurable-field.dart';
+import 'package:delibrary/src/components/form-fields/obscurable-field.dart';
 import 'package:flutter/material.dart';
 
 class EditableFormField extends StatelessWidget {

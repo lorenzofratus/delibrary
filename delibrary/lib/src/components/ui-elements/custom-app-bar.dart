@@ -1,6 +1,5 @@
+import 'package:delibrary/src/components/utils/logo.dart';
 import 'package:flutter/material.dart';
-
-import 'logo.dart';
 
 class CustomAppBar extends AppBar {
   CustomAppBar()

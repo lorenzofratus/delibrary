@@ -1,9 +1,9 @@
-import 'package:delibrary/src/components/button.dart';
-import 'package:delibrary/src/components/logo.dart';
-import 'package:delibrary/src/components/search-field.dart';
+import 'package:delibrary/src/components/utils/button.dart';
+import 'package:delibrary/src/components/utils/logo.dart';
+import 'package:delibrary/src/components/form-fields/search-field.dart';
 import 'package:delibrary/src/controller/internal/user-services.dart';
 import 'package:delibrary/src/model/primary/user.dart';
-import 'package:delibrary/src/shortcuts/padded-container.dart';
+import 'package:delibrary/src/components/utils/padded-container.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {

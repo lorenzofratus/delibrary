@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:delibrary/src/components/button.dart';
-import 'package:delibrary/src/components/empty-list-sign.dart';
+import 'package:delibrary/src/components/utils/button.dart';
+import 'package:delibrary/src/components/ui-elements/empty-list-sign.dart';
 import 'package:delibrary/src/components/sections/container.dart';
-import 'package:delibrary/src/components/utils/list-expander.dart';
+import 'package:delibrary/src/components/modals/list-expander.dart';
 import 'package:delibrary/src/model/primary/item-list.dart';
 import 'package:delibrary/src/model/primary/item.dart';
 import 'package:flutter/material.dart';

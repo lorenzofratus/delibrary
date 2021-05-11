@@ -1,4 +1,4 @@
-import 'package:delibrary/src/components/position-modal.dart';
+import 'package:delibrary/src/components/modals/position-modal.dart';
 import 'package:delibrary/src/model/utils/position.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:dio/dio.dart';

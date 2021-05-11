@@ -2,8 +2,8 @@ import 'package:delibrary/src/components/sections/container.dart';
 import 'package:delibrary/src/model/utils/field-data.dart';
 import 'package:flutter/material.dart';
 
-import '../button.dart';
-import '../editable-field.dart';
+import '../utils/button.dart';
+import '../form-fields/editable-field.dart';
 
 class FormSectionContainer extends SectionContainer {
   FormSectionContainer({

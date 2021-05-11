@@ -1,6 +1,6 @@
-import 'package:delibrary/src/components/button.dart';
-import 'package:delibrary/src/components/custom-app-bar.dart';
-import 'package:delibrary/src/components/draggable-modal-page.dart';
+import 'package:delibrary/src/components/utils/button.dart';
+import 'package:delibrary/src/components/ui-elements/custom-app-bar.dart';
+import 'package:delibrary/src/components/modals/draggable-modal-page.dart';
 import 'package:delibrary/src/controller/internal/exchange-services.dart';
 import 'package:delibrary/src/controller/internal/property-services.dart';
 import 'package:delibrary/src/controller/internal/wish-services.dart';

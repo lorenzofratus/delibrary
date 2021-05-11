@@ -1,6 +1,6 @@
 import 'package:delibrary/src/components/cards/item-cards-list.dart';
-import 'package:delibrary/src/components/custom-app-bar.dart';
-import 'package:delibrary/src/components/global-search-bar.dart';
+import 'package:delibrary/src/components/ui-elements/custom-app-bar.dart';
+import 'package:delibrary/src/components/search-bars/global-search-bar.dart';
 import 'package:delibrary/src/controller/external/book-services.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
 import 'package:flutter/material.dart';

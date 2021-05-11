@@ -1,4 +1,4 @@
-import 'package:delibrary/src/components/empty-list-sign.dart';
+import 'package:delibrary/src/components/ui-elements/empty-list-sign.dart';
 import 'package:delibrary/src/model/primary/item-list.dart';
 import 'package:delibrary/src/model/primary/item.dart';
 import 'package:flutter/material.dart';

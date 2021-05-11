@@ -1,4 +1,4 @@
-import 'package:delibrary/src/shortcuts/padded-container.dart';
+import 'package:delibrary/src/components/utils/padded-container.dart';
 import 'package:flutter/material.dart';
 
 class EmptyListSign extends StatelessWidget {

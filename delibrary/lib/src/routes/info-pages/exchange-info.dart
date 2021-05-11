@@ -1,12 +1,12 @@
 import 'package:delibrary/src/components/cards/item-cards-list.dart';
-import 'package:delibrary/src/components/info-fields.dart';
-import 'package:delibrary/src/components/utils/list-expander.dart';
+import 'package:delibrary/src/components/utils/info-fields.dart';
+import 'package:delibrary/src/components/modals/list-expander.dart';
 import 'package:delibrary/src/model/utils/action.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/routes/info-pages/item-info.dart';
-import 'package:delibrary/src/shortcuts/padded-container.dart';
+import 'package:delibrary/src/components/utils/padded-container.dart';
 import 'package:flutter/material.dart';
 
 class ExchangeInfoPage extends ItemInfoPage<Exchange> {

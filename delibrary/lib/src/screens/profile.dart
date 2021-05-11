@@ -1,9 +1,9 @@
-import 'package:delibrary/src/components/page-title.dart';
+import 'package:delibrary/src/components/utils/page-title.dart';
 import 'package:delibrary/src/components/sections/form.dart';
 import 'package:delibrary/src/controller/internal/user-services.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/primary/user.dart';
-import 'package:delibrary/src/shortcuts/padded-list-view.dart';
+import 'package:delibrary/src/components/utils/padded-list-view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

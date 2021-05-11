@@ -1,6 +1,6 @@
-import 'package:delibrary/src/components/custom-app-bar.dart';
-import 'package:delibrary/src/components/logo.dart';
-import 'package:delibrary/src/components/navigation-bar.dart';
+import 'package:delibrary/src/components/ui-elements/custom-app-bar.dart';
+import 'package:delibrary/src/components/utils/logo.dart';
+import 'package:delibrary/src/components/ui-elements/navigation-bar.dart';
 import 'package:delibrary/src/controller/internal/user-services.dart';
 import 'package:delibrary/src/screens/exchanges.dart';
 import 'package:delibrary/src/screens/library.dart';
