@@ -55,10 +55,14 @@ class ExchangeServices extends Services {
   }
 
   DelibraryAction refuse(Exchange exchange) {
-    //TODO: ask for confirmation
     return DelibraryAction(
       text: "Rifiuta lo scambio",
       execute: (BuildContext context) async {
+        //TODO: better description
+        bool confirm =
+            await showConfirmModal(context, "Lo scambio verrà archiviato");
+        if (!confirm) return;
+
         Session session = context.read<Session>();
 
         try {
@@ -86,10 +90,14 @@ class ExchangeServices extends Services {
   }
 
   DelibraryAction remove(Exchange exchange) {
-    //TODO: ask for confirmation
     return DelibraryAction(
       text: "Annulla lo scambio",
       execute: (BuildContext context) async {
+        //TODO: better description
+        bool confirm =
+            await showConfirmModal(context, "Lo scambio verrà eliminato");
+        if (!confirm) return;
+
         Session session = context.read<Session>();
 
         try {

@@ -1,3 +1,4 @@
+import 'package:delibrary/src/components/modals/confirm-modal.dart';
 import 'package:delibrary/src/components/modals/position-modal.dart';
 import 'package:delibrary/src/model/utils/position.dart';
 import 'package:delibrary/src/model/session.dart';
@@ -83,6 +84,30 @@ abstract class Services {
     );
 
     return position;
+  }
+
+  // Returns true if the user confirms the action
+  Future<bool> showConfirmModal(
+      BuildContext context, String description) async {
+    bool confirm = false;
+
+    await showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => ConfirmModal(
+        description: description,
+        onSubmit: () {
+          pop(context);
+          confirm = true;
+        },
+        onDiscard: () {
+          pop(context);
+        },
+      ),
+    );
+
+    return confirm;
   }
 
   void replace(BuildContext context, Widget route) {
