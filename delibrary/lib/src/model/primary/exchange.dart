@@ -1,7 +1,6 @@
 import 'package:delibrary/src/components/cards/exchange-card.dart';
 import 'package:delibrary/src/controller/external/book-services.dart';
 import 'package:delibrary/src/controller/internal/property-services.dart';
-import 'package:delibrary/src/controller/internal/user-services.dart';
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/item.dart';
 import 'package:delibrary/src/model/primary/user.dart';
@@ -31,6 +30,7 @@ class Exchange extends Item {
 
   String get myUsername => isBuyer ? buyer.username : seller.username;
   String get otherUsername => isBuyer ? seller.username : buyer.username;
+  String get otherEmail => isBuyer ? seller.email : buyer.email;
   Widget get myBookImage => _getImage(isBuyer ? payment : property);
   Widget get otherBookImage => _getImage(isBuyer ? property : payment);
 

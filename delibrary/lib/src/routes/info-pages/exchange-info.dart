@@ -75,6 +75,7 @@ class _ExchangeInfoPageState extends ItemInfoPageState<Exchange> {
                 title: "Altro utente",
                 data: {
                   item.otherUsername: InfoDataType.user,
+                  item.otherEmail: InfoDataType.email,
                 },
               ),
               ...getButtons(context),

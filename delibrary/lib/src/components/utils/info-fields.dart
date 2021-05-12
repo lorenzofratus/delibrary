@@ -50,6 +50,7 @@ class InfoDataType {
   static const IconData publisher = Icons.store;
   static const IconData date = Icons.calendar_today;
   static const IconData user = Icons.person;
+  static const IconData email = Icons.email;
   static const IconData position = Icons.place;
 }
 
