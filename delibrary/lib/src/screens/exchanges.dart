@@ -27,7 +27,7 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
   }
 
   Future<void> _downloadLists() async {
-    _exchangeServices.updateSession(context);
+    _exchangeServices.updateSessionActive(context);
   }
 
   @override

@@ -16,6 +16,7 @@ class Session extends ChangeNotifier {
   BookList _properties;
   BookList _wishes;
   ExchangeList _exchanges;
+  ExchangeList _archived;
 
   // ** Session management **
 
@@ -27,6 +28,7 @@ class Session extends ChangeNotifier {
     _properties = null;
     _wishes = null;
     _exchanges = null;
+    _archived = null;
   }
 
   // ** User management **
@@ -111,9 +113,7 @@ class Session extends ChangeNotifier {
   // Both waiting and sent are in the proposed state
   ExchangeList get waiting => _exchanges?.waiting ?? ExchangeList();
   ExchangeList get sent => _exchanges?.sent ?? ExchangeList();
-  ExchangeList get refused => _exchanges?.refused ?? ExchangeList();
   ExchangeList get agreed => _exchanges?.agreed ?? ExchangeList();
-  ExchangeList get happened => _exchanges?.happened ?? ExchangeList();
 
   set exchanges(ExchangeList exchanges) {
     if (exchanges != null) {
@@ -154,5 +154,18 @@ class Session extends ChangeNotifier {
   void agreeExchange(Exchange exchange, Book payment) {
     _exchanges = exchanges.agree(exchange, payment);
     notifyListeners();
+  }
+
+  // ** Archived exchanges management **
+
+  ExchangeList get archived => _archived ?? ExchangeList();
+  ExchangeList get refused => _archived?.refused ?? ExchangeList();
+  ExchangeList get happened => _archived?.happened ?? ExchangeList();
+
+  set archived(ExchangeList archived) {
+    if (archived != null) {
+      _archived = archived;
+      notifyListeners();
+    }
   }
 }

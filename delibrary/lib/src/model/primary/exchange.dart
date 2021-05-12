@@ -1,7 +1,11 @@
 import 'package:delibrary/src/components/cards/exchange-card.dart';
+import 'package:delibrary/src/controller/external/book-services.dart';
+import 'package:delibrary/src/controller/internal/property-services.dart';
+import 'package:delibrary/src/controller/internal/user-services.dart';
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/item.dart';
 import 'package:delibrary/src/model/primary/user.dart';
+import 'package:delibrary/src/model/secondary/property.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -84,6 +88,41 @@ class Exchange extends Item {
       status: ExchangeStatus.agreed,
       isBuyer: isBuyer,
     );
+  }
+
+  static Future<Exchange> fromJsonActive(
+      Map<String, dynamic> json, bool isBuyer) async {
+    PropertyServices propertyServices = PropertyServices();
+    Book property = await propertyServices
+        .getBookFromProperty(Property.fromJson(json['property']));
+    Book payment = await propertyServices
+        .getBookFromProperty(Property.fromJson(json['payment']));
+
+    json['property'] = property;
+    json['payment'] = payment;
+    json['isBuyer'] = isBuyer;
+
+    return Exchange.fromJson(json);
+  }
+
+  static Future<Exchange> fromJsonArchived(
+      Map<String, dynamic> json, bool isBuyer) async {
+    BookServices bookServices = BookServices();
+
+    Book property = await bookServices.getById(json['propertyBookId']);
+    Book payment;
+    if (json['paymentBookId'] != null)
+      payment = await bookServices.getById(json['paymentBookId']);
+
+    // TODO: receive User object from server
+    json['buyer'] = User(username: json['buyer'], email: "").toJson();
+    json['seller'] = User(username: json['seller'], email: "").toJson();
+
+    json['property'] = property;
+    json['payment'] = payment;
+    json['isBuyer'] = isBuyer;
+
+    return Exchange.fromJson(json);
   }
 
   factory Exchange.fromJson(Map<String, dynamic> json) {

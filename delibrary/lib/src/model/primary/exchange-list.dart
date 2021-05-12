@@ -13,6 +13,24 @@ class ExchangeList extends ItemList<Exchange> {
   @override
   Map<Exchange, bool> getWishedMap(BuildContext context) => {};
 
+  static Future<ExchangeList> fromJsonProperties(
+      Map<String, dynamic> jsonList, bool isBuyer) async {
+    List<Exchange> items = [];
+    for (Map json in jsonList['items'])
+      items.add(await Exchange.fromJsonActive(json, isBuyer));
+
+    return ExchangeList(items: items);
+  }
+
+  static Future<ExchangeList> fromJsonBooks(
+      Map<String, dynamic> jsonList, bool isBuyer) async {
+    List<Exchange> items = [];
+    for (Map json in jsonList['items'])
+      items.add(await Exchange.fromJsonArchived(json, isBuyer));
+
+    return ExchangeList(items: items);
+  }
+
   // Both waiting and sent are in the proposed state
   ExchangeList get waiting => _filter(ExchangeStatus.proposed, false);
   ExchangeList get sent => _filter(ExchangeStatus.proposed, true);

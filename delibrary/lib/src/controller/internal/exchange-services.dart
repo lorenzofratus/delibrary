@@ -1,4 +1,3 @@
-import 'package:delibrary/src/controller/internal/property-services.dart';
 import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/utils/action.dart';
 import 'package:delibrary/src/model/primary/book.dart';
@@ -16,32 +15,6 @@ class ExchangeServices extends Services {
             baseUrl: "https://delibrary.herokuapp.com/v1/",
             connectTimeout: 20000,
             receiveTimeout: 20000));
-
-  Future<Exchange> _getExchangeFromJson(
-      Map<String, dynamic> json, bool isBuyer) async {
-    PropertyServices propertyServices = PropertyServices();
-
-    Book property = await propertyServices
-        .getBookFromProperty(Property.fromJson(json['property']));
-    Book payment = await propertyServices
-        .getBookFromProperty(Property.fromJson(json['payment']));
-
-    json['property'] = property;
-    json['payment'] = payment;
-    json['isBuyer'] = isBuyer;
-
-    return Exchange.fromJson(json);
-  }
-
-  // TODO: could be moved to exchangelist if the server sends an object and not an array
-  Future<ExchangeList> _getExchangeListFromJson(
-      Map<String, dynamic> json, bool isBuyer) async {
-    List<Exchange> items = [];
-    for (Map json in json['items'])
-      items.add(await _getExchangeFromJson(json, isBuyer));
-
-    return ExchangeList(items: items);
-  }
 
   DelibraryAction propose(Property property) {
     return DelibraryAction(
@@ -74,7 +47,7 @@ class ExchangeServices extends Services {
           }
         }
 
-        Exchange exchange = await _getExchangeFromJson(response.data, true);
+        Exchange exchange = await Exchange.fromJsonActive(response.data, true);
         session.addExchange(exchange);
         showSnackBar(context, ConfirmMessage.exchangeAdded);
       },
@@ -201,7 +174,7 @@ class ExchangeServices extends Services {
     );
   }
 
-  Future<void> updateSession(BuildContext context) async {
+  Future<void> updateSessionActive(BuildContext context) async {
     print("[Exchange services] Getting exchanges from Delibrary...");
 
     Response responseB, responseS;
@@ -226,10 +199,44 @@ class ExchangeServices extends Services {
 
     // Exchanges list fetched, parse and update session
     ExchangeList buyerList =
-        await _getExchangeListFromJson(responseB.data, true);
+        await ExchangeList.fromJsonProperties(responseB.data, true);
     ExchangeList sellerList =
-        await _getExchangeListFromJson(responseS.data, false);
+        await ExchangeList.fromJsonProperties(responseS.data, false);
     session.exchanges = ExchangeList(items: [
+      ...buyerList.toList(),
+      ...sellerList.toList(),
+    ]);
+  }
+
+  Future<void> updateSessionArchived(BuildContext context) async {
+    print("[Exchange services] Getting exchanges from Delibrary...");
+
+    Response responseB, responseS;
+    Session session = context.read<Session>();
+    String username = session.user.username;
+
+    try {
+      responseB = await dio.get("users/$username/exchanges/archived/buyer");
+      responseS = await dio.get("users/$username/exchanges/archived/seller");
+    } on DioError catch (e) {
+      if (e.response != null) {
+        if (e.response.statusCode == 404)
+          return showSnackBar(context, ErrorMessage.userNotFound);
+        if (e.response.statusCode == 500)
+          return showSnackBar(context, ErrorMessage.serverError);
+        errorOnResponse(e);
+      } else {
+        errorOnRequest(e, false);
+        return showSnackBar(context, ErrorMessage.checkConnection);
+      }
+    }
+
+    // Exchanges list fetched, parse and update session
+    ExchangeList buyerList =
+        await ExchangeList.fromJsonBooks(responseB.data, true);
+    ExchangeList sellerList =
+        await ExchangeList.fromJsonBooks(responseS.data, false);
+    session.archived = ExchangeList(items: [
       ...buyerList.toList(),
       ...sellerList.toList(),
     ]);
