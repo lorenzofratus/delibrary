@@ -56,6 +56,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: Theme.of(context).primaryColor,
       body: Center(
         child: SingleChildScrollView(
           child: PaddedContainer(
