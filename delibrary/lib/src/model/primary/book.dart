@@ -4,6 +4,7 @@ import 'package:delibrary/src/model/primary/item.dart';
 import 'package:delibrary/src/model/secondary/property.dart';
 import 'package:delibrary/src/model/secondary/wish.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
 
 @immutable
 class Book extends Item {
@@ -152,17 +153,23 @@ class _VolumeInfo {
   String get small => imageLinks?.small ?? "";
   String get large => imageLinks?.large ?? "";
 
+  static String _parseHtml(String html) {
+    dynamic document = parse(html ?? "");
+    return parse(document.body.text).documentElement.text;
+  }
+
   factory _VolumeInfo.fromJson(Map<String, dynamic> json) {
     var authorsList = json["authors"] ?? [];
     List<String> authors = new List<String>.from(authorsList);
+    authors.map((a) => _parseHtml(a));
 
     return _VolumeInfo(
-      title: json["title"],
-      subtitle: json["subtitle"],
+      title: _parseHtml(json["title"]),
+      subtitle: _parseHtml(json["subtitle"]),
       authors: authors,
-      publisher: json["publisher"],
-      publishedDate: json["publishedDate"],
-      description: json["description"],
+      publisher: _parseHtml(json["publisher"]),
+      publishedDate: _parseHtml(json["publishedDate"]),
+      description: _parseHtml(json["description"]),
       imageLinks: json.containsKey("imageLinks")
           ? _ImageLinks.fromJson(json["imageLinks"])
           : null,

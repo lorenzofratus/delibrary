@@ -23,6 +23,7 @@ environment:
 dependencies:
   dio: ^3.0.10
   http: ^0.12.2
+  html: ^0.15.0
   shared_preferences: ^0.5.12+4
   flutter:
     sdk: flutter
