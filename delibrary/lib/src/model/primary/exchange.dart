@@ -90,7 +90,7 @@ class Exchange extends Item {
     );
   }
 
-  static Future<Exchange> fromJsonActive(
+  static Future<Exchange> fromJsonProperty(
       Map<String, dynamic> json, bool isBuyer) async {
     PropertyServices propertyServices = PropertyServices();
     Book property = await propertyServices
@@ -105,7 +105,7 @@ class Exchange extends Item {
     return Exchange.fromJson(json);
   }
 
-  static Future<Exchange> fromJsonArchived(
+  static Future<Exchange> fromJsonBook(
       Map<String, dynamic> json, bool isBuyer) async {
     BookServices bookServices = BookServices();
 
@@ -113,10 +113,6 @@ class Exchange extends Item {
     Book payment;
     if (json['paymentBookId'] != null)
       payment = await bookServices.getById(json['paymentBookId']);
-
-    // TODO: receive User object from server
-    json['buyer'] = User(username: json['buyer'], email: "").toJson();
-    json['seller'] = User(username: json['seller'], email: "").toJson();
 
     json['property'] = property;
     json['payment'] = payment;

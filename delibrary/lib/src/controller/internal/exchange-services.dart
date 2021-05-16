@@ -1,3 +1,4 @@
+import 'package:delibrary/src/controller/internal/property-services.dart';
 import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/utils/action.dart';
 import 'package:delibrary/src/model/primary/book.dart';
@@ -5,6 +6,7 @@ import 'package:delibrary/src/model/primary/exchange-list.dart';
 import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/model/secondary/property.dart';
 import 'package:delibrary/src/model/session.dart';
+import 'package:delibrary/src/routes/info-pages/exchange-info.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -47,9 +49,12 @@ class ExchangeServices extends Services {
           }
         }
 
-        Exchange exchange = await Exchange.fromJsonActive(response.data, true);
+        // Exchange proposed successfully, update session
+        Exchange exchange =
+            await Exchange.fromJsonProperty(response.data, true);
         session.addExchange(exchange);
         showSnackBar(context, ConfirmMessage.exchangeAdded);
+        replace(context, ExchangeInfoPage(item: exchange));
       },
     );
   }
@@ -65,8 +70,10 @@ class ExchangeServices extends Services {
 
         Session session = context.read<Session>();
 
+        Response response;
+
         try {
-          await dio.put("exchanges/${exchange.id}/refuse");
+          response = await dio.put("exchanges/${exchange.id}/refuse");
         } on DioError catch (e) {
           if (e.response != null) {
             if (e.response.statusCode == 404)
@@ -82,9 +89,13 @@ class ExchangeServices extends Services {
           }
         }
 
-        // Property removed successfully, update session
-        session.refuseExchange(exchange);
+        // Exchange refused successfully, update session
+        Exchange newExchange =
+            await Exchange.fromJsonBook(response.data, exchange.isBuyer);
+        session.removeExchange(exchange);
+        session.addArchived(newExchange);
         showSnackBar(context, ConfirmMessage.exchangeRefused);
+        pop(context);
       },
     );
   }
@@ -117,9 +128,10 @@ class ExchangeServices extends Services {
           }
         }
 
-        // Property removed successfully, update session
+        // Exchange removed successfully, update session
         session.removeExchange(exchange);
         showSnackBar(context, ConfirmMessage.exchangeRemoved);
+        pop(context);
       },
     );
   }
@@ -130,9 +142,12 @@ class ExchangeServices extends Services {
         execute: (BuildContext context) async {
           Session session = context.read<Session>();
 
+          Response response;
+
           try {
-            await dio.put("exchanges/${exchange.id}/agree",
-                data: payment.property.toJson());
+            response = await dio.put("exchanges/${exchange.id}/agree", data: {
+              'paymentId': payment.property.id,
+            });
           } on DioError catch (e) {
             if (e.response != null) {
               if (e.response.statusCode == 404)
@@ -148,8 +163,12 @@ class ExchangeServices extends Services {
             }
           }
 
-          session.agreeExchange(exchange, payment);
+          // Exchange agreed successfully, update session
+          Exchange newExchange =
+              await Exchange.fromJsonProperty(response.data, false);
+          session.updateExchange(newExchange);
           showSnackBar(context, ConfirmMessage.exchangeAgreed);
+          replaceAll(context, ExchangeInfoPage(item: newExchange));
         });
   }
 
@@ -159,8 +178,10 @@ class ExchangeServices extends Services {
       execute: (BuildContext context) async {
         Session session = context.read<Session>();
 
+        Response response;
+
         try {
-          await dio.put("exchanges/${exchange.id}/happen");
+          response = await dio.put("exchanges/${exchange.id}/happen");
         } on DioError catch (e) {
           if (e.response != null) {
             if (e.response.statusCode == 404)
@@ -176,8 +197,15 @@ class ExchangeServices extends Services {
           }
         }
 
-        session.happenExchange(exchange);
+        // Exchange happened successfully, update session
+        Exchange newExchange =
+            await Exchange.fromJsonBook(response.data, exchange.isBuyer);
+        session.removeExchange(exchange);
+        session.addArchived(newExchange);
+        // Update property lists to display the new book in the library
+        PropertyServices().updateSession(context);
         showSnackBar(context, ConfirmMessage.exchangeHappened);
+        replace(context, ExchangeInfoPage(item: newExchange));
       },
     );
   }

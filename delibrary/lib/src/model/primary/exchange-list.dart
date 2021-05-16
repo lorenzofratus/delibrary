@@ -17,7 +17,7 @@ class ExchangeList extends ItemList<Exchange> {
       Map<String, dynamic> jsonList, bool isBuyer) async {
     List<Exchange> items = [];
     for (Map json in jsonList['items'])
-      items.add(await Exchange.fromJsonActive(json, isBuyer));
+      items.add(await Exchange.fromJsonProperty(json, isBuyer));
 
     return ExchangeList(items: items);
   }
@@ -26,7 +26,7 @@ class ExchangeList extends ItemList<Exchange> {
       Map<String, dynamic> jsonList, bool isBuyer) async {
     List<Exchange> items = [];
     for (Map json in jsonList['items'])
-      items.add(await Exchange.fromJsonArchived(json, isBuyer));
+      items.add(await Exchange.fromJsonBook(json, isBuyer));
 
     return ExchangeList(items: items);
   }
@@ -69,33 +69,17 @@ class ExchangeList extends ItemList<Exchange> {
     return ExchangeList(items: self);
   }
 
-  ExchangeList refuse(Exchange exchange) {
-    if (exchange == null || !items.contains(exchange)) return this;
+  ExchangeList update(Exchange exchange) {
+    Exchange oldExchange =
+        items.firstWhere((e) => e.match(exchange), orElse: () => null);
+    print("Updating exchange");
+    print(exchange);
+    print(oldExchange);
+    if (exchange == null || oldExchange == null) return this;
     List<Exchange> self = items.toList();
-    int index = self.indexOf(exchange);
-    Exchange newExchange = exchange.setStatus(ExchangeStatus.refused);
-    self.remove(exchange);
-    self.insert(index, newExchange);
-    return ExchangeList(items: self);
-  }
-
-  ExchangeList happen(Exchange exchange) {
-    if (exchange == null || !items.contains(exchange)) return this;
-    List<Exchange> self = items.toList();
-    int index = self.indexOf(exchange);
-    Exchange newExchange = exchange.setStatus(ExchangeStatus.happened);
-    self.remove(exchange);
-    self.insert(index, newExchange);
-    return ExchangeList(items: self);
-  }
-
-  ExchangeList agree(Exchange exchange, Book payment) {
-    if (exchange == null || !items.contains(exchange)) return this;
-    List<Exchange> self = items.toList();
-    int index = self.indexOf(exchange);
-    Exchange newExchange = exchange.setPayment(payment);
-    self.remove(exchange);
-    self.insert(index, newExchange);
+    int index = self.indexOf(oldExchange);
+    self.remove(oldExchange);
+    self.insert(index, exchange);
     return ExchangeList(items: self);
   }
 }

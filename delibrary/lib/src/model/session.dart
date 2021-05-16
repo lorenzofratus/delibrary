@@ -141,19 +141,10 @@ class Session extends ChangeNotifier {
     if (_exchanges != oldList) notifyListeners();
   }
 
-  void refuseExchange(Exchange exchange) {
-    _exchanges = exchanges.refuse(exchange);
-    notifyListeners();
-  }
-
-  void happenExchange(Exchange exchange) {
-    _exchanges = exchanges.happen(exchange);
-    notifyListeners();
-  }
-
-  void agreeExchange(Exchange exchange, Book payment) {
-    _exchanges = exchanges.agree(exchange, payment);
-    notifyListeners();
+  void updateExchange(Exchange exchange) {
+    ExchangeList oldList = exchanges;
+    _exchanges = oldList.update(exchange);
+    if (_exchanges != oldList) notifyListeners();
   }
 
   // ** Archived exchanges management **
@@ -167,5 +158,11 @@ class Session extends ChangeNotifier {
       _archived = archived;
       notifyListeners();
     }
+  }
+
+  void addArchived(Exchange exchange) {
+    ExchangeList oldList = archived;
+    _archived = oldList.add(exchange);
+    if (_archived != oldList) notifyListeners();
   }
 }

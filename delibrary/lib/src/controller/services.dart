@@ -119,6 +119,16 @@ abstract class Services {
     );
   }
 
+  void replaceAll(BuildContext context, Widget route) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => route,
+      ),
+      ModalRoute.withName('/'),
+    );
+  }
+
   void navigateTo(BuildContext context, String routeName) {
     Navigator.pushReplacementNamed(context, routeName);
   }
