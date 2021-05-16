@@ -28,6 +28,9 @@ class Exchange extends Item {
     this.isBuyer,
   }) : super(id: id);
 
+  String get title => status.string;
+  String get description =>
+      isBuyer ? status.descriptionBuyer : status.descriptionSeller;
   String get myUsername => isBuyer ? buyer.username : seller.username;
   String get otherUsername => isBuyer ? seller.username : buyer.username;
   String get otherEmail => isBuyer ? seller.email : buyer.email;
@@ -62,7 +65,6 @@ class Exchange extends Item {
         preview: preview,
       );
 
-  //TODO: needs revision
   bool involves(Book book) {
     if (book == null) return false;
     return book.match(property) || book.match(payment);
@@ -170,19 +172,33 @@ extension ExchangeStatusIndex on ExchangeStatus {
     }
   }
 
-  String get description {
-    //TODO: better descriptions PLEASE, maybe different for the two users
+  String get descriptionBuyer {
     switch (this) {
       case ExchangeStatus.proposed:
-        return "Lo scambio rimarrà in attesa fino a che il proprietario del libro non sceglierà se accettare o rifiutare.";
+        return "Lo scambio è stato inviato all'altro utente che ora può scegliere se accettare o rifiutare.\n\nSe vuoi, puoi ancora annullare lo scambio ed eliminarlo definitivamente.";
       case ExchangeStatus.agreed:
-        return "Gli utenti si sono accordati sui libri da scambiare, lo scambio dovrà avvenire all'esterno di Delibrary.";
+        return "L'altro utente ha accettato lo scambio!\n\nQui puoi trovare il libro che ha scelto come corrispettivo ed il suo indirizzo email per contattarlo.\n\nQuando lo scambio sarà avvenuto clicca su \"Scambio completato\" e Delibrary penserà ad inserire il tuo nuovo libro nella libreria.";
       case ExchangeStatus.refused:
-        return "Purtroppo lo scambio è stato rifiutato da uno dei due utenti.";
+        return "Purtroppo lo scambio è stato rifiutato.\n\nProva la nostra barra di ricerca per trovare altri libri!";
       case ExchangeStatus.happened:
-        return "Lo scambio è avvenuto, i nuovi libri sono ora disponibili nelle rispettive librerie.";
+        return "Lo scambio è stato completato.\n\nIl tuo nuovo libro si trova già nella tua libreria!";
       default:
-        return "Scambio";
+        return "";
+    }
+  }
+
+  String get descriptionSeller {
+    switch (this) {
+      case ExchangeStatus.proposed:
+        return "Ti è stato proposto uno scambio!\n\nDai un'occhiata alla lista di libri dell'altro utente.\n\nPuoi scegliere un libro da ricevere o rifiutare lo scambio.";
+      case ExchangeStatus.agreed:
+        return "Hai accettato lo scambio!\n\nQui puoi trovare l'indirizzo email dell'altro utente, contattalo per accordarvi.\n\nQuando lo scambio sarà avvenuto clicca su \"Scambio completato\" e Delibrary penserà ad inserire il tuo nuovo libro nella libreria.";
+      case ExchangeStatus.refused:
+        return "Purtroppo lo scambio è stato rifiutato.\n\nProva la nostra barra di ricerca per trovare altri libri!";
+      case ExchangeStatus.happened:
+        return "Lo scambio è stato completato.\n\nIl tuo nuovo libro si trova già nella tua libreria!";
+      default:
+        return "";
     }
   }
 }

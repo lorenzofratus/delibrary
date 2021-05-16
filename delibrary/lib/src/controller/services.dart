@@ -26,7 +26,6 @@ abstract class Services {
         },
         //Manage redirect on 401 statusCode
         onResponse: (Response response) async {
-          //TODO
           if (response.statusCode == 401)
             throw Exception("Delibrary server responded with 401, run away!");
           return response;

@@ -63,9 +63,8 @@ class ExchangeServices extends Services {
     return DelibraryAction(
       text: "Rifiuta lo scambio",
       execute: (BuildContext context) async {
-        //TODO: better description
-        bool confirm =
-            await showConfirmModal(context, "Lo scambio verrà archiviato");
+        bool confirm = await showConfirmModal(
+            context, "Questo scambio verrà spostato nell'archivio");
         if (!confirm) return;
 
         Session session = context.read<Session>();
@@ -104,9 +103,8 @@ class ExchangeServices extends Services {
     return DelibraryAction(
       text: "Annulla lo scambio",
       execute: (BuildContext context) async {
-        //TODO: better description
-        bool confirm =
-            await showConfirmModal(context, "Lo scambio verrà eliminato");
+        bool confirm = await showConfirmModal(
+            context, "Questo scambio verrà eliminato definitivamente");
         if (!confirm) return;
 
         Session session = context.read<Session>();

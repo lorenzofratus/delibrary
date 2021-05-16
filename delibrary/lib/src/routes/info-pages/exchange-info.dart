@@ -87,8 +87,8 @@ class _ExchangeInfoPageState extends ItemInfoPageState<Exchange> {
         PaddedContainer(
           child: Column(
             children: [
-              InfoTitle(item.status.string),
-              InfoDescription(item.status.description),
+              InfoTitle(item.title),
+              InfoDescription(item.description),
               InfoChips(
                 title: "Altro utente",
                 data: {

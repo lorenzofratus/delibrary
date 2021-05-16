@@ -33,7 +33,6 @@ class BookList extends ItemList<Book> {
     );
   }
 
-  //TODO Revise this method
   Map<Book, bool> intersect(BookList bookList) {
     Map<Book, bool> map = Map();
     items.forEach((book) {

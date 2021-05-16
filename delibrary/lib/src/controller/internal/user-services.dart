@@ -99,7 +99,6 @@ class UserServices extends Services {
     if (!session.hasProvinces)
       session.provinces = await PositionServices().loadProvinces(context);
 
-    // TODO: decide how to handle the external service not responding
     // with the list of provinces/towns. At the moment the user is stuck
     // on the loading page where a snackbar is displayed.
     return session.hasProvinces;

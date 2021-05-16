@@ -122,7 +122,6 @@ class Session extends ChangeNotifier {
     }
   }
 
-  //TODO: needs revision
   bool hasActiveExchange(Book book) {
     return waiting.containsBook(book) ||
         sent.containsBook(book) ||

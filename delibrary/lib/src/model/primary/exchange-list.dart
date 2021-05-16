@@ -50,7 +50,6 @@ class ExchangeList extends ItemList<Exchange> {
     );
   }
 
-  //TODO: needs revision
   bool containsBook(Book book) {
     return items.any((e) => e.involves(book));
   }
