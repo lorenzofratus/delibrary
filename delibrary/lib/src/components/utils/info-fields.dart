@@ -27,6 +27,32 @@ class InfoTitle extends StatelessWidget {
   }
 }
 
+class InfoTitleSmall extends StatelessWidget {
+  final String text;
+  final bool primary;
+
+  InfoTitleSmall(this.text, [this.primary = true]);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 15.0),
+      child: ExpandableText(
+        text ?? "",
+        style: primary
+            ? Theme.of(context).textTheme.headline6.copyWith(
+                  color: Theme.of(context).accentColor,
+                )
+            : Theme.of(context).textTheme.headline6.copyWith(
+                  fontStyle: FontStyle.italic,
+                ),
+        textAlign: TextAlign.center,
+        maxLines: 1,
+      ),
+    );
+  }
+}
+
 class InfoDescription extends StatelessWidget {
   final String text;
 

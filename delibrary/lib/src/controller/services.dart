@@ -142,6 +142,7 @@ class ErrorMessage {
   static const String alreadyInProperties =
       "Questo libro è già nella tua libreria";
   static const String alreadyInWishes = "Questo libro è già nella tua wishlist";
+  static const String cannotOpenEmail = "Non riesco ad aprire il client email";
   static const String checkConnection =
       "Non è stato possibile contattare il server, controlla la connessione.";
   static const String emptyFields = "Compila tutti i campi obbligatori.";

@@ -1,6 +1,7 @@
 import 'package:delibrary/src/components/cards/item-cards-list.dart';
 import 'package:delibrary/src/components/utils/info-fields.dart';
 import 'package:delibrary/src/components/modals/list-expander.dart';
+import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/utils/action.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
 import 'package:delibrary/src/model/primary/book.dart';
@@ -8,6 +9,7 @@ import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/routes/info-pages/item-info.dart';
 import 'package:delibrary/src/components/utils/padded-container.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ExchangeInfoPage extends ItemInfoPage<Exchange> {
   ExchangeInfoPage({@required Exchange item})
@@ -31,6 +33,22 @@ class _ExchangeInfoPageState extends ItemInfoPageState<Exchange> {
               propertyServices.getPropertiesFromExchange(context, item),
         ),
       );
+
+  void _launchEmail(BuildContext context) async {
+    final Uri params = Uri(
+      scheme: "mailto",
+      path: item.otherEmail,
+      query:
+          'subject=[Delibrary] Nuovo Scambio&body=Ciao ${item.otherUsername},\n\nTi contatto riguardo al nostro scambio su Delibrary.\nIl mio libro: ${item.myBookTitle}\nIl tuo libro: ${item.otherBookTitle}\n',
+    );
+    String url = params.toString();
+    print(url);
+    if (await canLaunch(url))
+      await launch(url);
+    else
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(ErrorMessage.cannotOpenEmail)));
+  }
 
   @override
   void setup(BuildContext context) {
@@ -75,9 +93,26 @@ class _ExchangeInfoPageState extends ItemInfoPageState<Exchange> {
                 title: "Altro utente",
                 data: {
                   item.otherUsername: InfoDataType.user,
-                  item.otherEmail: InfoDataType.email,
                 },
               ),
+              if (item.isAgreed)
+                Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  child: InkWell(
+                    onTap: () => _launchEmail(context),
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          InfoTitleSmall("Contatta ${item.otherUsername}"),
+                          InfoTitleSmall(item.otherEmail, false),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ...getButtons(context),
             ],
           ),

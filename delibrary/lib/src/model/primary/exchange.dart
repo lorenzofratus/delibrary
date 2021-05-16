@@ -31,8 +31,11 @@ class Exchange extends Item {
   String get myUsername => isBuyer ? buyer.username : seller.username;
   String get otherUsername => isBuyer ? seller.username : buyer.username;
   String get otherEmail => isBuyer ? seller.email : buyer.email;
+  String get myBookTitle => isBuyer ? payment.title : property.title;
+  String get otherBookTitle => isBuyer ? property.title : payment.title;
   Widget get myBookImage => _getImage(isBuyer ? payment : property);
   Widget get otherBookImage => _getImage(isBuyer ? property : payment);
+  bool get isAgreed => status == ExchangeStatus.agreed;
 
   @override
   Widget get backgroundImage => otherBookImage;
