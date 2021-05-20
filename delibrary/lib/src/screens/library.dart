@@ -29,9 +29,8 @@ class _LibraryScreenState extends State<LibraryScreen> {
   }
 
   Future<void> _downloadLists() async {
-    // This is done asynchronously, when it has finished the provider will notify and rebuild
-    _propertyServices.updateSession(context);
-    _wishServices.updateSession(context);
+    await _propertyServices.updateSession(context);
+    await _wishServices.updateSession(context);
   }
 
   @override

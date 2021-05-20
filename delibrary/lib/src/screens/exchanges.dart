@@ -20,14 +20,20 @@ class _ExchangesScreenState extends State<ExchangesScreen> {
   void initState() {
     super.initState();
     _downloadLists();
+    // Pre fetching archived exchanges to avoid empty page at first access
+    _downloadArchived();
   }
 
   void _openArchive() {
     Navigator.pushNamed(context, "/archive");
   }
 
+  Future<void> _downloadArchived() async {
+    await _exchangeServices.updateSessionArchived(context);
+  }
+
   Future<void> _downloadLists() async {
-    _exchangeServices.updateSessionActive(context);
+    await _exchangeServices.updateSessionActive(context);
   }
 
   @override

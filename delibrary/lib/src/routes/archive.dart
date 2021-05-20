@@ -24,7 +24,7 @@ class _ArchivePageState extends State<ArchivePage> {
   }
 
   Future<void> _downloadLists() async {
-    _exchangeServices.updateSessionArchived(context);
+    await _exchangeServices.updateSessionArchived(context);
   }
 
   @override
