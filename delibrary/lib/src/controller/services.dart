@@ -138,6 +138,8 @@ abstract class Services {
 }
 
 class ErrorMessage {
+  static const String alreadyInExchange =
+      "Questa proprietà è già coinvolta in uno scambio";
   static const String alreadyInProperties =
       "Questo libro è già nella tua libreria";
   static const String alreadyInWishes = "Questo libro è già nella tua wishlist";
@@ -150,6 +152,8 @@ class ErrorMessage {
       "Un servizio esterno non è attualmente disponibile, riprova più tardi.";
   static const String forbidden =
       "Stai tentando di modificare una risorsa a cui non hai accesso.";
+  static const String propertyNotFound =
+      "Il server non ha trovato la proprietà cercata.";
   static const String serverError =
       "Il servizio non è momentaneamente disponibile, riprova più tardi";
   static const String usernameInUse = "L'username inserito è già in uso.";
@@ -157,13 +161,11 @@ class ErrorMessage {
       "Il server non ha trovato l'utente cercato.";
   static const String wrongCredentials =
       "L'username o la password inseriti non sono validi.";
-
-  static String alreadyInExchange =
-      "Questa proprietà è già coinvolta in uno scambio";
 }
 
 class ConfirmMessage {
   static const String passwordUpdated = "Password aggiornata!";
+  static const String positionUpdated = "La posizione è stata cambiata!";
   static const String propertyAdded = "Libro aggiunto alla libreria!";
   static const String propertyMoved = "Libro spostato nella wishlist!";
   static const String propertyRemoved = "Libro rimosso dalla libreria!";

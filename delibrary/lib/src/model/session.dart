@@ -84,6 +84,12 @@ class Session extends ChangeNotifier {
     if (_properties != oldList) notifyListeners();
   }
 
+  void updateProperty(Book oldBook, Book newBook) {
+    BookList oldList = properties;
+    _properties = oldList.update(oldBook, newBook);
+    if (_properties != oldList) notifyListeners();
+  }
+
   // ** Wishes management **
 
   BookList get wishes => _wishes ?? BookList();

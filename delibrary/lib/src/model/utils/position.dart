@@ -84,7 +84,8 @@ class PositionBuilder {
   String setTown(newValue, nullable) {
     newValue = newValue.trim().toLowerCase();
     if (!nullable && newValue.isEmpty) return "Il comune non può essere vuoto";
-    if (newValue.isNotEmpty && !_provinces[_province].contains(newValue))
+    List<String> towns = _provinces[_province];
+    if (newValue.isNotEmpty && (towns == null || !towns.contains(newValue)))
       return "Questo comune non esiste nella provincia.";
     _town = newValue;
     return null;

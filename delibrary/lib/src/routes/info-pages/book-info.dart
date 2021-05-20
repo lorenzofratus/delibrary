@@ -42,6 +42,7 @@ class _BookInfoPageState extends ItemInfoPageState<Book> {
         // Property of current user
         addAction(propertyServices.removeProperty(item));
         addAction(propertyServices.movePropertyToWishList(item));
+        addAction(propertyServices.changePropertyPosition(item));
         if (hasExchange) alert = "Questo libro è richiesto per uno scambio";
       } else {
         if (hasExchange)

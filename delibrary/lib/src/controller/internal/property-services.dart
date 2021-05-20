@@ -231,6 +231,49 @@ class PropertyServices extends Services {
         });
   }
 
+  DelibraryAction changePropertyPosition(Book book) {
+    return DelibraryAction(
+      text: "Cambia la posizione",
+      execute: (BuildContext context) async {
+        Position position = await showPositionModal(context);
+        if (position == null) return;
+
+        Session session = context.read<Session>();
+
+        Response response;
+
+        try {
+          response =
+              await dio.put("properties/${book.property.id}/position", data: {
+            "newProvince": position.province,
+            "newTown": position.town,
+          });
+        } on DioError catch (e) {
+          if (e.response != null) {
+            if (e.response.statusCode == 404)
+              return showSnackBar(context, ErrorMessage.propertyNotFound);
+            if (e.response.statusCode == 500)
+              return showSnackBar(context, ErrorMessage.serverError);
+            // Otherwise, unexpected error, print and raise exception
+            errorOnResponse(e);
+          } else {
+            // Generic error before the request is sent, print
+            errorOnRequest(e, false);
+            return showSnackBar(context, ErrorMessage.checkConnection);
+          }
+        }
+
+        // Property added successfully, update session
+        Property property = Property.fromJson(response.data);
+        Book newBook = book.setProperty(property);
+
+        session.updateProperty(book, newBook);
+        showSnackBar(context, ConfirmMessage.positionUpdated);
+        replace(context, BookInfoPage(item: newBook));
+      },
+    );
+  }
+
   Future<void> updateSession(BuildContext context) async {
     print("[Properties services] Getting properties from Delibrary...");
 

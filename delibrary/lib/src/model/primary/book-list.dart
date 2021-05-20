@@ -72,6 +72,15 @@ class BookList extends ItemList<Book> {
     return this;
   }
 
+  BookList update(Book oldBook, Book newBook) {
+    if (oldBook == null || newBook == null) return this;
+    List<Book> self = items.toList();
+    int index = self.indexOf(oldBook);
+    self.remove(oldBook);
+    self.insert(index, newBook);
+    return BookList(items: self);
+  }
+
   BookList setParent(Exchange parent) {
     if (parent == null) return this;
     return BookList(
