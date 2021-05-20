@@ -14,6 +14,7 @@ abstract class Item {
 
   ItemCard getCard({
     bool preview = false,
+    bool tappable = true,
     bool wished = false,
     bool showOwner = false,
     Exchange parent,

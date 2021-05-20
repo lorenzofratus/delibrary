@@ -7,7 +7,8 @@ class ExchangeCard extends ItemCard<Exchange> {
   ExchangeCard({
     @required Exchange exchange,
     bool preview,
-  }) : super(item: exchange, preview: preview);
+    bool tappable,
+  }) : super(item: exchange, preview: preview, tappable: tappable);
 
   @override
   Widget getInfoPage(BuildContext context) {

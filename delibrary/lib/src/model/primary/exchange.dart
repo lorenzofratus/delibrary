@@ -39,6 +39,8 @@ class Exchange extends Item {
   Widget get myBookImage => _getImage(isBuyer ? payment : property);
   Widget get otherBookImage => _getImage(isBuyer ? property : payment);
   bool get isAgreed => status == ExchangeStatus.agreed;
+  bool get isArchived =>
+      status == ExchangeStatus.refused || status == ExchangeStatus.happened;
 
   @override
   Widget get backgroundImage => otherBookImage;
@@ -56,6 +58,7 @@ class Exchange extends Item {
   @override
   ExchangeCard getCard({
     bool preview = false,
+    bool tappable = true,
     bool wished = false,
     bool showOwner = false,
     Exchange parent,
@@ -63,6 +66,7 @@ class Exchange extends Item {
       ExchangeCard(
         exchange: this,
         preview: preview,
+        tappable: tappable,
       );
 
   bool involves(Book book) {

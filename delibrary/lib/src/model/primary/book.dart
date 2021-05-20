@@ -63,6 +63,7 @@ class Book extends Item {
   @override
   BookCard getCard({
     bool preview = false,
+    bool tappable = true,
     bool wished = false,
     bool showOwner = false,
     Exchange parent,
@@ -70,6 +71,7 @@ class Book extends Item {
       BookCard(
         book: this,
         preview: preview,
+        tappable: tappable,
         wished: wished,
         showOwner: showOwner,
         exchange: parent,

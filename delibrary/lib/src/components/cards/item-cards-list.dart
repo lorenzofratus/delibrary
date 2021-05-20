@@ -7,6 +7,7 @@ class ItemCardsList<T extends ItemList> extends StatelessWidget {
   final T itemList;
   final ScrollController controller;
   final bool reverse;
+  final bool tappable;
   final List<Widget> leading;
 
   //Optional
@@ -18,6 +19,7 @@ class ItemCardsList<T extends ItemList> extends StatelessWidget {
     @required this.itemList,
     this.controller,
     this.reverse = false,
+    this.tappable = true,
     this.leading,
     this.nextPage,
     this.showOwner = false,
@@ -59,6 +61,7 @@ class ItemCardsList<T extends ItemList> extends StatelessWidget {
         Item item = itemList.getAt(realIdx - leadingLength);
         return item.getCard(
           wished: wishedMap[item],
+          tappable: tappable,
           showOwner: showOwner,
           parent: itemList.parent,
         );

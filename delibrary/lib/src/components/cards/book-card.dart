@@ -13,10 +13,11 @@ class BookCard extends ItemCard<Book> {
   BookCard(
       {@required Book book,
       bool preview,
+      bool tappable,
       this.exchange,
       this.wished = false,
       this.showOwner = false})
-      : super(item: book, preview: preview);
+      : super(item: book, preview: preview, tappable: tappable);
 
   @override
   Widget getInfoPage(BuildContext context) {

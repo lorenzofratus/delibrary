@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 abstract class ItemCard<T extends Item> extends StatelessWidget {
   final T item;
   final bool preview;
+  final bool tappable;
   final int imageFlex = 3;
 
-  ItemCard({@required this.item, this.preview = false});
+  ItemCard({@required this.item, this.preview = false, this.tappable = true});
 
   void _tappedItem(BuildContext context) {
+    if (!tappable) return;
     Navigator.push(
       context,
       MaterialPageRoute(builder: getInfoPage),

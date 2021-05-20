@@ -20,6 +20,7 @@ class ExchangeInfoPage extends ItemInfoPage<Exchange> {
 }
 
 class _ExchangeInfoPageState extends ItemInfoPageState<Exchange> {
+  bool tappable = true;
   BookList bookList;
 
   _ExchangeInfoPageState(Exchange item) : super(item);
@@ -55,6 +56,7 @@ class _ExchangeInfoPageState extends ItemInfoPageState<Exchange> {
     List<Book> items =
         [item.property, item.payment].where((b) => b != null).toList();
     bookList = BookList(items: items, totalItems: items.length);
+    tappable = !item.isArchived;
   }
 
   @override
@@ -83,6 +85,7 @@ class _ExchangeInfoPageState extends ItemInfoPageState<Exchange> {
       controller: scrollController,
       itemList: bookList,
       showOwner: true,
+      tappable: tappable,
       leading: [
         PaddedContainer(
           child: Column(
