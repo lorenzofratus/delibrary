@@ -71,9 +71,6 @@ class ExchangeList extends ItemList<Exchange> {
   ExchangeList update(Exchange exchange) {
     Exchange oldExchange =
         items.firstWhere((e) => e.match(exchange), orElse: () => null);
-    print("Updating exchange");
-    print(exchange);
-    print(oldExchange);
     if (exchange == null || oldExchange == null) return this;
     List<Exchange> self = items.toList();
     int index = self.indexOf(oldExchange);

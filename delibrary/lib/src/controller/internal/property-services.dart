@@ -26,9 +26,6 @@ class PropertyServices extends Services {
   Future<BookList> getPropertiesByPosition(
       BuildContext context, String province,
       [String town = ""]) async {
-    print(
-        "[Properties services] Getting properties by position from Delibrary...");
-
     if (province?.isEmpty ?? true) {
       showSnackBar(context, ErrorMessage.emptyFields);
       return BookList();
@@ -80,8 +77,6 @@ class PropertyServices extends Services {
   }
 
   Future<BookList> _getBooksFromProperties(List<Property> propertyList) async {
-    print(
-        "[Properties services] Getting info for each book from Google Books...");
     List<Book> bookList = [];
 
     await Future.forEach(propertyList, (property) async {
@@ -275,8 +270,6 @@ class PropertyServices extends Services {
   }
 
   Future<void> updateSession(BuildContext context) async {
-    print("[Properties services] Getting properties from Delibrary...");
-
     Response response;
 
     Session session = context.read<Session>();

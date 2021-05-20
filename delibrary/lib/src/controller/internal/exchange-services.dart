@@ -209,8 +209,6 @@ class ExchangeServices extends Services {
   }
 
   Future<void> updateSessionActive(BuildContext context) async {
-    print("[Exchange services] Getting exchanges from Delibrary...");
-
     Response responseB, responseS;
     Session session = context.read<Session>();
     String username = session.user.username;
@@ -243,8 +241,6 @@ class ExchangeServices extends Services {
   }
 
   Future<void> updateSessionArchived(BuildContext context) async {
-    print("[Exchange services] Getting exchanges from Delibrary...");
-
     Response responseB, responseS;
     Session session = context.read<Session>();
     String username = session.user.username;

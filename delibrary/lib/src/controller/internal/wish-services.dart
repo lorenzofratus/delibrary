@@ -22,7 +22,6 @@ class WishServices extends Services {
         ));
 
   Future<BookList> _getBooksFromWishes(List<Wish> wishList) async {
-    print("[Wishes services] Getting info for each book from Google Books...");
     List<Book> bookList = [];
     BookServices bookServices = BookServices();
 
@@ -179,8 +178,6 @@ class WishServices extends Services {
   }
 
   Future<void> updateSession(BuildContext context) async {
-    print("[Wishes services] Getting wishes from Delibrary...");
-
     Response response;
 
     Session session = context.read<Session>();

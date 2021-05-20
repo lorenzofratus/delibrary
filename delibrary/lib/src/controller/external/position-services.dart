@@ -26,9 +26,6 @@ class PositionServices extends Services {
   Future<Map> loadProvinces(BuildContext context) async {
     Response response;
 
-    print(
-        "[Position services] Downloading provinces and towns from comuni ita API...");
-
     try {
       response = await dio.get("comuni");
     } on DioError catch (e) {

@@ -43,7 +43,6 @@ class _ExchangeInfoPageState extends ItemInfoPageState<Exchange> {
           'subject=[Delibrary] Nuovo Scambio&body=Ciao ${item.otherUsername},\n\nTi contatto riguardo al nostro scambio su Delibrary.\nIl mio libro: ${item.myBookTitle}\nIl tuo libro: ${item.otherBookTitle}\n',
     );
     String url = params.toString();
-    print(url);
     if (await canLaunch(url))
       await launch(url);
     else
