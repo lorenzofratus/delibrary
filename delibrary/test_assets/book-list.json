@@ -1,0 +1,510 @@
+{
+    "kind": "books#volumes",
+    "totalItems": 878,
+    "items": [
+      {
+        "kind": "books#volume",
+        "id": "8L8hAQAAIAAJ",
+        "etag": "gPoCiCDl/TA",
+        "selfLink": "https://content-books.googleapis.com/books/v1/volumes/8L8hAQAAIAAJ",
+        "volumeInfo": {
+          "title": "Il quaderno di Stephen King",
+          "subtitle": "vita, opere, idee del \"Re dell'horror\"",
+          "authors": [
+            "Graziano Braschi",
+            "Cristina Proto"
+          ],
+          "publisher": "Edizioni Polistampa",
+          "publishedDate": "1997",
+          "readingModes": {
+            "text": false,
+            "image": false
+          },
+          "maturityRating": "NOT_MATURE",
+          "allowAnonLogging": false,
+          "contentVersion": "0.1.1.0.preview.0",
+          "panelizationSummary": {
+            "containsEpubBubbles": false,
+            "containsImageBubbles": false
+          },
+          "imageLinks": {
+            "smallThumbnail": "http://books.google.com/books/content?id=8L8hAQAAIAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+            "thumbnail": "http://books.google.com/books/content?id=8L8hAQAAIAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+          },
+          "previewLink": "http://books.google.it/books?id=8L8hAQAAIAAJ&q=stephen+king&dq=stephen+king&hl=&cd=1&source=gbs_api",
+          "infoLink": "http://books.google.it/books?id=8L8hAQAAIAAJ&dq=stephen+king&hl=&source=gbs_api",
+          "canonicalVolumeLink": "https://books.google.com/books/about/Il_quaderno_di_Stephen_King.html?hl=&id=8L8hAQAAIAAJ"
+        },
+        "saleInfo": {
+          "country": "IT"
+        },
+        "accessInfo": {
+          "country": "IT",
+          "epub": {
+            "isAvailable": false
+          },
+          "pdf": {
+            "isAvailable": false
+          },
+          "accessViewStatus": "NONE"
+        }
+      },
+      {
+        "kind": "books#volume",
+        "id": "MVA6BAAAQBAJ",
+        "etag": "JhdaotJ/IEI",
+        "selfLink": "https://content-books.googleapis.com/books/v1/volumes/MVA6BAAAQBAJ",
+        "volumeInfo": {
+          "title": "Gli incubi di Stephen King",
+          "authors": [
+            "Luca Crovi"
+          ],
+          "publisher": "Corriere della Sera",
+          "publishedDate": "2014-08-05T00:00:00+02:00",
+          "description": "Perché all’età di dieci anni Stephen King collezionava foto del serial killer Charlie Starkweather? Come ha sviluppato una personale avversione all’uso dei cellulari? Quando ha sentito l’esigenza di scrivere un seguito di Shining? Perché la saga della Torre Nera è la madre di tutte le sue storie? Quale rapporto speciale lo lega ai suoi fedeli lettori? Cosa ha rappresentato per il mago americano della suspense la tragica morte di John Fitzgerald Kennedy? Luca Crovi ci guida alla scoperta dei segreti della narrativa del Re del Terrore, attraverso i romanzi, le interviste, i celebri insegnamenti sulla letteratura. Con una lezione: tutti abbiamo incubi. Solo i più grandi sanno trasformarli in grande narrativa.",
+          "readingModes": {
+            "text": true,
+            "image": true
+          },
+          "maturityRating": "NOT_MATURE",
+          "allowAnonLogging": true,
+          "contentVersion": "0.6.6.0.preview.3",
+          "panelizationSummary": {
+            "containsEpubBubbles": false,
+            "containsImageBubbles": false
+          },
+          "imageLinks": {
+            "smallThumbnail": "http://books.google.com/books/content?id=MVA6BAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+            "thumbnail": "http://books.google.com/books/content?id=MVA6BAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+          },
+          "previewLink": "http://books.google.it/books?id=MVA6BAAAQBAJ&printsec=frontcover&dq=stephen+king&hl=&cd=2&source=gbs_api",
+          "infoLink": "http://books.google.it/books?id=MVA6BAAAQBAJ&dq=stephen+king&hl=&source=gbs_api",
+          "canonicalVolumeLink": "https://books.google.com/books/about/Gli_incubi_di_Stephen_King.html?hl=&id=MVA6BAAAQBAJ"
+        },
+        "saleInfo": {
+          "country": "IT"
+        },
+        "accessInfo": {
+          "country": "IT",
+          "epub": {
+            "isAvailable": true,
+            "acsTokenLink": "http://books.google.it/books/download/Gli_incubi_di_Stephen_King-sample-epub.acsm?id=MVA6BAAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+          },
+          "pdf": {
+            "isAvailable": true,
+            "acsTokenLink": "http://books.google.it/books/download/Gli_incubi_di_Stephen_King-sample-pdf.acsm?id=MVA6BAAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+          },
+          "accessViewStatus": "SAMPLE"
+        },
+        "searchInfo": {
+          "textSnippet": "Luca Crovi ci guida alla scoperta dei segreti della narrativa del Re del Terrore, attraverso i romanzi, le interviste, i celebri insegnamenti sulla letteratura. Con una lezione: tutti abbiamo incubi."
+        }
+      },
+      {
+        "kind": "books#volume",
+        "id": "eBy6rQEACAAJ",
+        "etag": "jCh05rKGUnY",
+        "selfLink": "https://content-books.googleapis.com/books/v1/volumes/eBy6rQEACAAJ",
+        "volumeInfo": {
+          "title": "Revival",
+          "authors": [
+            "Stephen King"
+          ],
+          "publishedDate": "2015",
+          "readingModes": {
+            "text": false,
+            "image": false
+          },
+          "maturityRating": "NOT_MATURE",
+          "allowAnonLogging": false,
+          "contentVersion": "preview-1.0.0",
+          "imageLinks": {
+            "smallThumbnail": "http://books.google.com/books/content?id=eBy6rQEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+            "thumbnail": "http://books.google.com/books/content?id=eBy6rQEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+          },
+          "previewLink": "http://books.google.it/books?id=eBy6rQEACAAJ&dq=stephen+king&hl=&cd=3&source=gbs_api",
+          "infoLink": "http://books.google.it/books?id=eBy6rQEACAAJ&dq=stephen+king&hl=&source=gbs_api",
+          "canonicalVolumeLink": "https://books.google.com/books/about/Revival.html?hl=&id=eBy6rQEACAAJ"
+        },
+        "saleInfo": {
+          "country": "IT"
+        },
+        "accessInfo": {
+          "country": "IT",
+          "epub": {
+            "isAvailable": false
+          },
+          "pdf": {
+            "isAvailable": false
+          },
+          "accessViewStatus": "NONE"
+        },
+        "searchInfo": {
+          "textSnippet": "This is a masterpiece from King, in the great American tradition of Frank Norris, Nathaniel Hawthorne, and Edgar Allan Poe&quot;--records for English language records."
+        }
+      },
+      {
+        "kind": "books#volume",
+        "id": "cfAcAQAAIAAJ",
+        "etag": "0dRkaB5BMp4",
+        "selfLink": "https://content-books.googleapis.com/books/v1/volumes/cfAcAQAAIAAJ",
+        "volumeInfo": {
+          "title": "La grande bottega degli orrori",
+          "subtitle": "le ossessioni commerciabili di Stephen King",
+          "authors": [
+            "Ciro Ascione"
+          ],
+          "publishedDate": "1996",
+          "readingModes": {
+            "text": false,
+            "image": false
+          },
+          "maturityRating": "NOT_MATURE",
+          "allowAnonLogging": false,
+          "contentVersion": "1.4.1.0.preview.0",
+          "panelizationSummary": {
+            "containsEpubBubbles": false,
+            "containsImageBubbles": false
+          },
+          "imageLinks": {
+            "smallThumbnail": "http://books.google.com/books/content?id=cfAcAQAAIAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+            "thumbnail": "http://books.google.com/books/content?id=cfAcAQAAIAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+          },
+          "previewLink": "http://books.google.it/books?id=cfAcAQAAIAAJ&q=stephen+king&dq=stephen+king&hl=&cd=4&source=gbs_api",
+          "infoLink": "http://books.google.it/books?id=cfAcAQAAIAAJ&dq=stephen+king&hl=&source=gbs_api",
+          "canonicalVolumeLink": "https://books.google.com/books/about/La_grande_bottega_degli_orrori.html?hl=&id=cfAcAQAAIAAJ"
+        },
+        "saleInfo": {
+          "country": "IT"
+        },
+        "accessInfo": {
+          "country": "IT",
+          "epub": {
+            "isAvailable": false
+          },
+          "pdf": {
+            "isAvailable": false
+          },
+          "accessViewStatus": "NONE"
+        }
+      },
+      {
+        "kind": "books#volume",
+        "id": "ITeJoAEACAAJ",
+        "etag": "kxddHhZ3jq4",
+        "selfLink": "https://content-books.googleapis.com/books/v1/volumes/ITeJoAEACAAJ",
+        "volumeInfo": {
+          "title": "22/11/63",
+          "authors": [
+            "Stephen King"
+          ],
+          "publishedDate": "2014",
+          "readingModes": {
+            "text": false,
+            "image": false
+          },
+          "maturityRating": "NOT_MATURE",
+          "allowAnonLogging": false,
+          "contentVersion": "preview-1.0.0",
+          "imageLinks": {
+            "smallThumbnail": "http://books.google.com/books/content?id=ITeJoAEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+            "thumbnail": "http://books.google.com/books/content?id=ITeJoAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+          },
+          "previewLink": "http://books.google.it/books?id=ITeJoAEACAAJ&dq=stephen+king&hl=&cd=5&source=gbs_api",
+          "infoLink": "http://books.google.it/books?id=ITeJoAEACAAJ&dq=stephen+king&hl=&source=gbs_api",
+          "canonicalVolumeLink": "https://books.google.com/books/about/22_11_63.html?hl=&id=ITeJoAEACAAJ"
+        },
+        "saleInfo": {
+          "country": "IT"
+        },
+        "accessInfo": {
+          "country": "IT",
+          "epub": {
+            "isAvailable": false
+          },
+          "pdf": {
+            "isAvailable": false
+          },
+          "accessViewStatus": "NONE"
+        }
+      },
+      {
+        "kind": "books#volume",
+        "id": "XvVqDwAAQBAJ",
+        "etag": "oturFiS7f/Y",
+        "selfLink": "https://content-books.googleapis.com/books/v1/volumes/XvVqDwAAQBAJ",
+        "volumeInfo": {
+          "title": "La scatola di Stephen King",
+          "authors": [
+            "Claudio Hernández"
+          ],
+          "publisher": "Babelcube Inc.",
+          "publishedDate": "2018-11-01",
+          "description": "Stephen King iniziò a scrivere alla tenera età di otto anni, io, influenzato dai suoi lavori ho iniziato a scrivere i miei racconti trent’anni dopo. Credo che condividiamo una stessa ragione che ci porta ad avere una passione per la scrittura. Conoscere la paura in tutte le sue sfaccettature. Negli anni seguenti e durante tutta la mia vita ho analizzato tutti i lavori di Steve e sono arrivato alla conclusione, condivisa da tutti i suoi fan, che lui sia il re della letteratura horror di tipo psicologico. Stephen King è un uomo molto intelligente che conosce bene le persone e la loro interiorità. Se non fosse uno scrittore sarebbe sicuramente diventato uno psichiatra. O almeno io ne sono convinto. I suoi primi racconti sono quelli che ci colpiscono di più. Sono racconti scritti con sentimento e un alto livello di fantasia, proprio come i suoi primi libri. I miei racconti sono un tributo al re e un riconoscimento di quello che si sarebbe potuto trovare nella scatola di manoscritti andata perduta e che apparteneva a suo padre Donald Edwin King della quale non sono mai stati rivelati i contenuti. Potrebbe essere che il giovane Stevie tredicenne scelse alcune di quelle storie per riscriverle? Sicuramente no, ma forse ne restò influenzato e segnato per tutta la vita. Quando avevo tredici anni mi ritrovai tra le mani l’antologia di racconti \"Night Shift\" e ne rimasi chiaramente influenzato. Dopo aver letto l’intero libro, iniziai a scrivere le mie storie, restando influenzato in ogni parte dal maestro King. Immagino che questo significhi che sono il fan numero uno di Stephen King. O forse significa che sono un fanatico di Stephen King.",
+          "readingModes": {
+            "text": true,
+            "image": true
+          },
+          "maturityRating": "MATURE",
+          "allowAnonLogging": false,
+          "contentVersion": "1.4.2.0.preview.3",
+          "panelizationSummary": {
+            "containsEpubBubbles": false,
+            "containsImageBubbles": false
+          },
+          "imageLinks": {
+            "smallThumbnail": "http://books.google.com/books/content?id=XvVqDwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+            "thumbnail": "http://books.google.com/books/content?id=XvVqDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+          },
+          "previewLink": "http://books.google.it/books?id=XvVqDwAAQBAJ&printsec=frontcover&dq=stephen+king&hl=&cd=6&source=gbs_api",
+          "infoLink": "https://play.google.com/store/books/details?id=XvVqDwAAQBAJ&source=gbs_api",
+          "canonicalVolumeLink": "https://play.google.com/store/books/details?id=XvVqDwAAQBAJ"
+        },
+        "saleInfo": {
+          "country": "IT",
+          "listPrice": {
+            "amount": 2.99,
+            "currencyCode": "EUR"
+          },
+          "retailPrice": {
+            "amount": 2.99,
+            "currencyCode": "EUR"
+          },
+          "buyLink": "https://play.google.com/store/books/details?id=XvVqDwAAQBAJ&rdid=book-XvVqDwAAQBAJ&rdot=1&source=gbs_api",
+          "offers": [
+            {
+              "finskyOfferType": 1,
+              "listPrice": {
+                "amountInMicros": 2990000,
+                "currencyCode": "EUR"
+              },
+              "retailPrice": {
+                "amountInMicros": 2990000,
+                "currencyCode": "EUR"
+              }
+            }
+          ]
+        },
+        "accessInfo": {
+          "country": "IT",
+          "epub": {
+            "isAvailable": true
+          },
+          "pdf": {
+            "isAvailable": true
+          },
+          "accessViewStatus": "SAMPLE"
+        },
+        "searchInfo": {
+          "textSnippet": "Stephen King iniziò a scrivere alla tenera età di otto anni, io, influenzato dai suoi lavori ho iniziato a scrivere i miei racconti trent’anni dopo."
+        }
+      },
+      {
+        "kind": "books#volume",
+        "id": "_5RCngEACAAJ",
+        "etag": "aPJAXbzhZ6U",
+        "selfLink": "https://content-books.googleapis.com/books/v1/volumes/_5RCngEACAAJ",
+        "volumeInfo": {
+          "title": "Il miglio verde",
+          "authors": [
+            "Stephen King"
+          ],
+          "publishedDate": "2013",
+          "readingModes": {
+            "text": false,
+            "image": false
+          },
+          "maturityRating": "NOT_MATURE",
+          "allowAnonLogging": false,
+          "contentVersion": "preview-1.0.0",
+          "imageLinks": {
+            "smallThumbnail": "http://books.google.com/books/content?id=_5RCngEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+            "thumbnail": "http://books.google.com/books/content?id=_5RCngEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+          },
+          "previewLink": "http://books.google.it/books?id=_5RCngEACAAJ&dq=stephen+king&hl=&cd=7&source=gbs_api",
+          "infoLink": "http://books.google.it/books?id=_5RCngEACAAJ&dq=stephen+king&hl=&source=gbs_api",
+          "canonicalVolumeLink": "https://books.google.com/books/about/Il_miglio_verde.html?hl=&id=_5RCngEACAAJ"
+        },
+        "saleInfo": {
+          "country": "IT"
+        },
+        "accessInfo": {
+          "country": "IT",
+          "epub": {
+            "isAvailable": false
+          },
+          "pdf": {
+            "isAvailable": false
+          },
+          "accessViewStatus": "NONE"
+        }
+      },
+      {
+        "kind": "books#volume",
+        "id": "xko-tAEACAAJ",
+        "etag": "r3MJxc8fvJg",
+        "selfLink": "https://content-books.googleapis.com/books/v1/volumes/xko-tAEACAAJ",
+        "volumeInfo": {
+          "title": "Dentro al nero. Tredici sguardi su «It» di Stephen King",
+          "authors": [
+            "L. Cristiano",
+            "E. Macioci"
+          ],
+          "publisher": "I fiammiferi",
+          "publishedDate": "2017",
+          "readingModes": {
+            "text": false,
+            "image": false
+          },
+          "maturityRating": "NOT_MATURE",
+          "allowAnonLogging": false,
+          "contentVersion": "preview-1.0.0",
+          "panelizationSummary": {
+            "containsEpubBubbles": false,
+            "containsImageBubbles": false
+          },
+          "imageLinks": {
+            "smallThumbnail": "http://books.google.com/books/content?id=xko-tAEACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+            "thumbnail": "http://books.google.com/books/content?id=xko-tAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+          },
+          "previewLink": "http://books.google.it/books?id=xko-tAEACAAJ&dq=stephen+king&hl=&cd=8&source=gbs_api",
+          "infoLink": "http://books.google.it/books?id=xko-tAEACAAJ&dq=stephen+king&hl=&source=gbs_api",
+          "canonicalVolumeLink": "https://books.google.com/books/about/Dentro_al_nero_Tredici_sguardi_su_It_di.html?hl=&id=xko-tAEACAAJ"
+        },
+        "saleInfo": {
+          "country": "IT"
+        },
+        "accessInfo": {
+          "country": "IT",
+          "epub": {
+            "isAvailable": false
+          },
+          "pdf": {
+            "isAvailable": false
+          },
+          "accessViewStatus": "NONE"
+        }
+      },
+      {
+        "kind": "books#volume",
+        "id": "lCL6DwAAQBAJ",
+        "etag": "4cm8sdFjZz8",
+        "selfLink": "https://content-books.googleapis.com/books/v1/volumes/lCL6DwAAQBAJ",
+        "volumeInfo": {
+          "title": "Stephen King",
+          "subtitle": "Dal libro allo schermo",
+          "authors": [
+            "Giacomo Calzoni"
+          ],
+          "publisher": "Minimum Fax",
+          "publishedDate": "2020-08-31",
+          "description": "Nessun autore contemporaneo può godere di un numero di adattamenti per il piccolo e per il grande schermo paragonabile a quello che è stato riservato ai romanzi e ai racconti di Stephen King. Dagli omaggi di grandi autori di genere come Carpenter, Romero, Cronenberg, all’unicum rappresentato da Shining di Kubrick; dal grande artigianato dei due registi che meglio, forse, hanno saputo cogliere lo spirito kinghiano (il Rob Reiner di Stand by Me e Misery e il Frank Darabont di Le ali della libertà e Il miglio verde) alla vera rivoluzione rappresentata dalle serie televisive, gli autori e critici che hanno contribuito a questo volume tracciano un panorama ragionato e completo della vita sugli schermi di un grande maestro della narrativa contemporanea, forse l’autore più popolare e amato al mondo.",
+          "readingModes": {
+            "text": true,
+            "image": true
+          },
+          "maturityRating": "NOT_MATURE",
+          "allowAnonLogging": false,
+          "contentVersion": "0.8.8.0.preview.3",
+          "panelizationSummary": {
+            "containsEpubBubbles": false,
+            "containsImageBubbles": false
+          },
+          "imageLinks": {
+            "smallThumbnail": "http://books.google.com/books/content?id=lCL6DwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+            "thumbnail": "http://books.google.com/books/content?id=lCL6DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+          },
+          "previewLink": "http://books.google.it/books?id=lCL6DwAAQBAJ&pg=PT36&dq=stephen+king&hl=&cd=9&source=gbs_api",
+          "infoLink": "https://play.google.com/store/books/details?id=lCL6DwAAQBAJ&source=gbs_api",
+          "canonicalVolumeLink": "https://play.google.com/store/books/details?id=lCL6DwAAQBAJ"
+        },
+        "saleInfo": {
+          "country": "IT",
+          "listPrice": {
+            "amount": 9.99,
+            "currencyCode": "EUR"
+          },
+          "retailPrice": {
+            "amount": 9.99,
+            "currencyCode": "EUR"
+          },
+          "buyLink": "https://play.google.com/store/books/details?id=lCL6DwAAQBAJ&rdid=book-lCL6DwAAQBAJ&rdot=1&source=gbs_api",
+          "offers": [
+            {
+              "finskyOfferType": 1,
+              "listPrice": {
+                "amountInMicros": 9990000,
+                "currencyCode": "EUR"
+              },
+              "retailPrice": {
+                "amountInMicros": 9990000,
+                "currencyCode": "EUR"
+              }
+            }
+          ]
+        },
+        "accessInfo": {
+          "country": "IT",
+          "epub": {
+            "isAvailable": true,
+            "acsTokenLink": "http://books.google.it/books/download/Stephen_King-sample-epub.acsm?id=lCL6DwAAQBAJ&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+          },
+          "pdf": {
+            "isAvailable": true,
+            "acsTokenLink": "http://books.google.it/books/download/Stephen_King-sample-pdf.acsm?id=lCL6DwAAQBAJ&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=gbs_api"
+          },
+          "accessViewStatus": "SAMPLE"
+        },
+        "searchInfo": {
+          "textSnippet": "\u003cb\u003eStephen King\u003c/b\u003e, On Writing. Autobiografia di un mestiere, Sperling &amp; Kupfer, \u003cbr\u003e\nMilano 2001, p. 178. 5. Ivi, p. 179. 6. Daniela Catelli, Ciak si trema. Guida al \u003cbr\u003e\ncinema horror, Theoria, Roma-Napoli 1996, p. 153. 7. Nell&#39;appendice di Danse \u003cbr\u003e\nmacabre&nbsp;..."
+        }
+      },
+      {
+        "kind": "books#volume",
+        "id": "Qbm5ejIoY5sC",
+        "etag": "UhiSF5qHKL4",
+        "selfLink": "https://content-books.googleapis.com/books/v1/volumes/Qbm5ejIoY5sC",
+        "volumeInfo": {
+          "title": "Stephen King Goes to the Movies",
+          "authors": [
+            "Stephen King"
+          ],
+          "publisher": "Simon and Schuster",
+          "publishedDate": "2009-01-20",
+          "description": "A collection of five short stories that have been made into movies includes \"The Mangler,\" in which a skeptical writer investigates a supposedly haunted hotel room that has apparently caused at least forty-two deaths.",
+          "readingModes": {
+            "text": false,
+            "image": false
+          },
+          "maturityRating": "NOT_MATURE",
+          "allowAnonLogging": false,
+          "contentVersion": "preview-1.0.0",
+          "imageLinks": {
+            "smallThumbnail": "http://books.google.com/books/content?id=Qbm5ejIoY5sC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+            "thumbnail": "http://books.google.com/books/content?id=Qbm5ejIoY5sC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+          },
+          "previewLink": "http://books.google.it/books?id=Qbm5ejIoY5sC&printsec=frontcover&dq=stephen+king&hl=&cd=10&source=gbs_api",
+          "infoLink": "http://books.google.it/books?id=Qbm5ejIoY5sC&dq=stephen+king&hl=&source=gbs_api",
+          "canonicalVolumeLink": "https://books.google.com/books/about/Stephen_King_Goes_to_the_Movies.html?hl=&id=Qbm5ejIoY5sC"
+        },
+        "saleInfo": {
+          "country": "IT"
+        },
+        "accessInfo": {
+          "country": "IT",
+          "epub": {
+            "isAvailable": false
+          },
+          "pdf": {
+            "isAvailable": false
+          },
+          "accessViewStatus": "SAMPLE"
+        },
+        "searchInfo": {
+          "textSnippet": "A collection of five short stories that have been made into movies includes &quot;The Mangler,&quot; in which a skeptical writer investigates a supposedly haunted hotel room that has apparently caused at least forty-two deaths."
+        }
+      }
+    ]
+  }
+  
+  

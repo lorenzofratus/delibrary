@@ -11,7 +11,7 @@ class ExchangeList extends ItemList<Exchange> {
   bool get isComplete => true;
 
   @override
-  Map<Exchange, bool> getWishedMap(BuildContext context) => {};
+  Map<Exchange, bool> getWishedMap(ItemList wishList) => {};
 
   static Future<ExchangeList> fromJsonProperties(
       Map<String, dynamic> jsonList, bool isBuyer) async {

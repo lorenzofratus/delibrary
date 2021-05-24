@@ -1,0 +1,40 @@
+{
+    "items": [
+      {
+        "id": 0,
+        "buyer": {
+          "surname": "Sala",
+          "name": "Nicolò",
+          "email": "example@domain.org",
+          "username": "nicheosala",
+          "password": "veryStrongPassword"
+        },
+        "seller": {
+          "surname": "Sala",
+          "name": "Nicolò",
+          "email": "example@domain.org",
+          "username": "nicheosala",
+          "password": "veryStrongPassword"
+        },
+        "property": {
+          "owner": "nicheosala",
+          "bookId": "MNOPWJTvuxoC",
+          "id": 0,
+          "position": {
+            "province": "Lecco",
+            "town": "Brivio"
+          }
+        },
+        "payment": {
+          "owner": "nicheosala",
+          "bookId": "MNOPWJTvuxoC",
+          "id": 0,
+          "position": {
+            "province": "Lecco",
+            "town": "Brivio"
+          }
+        },
+        "status": "proposed"
+      }
+    ]
+  }

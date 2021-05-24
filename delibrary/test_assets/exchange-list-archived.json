@@ -1,0 +1,64 @@
+{
+    "items": [
+      {
+        "id": 3,
+        "buyer": {
+          "username": "fratus",
+          "name": "Lorenzo",
+          "surname": "Fratus",
+          "email": "fra@tus.it",
+          "password": null
+        },
+        "seller": {
+          "username": "fratus98",
+          "name": "Lorenzo",
+          "surname": "Fratus",
+          "email": "frat@us.it",
+          "password": null
+        },
+        "propertyBookId": "ovo4tAEACAAJ",
+        "paymentBookId": null,
+        "status": "refused"
+      },
+      {
+        "id": 4,
+        "buyer": {
+          "username": "fratus",
+          "name": "Lorenzo",
+          "surname": "Fratus",
+          "email": "fra@tus.it",
+          "password": null
+        },
+        "seller": {
+          "username": "fratus98",
+          "name": "Lorenzo",
+          "surname": "Fratus",
+          "email": "frat@us.it",
+          "password": null
+        },
+        "propertyBookId": "ovo4tAEACAAJ",
+        "paymentBookId": "9CJWTbd-RYoC",
+        "status": "happened"
+      },
+      {
+        "id": 6,
+        "buyer": {
+          "username": "fratus",
+          "name": "Lorenzo",
+          "surname": "Fratus",
+          "email": "fra@tus.it",
+          "password": null
+        },
+        "seller": {
+          "username": "fratus98",
+          "name": "Lorenzo",
+          "surname": "Fratus",
+          "email": "frat@us.it",
+          "password": null
+        },
+        "propertyBookId": "ovo4tAEACAAJ",
+        "paymentBookId": "9CJWTbd-RYoC",
+        "status": "happened"
+      }
+    ]
+  }

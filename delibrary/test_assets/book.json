@@ -1,0 +1,51 @@
+{
+  "kind": "books#volume",
+  "id": "iCWgDwAAQBAJ",
+  "etag": "6U/HuF5fUns",
+  "selfLink": "https://content-books.googleapis.com/books/v1/volumes/iCWgDwAAQBAJ",
+  "volumeInfo": {
+    "title": "It",
+    "subtitle": "A Novel",
+    "authors": [
+      "Stephen King"
+    ],
+    "publisher": "Simon and Schuster",
+    "publishedDate": "2019-07-30",
+    "description": "\u003cb\u003e\u003ci\u003eIt: Chapter Two\u003c/i\u003e\u003c/b\u003e\u003cb\u003e—now a major motion picture!\u003c/b\u003e\u003cbr\u003e \u003cbr\u003e \u003cb\u003eStephen King’s terrifying, classic #1 \u003ci\u003eNew York Times\u003c/i\u003e bestseller, “a landmark in American literature” (\u003ci\u003eChicago Sun-Times\u003c/i\u003e)—about seven adults who return to their hometown to confront a nightmare they had first stumbled on as teenagers…an evil without a name: \u003ci\u003eIt\u003c/i\u003e.\u003c/b\u003e\u003cbr\u003e\u003cbr\u003eWelcome to Derry, Maine. It’s a small city, a place as hauntingly familiar as your own hometown. Only in Derry the haunting is real.\u003cbr\u003e \u003cbr\u003eThey were seven teenagers when they first stumbled upon the horror. Now they are grown-up men and women who have gone out into the big world to gain success and happiness. But the promise they made twenty-eight years ago calls them reunite in the same place where, as teenagers, they battled an evil creature that preyed on the city’s children. Now, children are being murdered again and their repressed memories of that terrifying summer return as they prepare to once again battle the monster lurking in Derry’s sewers.\u003cbr\u003e \u003cbr\u003eReaders of Stephen King know that Derry, Maine, is a place with a deep, dark hold on the author. It reappears in many of his books, including \u003ci\u003eBag of Bones\u003c/i\u003e, \u003ci\u003eHearts in Atlantis\u003c/i\u003e, and \u003ci\u003e11/22/63\u003c/i\u003e. But it all starts with \u003ci\u003eIt\u003c/i\u003e.\u003cbr\u003e \u003cbr\u003e“Stephen King’s most mature work” (\u003ci\u003eSt. Petersburg Times\u003c/i\u003e), “\u003ci\u003eIt \u003c/i\u003ewill overwhelm you…to be read in a well-lit room only” (\u003ci\u003eLos Angeles Times\u003c/i\u003e).",
+    "readingModes": {
+      "text": false,
+      "image": false
+    },
+    "maturityRating": "NOT_MATURE",
+    "allowAnonLogging": false,
+    "contentVersion": "0.1.0.0.preview.0",
+    "panelizationSummary": {
+      "containsEpubBubbles": false,
+      "containsImageBubbles": false
+    },
+    "imageLinks": {
+      "smallThumbnail": "http://books.google.com/books/publisher/content?id=iCWgDwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&imgtk=AFLRE73MQ9pxj4CPu5I_ryqieYP_KrL2h_n5NobZAQWJ_nrAps8LBhm7_i4vM1OgRABD-X8jSU-jw5hpNp0pT_ncp41Whv7p0XXsCcrZji1i0HnShsD8Y2c&source=gbs_api",
+      "thumbnail": "http://books.google.com/books/publisher/content?id=iCWgDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&imgtk=AFLRE72cg_GKVvbPJFwVaSlPtMOm_SsJusD8dFQZRtKnbpKXW-Tp1V_0OvBfjSPx-KWzkATNHUNI_32kK2p39zQEtkPqGsPXncNBhE_ai2wHouHe5mR4N5Q&source=gbs_api",
+      "small": "http://books.google.com/books/publisher/content?id=iCWgDwAAQBAJ&printsec=frontcover&img=1&zoom=2&edge=curl&imgtk=AFLRE720ZUOGN8-jELCuKC0xOwsA0eFTI2EiaZHNWzhXs-pZKPwaCXoMQg4q5Vp6z8IUbFLgO4pVW0lzPmnxm8w1vcz5q1TA9_dhRkfle6hDyNkGVkhOjqQ&source=gbs_api",
+      "medium": "http://books.google.com/books/publisher/content?id=iCWgDwAAQBAJ&printsec=frontcover&img=1&zoom=3&edge=curl&imgtk=AFLRE71zEbvGSmsrbz3ZkyqH9A0yUJd3TQrQx-xJHvdY4fXqM4BHes2XET6Zh9TNjBvsKDvNJW4m8flxMK0F6zCR5wl5aRPD27eT0e-eb0vHN7rwQ8Tulf4&source=gbs_api",
+      "large": "http://books.google.com/books/publisher/content?id=iCWgDwAAQBAJ&printsec=frontcover&img=1&zoom=4&edge=curl&imgtk=AFLRE70jS1ADVsD0E_26iZxV-8ALe4K8CZz9S7B_MfDHlTk1EZcZLuqF78beQiBvABw07Lur3b91e2nVjvl59LMP3bq9ViHTT_GVp84gNkVW19yVW3BTJpw&source=gbs_api",
+      "extraLarge": "http://books.google.com/books/publisher/content?id=iCWgDwAAQBAJ&printsec=frontcover&img=1&zoom=6&edge=curl&imgtk=AFLRE712C9KtZOjxF3rU8OrhOY5pdcj14XxJ6GyI_SYietWY3gIkZw9P2vvG2E6borcF1Q_xkKm3mHljhiivemlZwzmWOxYcLzhfhonOUzzY74CQXXYexfc&source=gbs_api"
+    },
+    "previewLink": "http://books.google.it/books?id=iCWgDwAAQBAJ&hl=&source=gbs_api",
+    "infoLink": "https://play.google.com/store/books/details?id=iCWgDwAAQBAJ&source=gbs_api",
+    "canonicalVolumeLink": "https://play.google.com/store/books/details?id=iCWgDwAAQBAJ"
+  },
+  "saleInfo": {
+    "country": "IT"
+  },
+  "accessInfo": {
+    "country": "IT",
+    "epub": {
+      "isAvailable": false
+    },
+    "pdf": {
+      "isAvailable": false
+    },
+    "accessViewStatus": "SAMPLE"
+  }
+}

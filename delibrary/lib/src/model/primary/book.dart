@@ -38,6 +38,11 @@ class Book extends Item {
   Widget get smallImage => _getImage(info?.small, 130.0);
   Widget get largeImage => _getImage(info?.large, null);
 
+  @visibleForTesting
+  String get smallImageURL => info?.small;
+  @visibleForTesting
+  String get largeImageURL => info?.large;
+
   @override
   Widget get backgroundImage => largeImage;
 
@@ -122,6 +127,7 @@ class Book extends Item {
   }
 
   factory Book.fromJson(Map<String, dynamic> json) {
+    json = json ?? Map();
     return Book(
       id: json["id"],
       info: _VolumeInfo.fromJson(json["volumeInfo"]),
@@ -161,6 +167,7 @@ class _VolumeInfo {
   }
 
   factory _VolumeInfo.fromJson(Map<String, dynamic> json) {
+    json = json ?? Map();
     var authorsList = json["authors"] ?? [];
     List<String> authors = new List<String>.from(authorsList);
     authors.map((a) => _parseHtml(a));

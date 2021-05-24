@@ -1,9 +1,7 @@
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/model/primary/item-list.dart';
-import 'package:delibrary/src/model/session.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 @immutable
 class BookList extends ItemList<Book> {
@@ -16,9 +14,12 @@ class BookList extends ItemList<Book> {
   bool get isComplete => length >= totalItems;
 
   @override
-  Map<Book, bool> getWishedMap(BuildContext context) {
-    BookList wishList = context.read<Session>().wishes;
-    return intersect(wishList);
+  Map<Book, bool> getWishedMap(ItemList wishList) {
+    Map<Book, bool> map = Map();
+    items.forEach((book) {
+      map[book] = wishList?.contains(book) ?? false;
+    });
+    return map;
   }
 
   factory BookList.fromJson(Map<String, dynamic> json) {
@@ -31,14 +32,6 @@ class BookList extends ItemList<Book> {
       totalItems: json["totalItems"],
       items: items,
     );
-  }
-
-  Map<Book, bool> intersect(BookList bookList) {
-    Map<Book, bool> map = Map();
-    items.forEach((book) {
-      map[book] = bookList?.contains(book) ?? false;
-    });
-    return map;
   }
 
   BookList addPage(BookList newList) {
@@ -76,6 +69,7 @@ class BookList extends ItemList<Book> {
     if (oldBook == null || newBook == null) return this;
     List<Book> self = items.toList();
     int index = self.indexOf(oldBook);
+    if (index == -1) return this;
     self.remove(oldBook);
     self.insert(index, newBook);
     return BookList(items: self);

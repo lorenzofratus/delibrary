@@ -6,7 +6,9 @@ import 'package:delibrary/src/components/sections/container.dart';
 import 'package:delibrary/src/components/modals/list-expander.dart';
 import 'package:delibrary/src/model/primary/item-list.dart';
 import 'package:delibrary/src/model/primary/item.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ItemsSectionContainer extends SectionContainer {
   final ItemList Function(BuildContext) provider;
@@ -32,7 +34,8 @@ class _ItemsChildren extends StatelessWidget {
 
     if (itemList?.isEmpty ?? true) return EmptyListSign(large: false);
 
-    Map<Item, bool> wishedMap = itemList.getWishedMap(context);
+    Map<Item, bool> wishedMap =
+        itemList.getWishedMap(context.read<Session>().wishes);
 
     return Column(
       children: [

@@ -1,0 +1,34 @@
+{
+    "id": 14,
+    "buyer": {
+      "username": "fratus",
+      "name": "Lorenzo",
+      "surname": "Fratus",
+      "email": "fra@tus.it",
+      "password": null
+    },
+    "seller": {
+      "username": "fratus98",
+      "name": "Lorenzo",
+      "surname": "Fratus",
+      "email": "frat@us.it",
+      "password": null
+    },
+    "property": {
+      "id": 2,
+      "owner": "fratus98",
+      "bookId": "ovo4tAEACAAJ",
+      "town": "clusone",
+      "province": "bergamo",
+      "isInAgreedExchange": true
+    },
+    "payment": {
+      "id": 1,
+      "owner": "fratus",
+      "bookId": "9CJWTbd-RYoC",
+      "town": "rovetta",
+      "province": "bergamo",
+      "isInAgreedExchange": true
+    },
+    "status": "agreed"
+  }

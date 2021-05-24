@@ -1,6 +1,5 @@
+import 'package:delibrary/src/model/utils/field-data.dart';
 import 'package:flutter/material.dart';
-
-import '../utils/field-data.dart';
 
 @immutable
 class User {
@@ -80,6 +79,7 @@ class UserBuilder {
       label: "Conferma Password", validator: confirmPassword, obscurable: true);
 
   String setUsername(newValue) {
+    newValue = newValue ?? "";
     if (_username != "") return "Non è possibile modificare l'username.";
     newValue = newValue.trim();
     if (newValue.length > 255)
@@ -90,6 +90,7 @@ class UserBuilder {
   }
 
   String setName(newValue) {
+    newValue = newValue ?? "";
     newValue = newValue.trim();
     if (newValue.length > 255)
       return "Il nome non può eccedere i 255 caratteri.";
@@ -98,6 +99,7 @@ class UserBuilder {
   }
 
   String setSurname(newValue) {
+    newValue = newValue ?? "";
     newValue = newValue.trim();
     if (newValue.length > 255)
       return "Il cognome non può eccedere i 255 caratteri.";
@@ -106,6 +108,7 @@ class UserBuilder {
   }
 
   String setEmail(newValue) {
+    newValue = newValue ?? "";
     newValue = newValue.trim();
     if (newValue == null || newValue.isEmpty)
       return "L'email non può essere vuota.";
@@ -118,8 +121,9 @@ class UserBuilder {
   }
 
   String setPassword(newValue) {
+    newValue = newValue ?? "";
     newValue = newValue.trim();
-    if (newValue == null || newValue.length < 8)
+    if (newValue.length < 8)
       return "La password deve essere lunga almeno 8 caratteri.";
     if (newValue.length > 255)
       return "La password non può eccedere i 255 caratteri.";
@@ -138,6 +142,7 @@ class UserBuilder {
   }
 
   String confirmPassword(confirmValue) {
+    confirmValue = confirmValue ?? "";
     confirmValue = confirmValue.trim();
     if (_password == "") return "";
     if (confirmValue != _password) return "Le due password non coincidono.";

@@ -17,10 +17,11 @@ abstract class ItemList<T extends Item> {
   bool get isEmpty => items?.isEmpty ?? true;
   bool get isComplete;
 
-  Map<T, bool> getWishedMap(BuildContext context);
+  Map<T, bool> getWishedMap(ItemList wishList);
 
   T getAt(int i) {
-    if (items != null && 0 <= i && i < items.length) return items[i];
+    if (i != null && items != null && 0 <= i && i < items.length)
+      return items[i];
     return null;
   }
 

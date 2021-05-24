@@ -1,7 +1,9 @@
 import 'package:delibrary/src/components/ui-elements/empty-list-sign.dart';
 import 'package:delibrary/src/model/primary/item-list.dart';
 import 'package:delibrary/src/model/primary/item.dart';
+import 'package:delibrary/src/model/session.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ItemCardsList<T extends ItemList> extends StatelessWidget {
   final T itemList;
@@ -39,7 +41,8 @@ class ItemCardsList<T extends ItemList> extends StatelessWidget {
         ],
       );
 
-    Map<Item, bool> wishedMap = itemList.getWishedMap(context);
+    Map<Item, bool> wishedMap =
+        itemList.getWishedMap(context.read<Session>().wishes);
 
     return ListView.builder(
       controller: controller,
