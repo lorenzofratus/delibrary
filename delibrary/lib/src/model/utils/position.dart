@@ -6,7 +6,9 @@ class Position {
   final String province;
   final String town;
 
-  Position(this.province, this.town);
+  Position(String province, String town)
+      : this.province = province?.toLowerCase() ?? "",
+        this.town = town?.toLowerCase() ?? "";
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> position = Map<String, dynamic>();
@@ -32,6 +34,7 @@ class Position {
   }
 
   String _capitalize(String text) {
+    if (text == null || text == "") return "";
     List<String> words = text.split(" ");
     words = words
         .map((word) => word.substring(0, 1).toUpperCase() + word.substring(1))
@@ -72,6 +75,7 @@ class PositionBuilder {
       );
 
   String setProvince(newValue) {
+    newValue = newValue ?? "";
     newValue = newValue.trim().toLowerCase();
     if (newValue.isEmpty)
       return "La provincia non può essere vuota.";
@@ -82,6 +86,7 @@ class PositionBuilder {
   }
 
   String setTown(newValue, nullable) {
+    newValue = newValue ?? "";
     newValue = newValue.trim().toLowerCase();
     if (!nullable && newValue.isEmpty) return "Il comune non può essere vuoto";
     List<String> towns = _provinces[_province];

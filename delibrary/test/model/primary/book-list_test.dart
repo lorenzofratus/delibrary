@@ -123,7 +123,7 @@ void main() {
       expect(list.remove(null), list);
       expect(list.remove(book2), list);
     });
-    test('should correctly update an Book', () {
+    test('should correctly update a Book', () {
       final Book book1 = Book(id: "1", property: Property(id: 1));
       final Book book2 = Book(id: "1", property: Property(id: 2));
       final Book book3 = Book(id: "3");

@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "owner": "fratus",
+        "bookId": "9CJWTbd-RYoC",
+        "town": "rovetta",
+        "province": "bergamo",
+        "isInAgreedExchange": true
+    },
+    {
+        "id": 2,
+        "owner": "fratus",
+        "bookId": "9CJWTbd-RYoC",
+        "town": "rovetta",
+        "province": "bergamo",
+        "isInAgreedExchange": true
+    },
+    {
+        "id": 3,
+        "owner": "fratus",
+        "bookId": "9CJWTbd-RYoC",
+        "town": "rovetta",
+        "province": "bergamo",
+        "isInAgreedExchange": true
+    }
+]

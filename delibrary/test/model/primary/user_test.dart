@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:delibrary/src/model/primary/user.dart';
 import 'package:test/test.dart';
 
@@ -33,6 +36,28 @@ void main() {
       final String string =
           'Tester, Name, Surname, email@email.com, Password00!';
       expect(user.toString(), string);
+    });
+    test('should correctly be generated from JSON', () async {
+      final File file = File('test_assets/user.json');
+      final Map<String, dynamic> json = jsonDecode(await file.readAsString());
+      final User user = User.fromJson(json);
+
+      expect(user.username, json["username"]);
+      expect(user.name, json["name"]);
+      expect(user.surname, json["surname"]);
+      expect(user.email, json["email"]);
+      expect(user.password, json["password"]);
+    });
+    test('should correctly be exported as JSON', () async {
+      final File file = File('test_assets/user.json');
+      final Map<String, dynamic> json = jsonDecode(await file.readAsString());
+      final Map<String, dynamic> user = User.fromJson(json).toJson();
+
+      expect(user["username"], json["username"]);
+      expect(user["name"], json["name"]);
+      expect(user["surname"], json["surname"]);
+      expect(user["email"], json["email"]);
+      expect(user["password"], json["password"]);
     });
   });
 
@@ -227,6 +252,23 @@ void main() {
 
       response = builder.confirmPassword(password);
       expect(response, null);
+    });
+    test('should correctly be exported as JSON', () {
+      final User user = User(
+        username: 'Tester',
+        name: 'Name',
+        surname: 'Surname',
+        email: 'email@email.com',
+        password: 'Password00!',
+      );
+      final UserBuilder builder = UserBuilder(user);
+      final Map<String, dynamic> json = builder.toJson();
+
+      expect(json["username"], user.username);
+      expect(json["name"], user.name);
+      expect(json["surname"], user.surname);
+      expect(json["email"], user.email);
+      expect(json["password"], user.password);
     });
   });
 }
