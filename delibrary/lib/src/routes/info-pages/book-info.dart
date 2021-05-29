@@ -27,8 +27,8 @@ class _BookInfoPageState extends ItemInfoPageState<Book> {
 
   @override
   void setup(BuildContext context) {
-    username = context.read<Session>().user.username;
-    hasExchange = context.read<Session>().hasActiveExchange(item);
+    username = context.read<Session>()?.user?.username;
+    hasExchange = context.read<Session>()?.hasActiveExchange(item) ?? false;
     userProperty = item.hasProperty && item.userProperty(username);
     userWish = item.hasWish && item.userWish(username);
   }

@@ -7,7 +7,8 @@ abstract class ItemCard<T extends Item> extends StatelessWidget {
   final bool tappable;
   final int imageFlex = 3;
 
-  ItemCard({@required this.item, this.preview = false, this.tappable = true});
+  ItemCard({@required this.item, this.preview = false, this.tappable = true})
+      : assert(item != null);
 
   void _tappedItem(BuildContext context) {
     if (!tappable) return;
@@ -95,7 +96,6 @@ abstract class ItemCard<T extends Item> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (item == null) return null;
     return preview ? _getPreview(context) : _getCard(context);
   }
 }
