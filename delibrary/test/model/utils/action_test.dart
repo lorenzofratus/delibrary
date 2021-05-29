@@ -1,6 +1,6 @@
 import 'package:delibrary/src/model/utils/action.dart';
 import 'package:flutter/material.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('DelibraryAction should be instantiable', () {

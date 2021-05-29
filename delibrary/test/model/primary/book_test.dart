@@ -7,7 +7,7 @@ import 'package:delibrary/src/model/secondary/property.dart';
 import 'package:delibrary/src/model/secondary/wish.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   String parseHtml(String html) {

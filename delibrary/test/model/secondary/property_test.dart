@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:delibrary/src/model/secondary/property.dart';
 import 'package:delibrary/src/model/utils/position.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Property', () {

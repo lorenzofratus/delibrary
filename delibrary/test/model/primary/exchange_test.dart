@@ -5,7 +5,7 @@ import 'package:delibrary/src/components/cards/exchange-card.dart';
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:flutter/material.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Item', () {

@@ -1,5 +1,5 @@
 import 'package:delibrary/src/model/utils/field-data.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('FieldData should be instantiable', () {

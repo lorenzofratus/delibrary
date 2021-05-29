@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/exchange-list.dart';
 import 'package:delibrary/src/model/primary/exchange.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ItemList', () {

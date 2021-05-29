@@ -5,7 +5,7 @@ import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/model/primary/user.dart';
 import 'package:delibrary/src/model/secondary/property.dart';
 import 'package:delibrary/src/model/session.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Session', () {
