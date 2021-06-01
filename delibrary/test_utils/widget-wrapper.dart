@@ -4,9 +4,11 @@ class WidgetWrapper {
   Widget scaffold(Widget body) {
     return ChangeNotifierProvider(
       create: (context) => Session(),
-      child: MaterialApp(
-        home: Scaffold(
-          body: body,
+      child: Layout(
+        child: MaterialApp(
+          home: Scaffold(
+            body: body,
+          ),
         ),
       ),
     );
@@ -15,7 +17,9 @@ class WidgetWrapper {
   Widget app(Widget home, [Session session]) {
     return ChangeNotifierProvider(
       create: (context) => session ?? Session(),
-      child: MaterialApp(home: home),
+      child: Layout(
+        child: MaterialApp(home: home),
+      ),
     );
   }
 }

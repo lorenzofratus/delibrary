@@ -60,7 +60,7 @@ void main() {
       final widget = ExchangeInfoPage(item: fixedExchangeB);
       await mockNetworkImagesFor(() => tester.pumpWidget(wrapper.app(widget)));
 
-      final listFinder = find.byType(ListView);
+      final listFinder = find.byType(CustomScrollView);
       expect(listFinder, findsOneWidget);
 
       final imageFinder = find.byType(FadeInImage);
@@ -71,6 +71,11 @@ void main() {
       expect(descriptionFinder, findsOneWidget);
 
       final otherFinder = richFinder.matching(fixedExchangeB.otherUsername);
+      await tester.dragUntilVisible(
+        otherFinder,
+        listFinder,
+        Offset(0.0, -50.0),
+      );
       expect(otherFinder, findsOneWidget);
     });
     testWidgets('should render contact info if agreed', (tester) async {
@@ -79,7 +84,7 @@ void main() {
       final widget = ExchangeInfoPage(item: newExchange);
       await mockNetworkImagesFor(() => tester.pumpWidget(wrapper.app(widget)));
 
-      final listFinder = find.byType(ListView);
+      final listFinder = find.byType(CustomScrollView);
       expect(listFinder, findsOneWidget);
 
       final emailFinder = find.text(newExchange.otherEmail);
@@ -94,7 +99,7 @@ void main() {
       final widget = ExchangeInfoPage(item: fixedExchangeB);
       await mockNetworkImagesFor(() => tester.pumpWidget(wrapper.app(widget)));
 
-      final listFinder = find.byType(ListView);
+      final listFinder = find.byType(CustomScrollView);
       expect(listFinder, findsOneWidget);
 
       final cardFinder = find.byType(BookCard);
@@ -120,7 +125,7 @@ void main() {
         await mockNetworkImagesFor(
             () => tester.pumpWidget(wrapper.app(widget)));
 
-        final listFinder = find.byType(ListView);
+        final listFinder = find.byType(CustomScrollView);
         expect(listFinder, findsOneWidget);
 
         final actionFinder1 =
@@ -143,7 +148,7 @@ void main() {
         await mockNetworkImagesFor(
             () => tester.pumpWidget(wrapper.app(widget)));
 
-        final listFinder = find.byType(ListView);
+        final listFinder = find.byType(CustomScrollView);
         expect(listFinder, findsOneWidget);
 
         final actionFinder1 = find.text("Scegli un libro");
@@ -167,7 +172,7 @@ void main() {
         await mockNetworkImagesFor(
             () => tester.pumpWidget(wrapper.app(widget)));
 
-        final listFinder = find.byType(ListView);
+        final listFinder = find.byType(CustomScrollView);
         expect(listFinder, findsOneWidget);
 
         final actionFinder1 =
@@ -192,7 +197,7 @@ void main() {
         await mockNetworkImagesFor(
             () => tester.pumpWidget(wrapper.app(widget)));
 
-        final listFinder = find.byType(ListView);
+        final listFinder = find.byType(CustomScrollView);
         expect(listFinder, findsOneWidget);
 
         final actionsFinder = find.byType(DelibraryButton, skipOffstage: false);
@@ -205,7 +210,7 @@ void main() {
         await mockNetworkImagesFor(
             () => tester.pumpWidget(wrapper.app(widget)));
 
-        final listFinder = find.byType(ListView);
+        final listFinder = find.byType(CustomScrollView);
         expect(listFinder, findsOneWidget);
 
         final actionsFinder = find.byType(DelibraryButton, skipOffstage: false);

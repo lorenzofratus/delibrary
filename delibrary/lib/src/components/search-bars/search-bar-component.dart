@@ -18,6 +18,7 @@ class SearchBarComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PaddedContainer(
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.only(
@@ -33,12 +34,14 @@ class SearchBarComponent extends StatelessWidget {
           ),
           Form(
             key: formKey,
-            child: Column(children: fields),
+            child: Column(
+              children: fields,
+            ),
           ),
           DelibraryButton(
             text: "Cerca",
             onPressed: onPressed,
-          )
+          ),
         ],
       ),
     );

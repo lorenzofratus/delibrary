@@ -41,7 +41,7 @@ class ListExpander {
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline5
+                                  .headline4
                                   .copyWith(
                                     color: Theme.of(context).accentColor,
                                   ),

@@ -1,10 +1,10 @@
 import 'package:delibrary/src/components/utils/info-fields.dart';
+import 'package:delibrary/src/components/utils/padded-grid.dart';
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/routes/info-pages/item-info.dart';
 import 'package:delibrary/src/components/utils/padded-container.dart';
-import 'package:delibrary/src/components/utils/padded-list-view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -66,12 +66,15 @@ class _BookInfoPageState extends ItemInfoPageState<Book> {
 
   @override
   Widget getContent(BuildContext context, ScrollController scrollController) {
-    return PaddedListView(
+    return PaddedGrid(
       controller: scrollController,
-      extraPadding: true,
-      children: [
+      grid: false,
+      maxWidth: 500.0,
+      leading: [
         InfoTitle(item.title),
         if (item.subtitle.isNotEmpty) InfoTitle(item.subtitle, false),
+      ],
+      children: [
         if (item.description.isNotEmpty) InfoDescription(item.description),
         if (item.hasDetails)
           InfoChips(

@@ -1,10 +1,10 @@
 import 'package:delibrary/src/components/ui-elements/custom-app-bar.dart';
+import 'package:delibrary/src/components/utils/padded-grid.dart';
 import 'package:delibrary/src/components/utils/page-title.dart';
 import 'package:delibrary/src/components/sections/items.dart';
 import 'package:delibrary/src/controller/internal/exchange-services.dart';
 import 'package:delibrary/src/model/primary/exchange-list.dart';
 import 'package:delibrary/src/model/session.dart';
-import 'package:delibrary/src/components/utils/padded-list-view.dart';
 import 'package:delibrary/src/components/utils/refreshable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,9 +33,11 @@ class _ArchivePageState extends State<ArchivePage> {
       appBar: CustomAppBar(),
       body: Refreshable(
         onRefresh: _downloadLists,
-        child: PaddedListView(
-          children: [
+        child: PaddedGrid(
+          leading: [
             PageTitle("I tuoi scambi archiviati"),
+          ],
+          children: [
             ItemsSectionContainer(
               title: "Rifiutati",
               provider: (context) =>

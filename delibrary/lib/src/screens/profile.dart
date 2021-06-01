@@ -1,9 +1,9 @@
+import 'package:delibrary/src/components/utils/padded-grid.dart';
 import 'package:delibrary/src/components/utils/page-title.dart';
 import 'package:delibrary/src/components/sections/form.dart';
 import 'package:delibrary/src/controller/internal/user-services.dart';
 import 'package:delibrary/src/model/session.dart';
 import 'package:delibrary/src/model/primary/user.dart';
-import 'package:delibrary/src/components/utils/padded-list-view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -76,13 +76,17 @@ class _ProfilePageState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PaddedListView(
-      children: [
+    return PaddedGrid(
+      grid: false,
+      maxWidth: 410.0,
+      leading: [
         PageTitle(
           "Il tuo profilo",
           action: _logoutUser,
           actionIcon: Icons.exit_to_app,
         ),
+      ],
+      children: [
         FormSectionContainer(
           title: "Dati",
           formKey: _profileKey,

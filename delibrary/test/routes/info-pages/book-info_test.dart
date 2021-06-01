@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:delibrary/src/components/utils/button.dart';
-import 'package:delibrary/src/components/utils/padded-list-view.dart';
 import 'package:delibrary/src/controller/internal/exchange-services.dart';
 import 'package:delibrary/src/controller/internal/property-services.dart';
 import 'package:delibrary/src/controller/internal/wish-services.dart';
@@ -43,7 +42,7 @@ void main() {
       final widget = BookInfoPage(item: fixedBook);
       await mockNetworkImagesFor(() => tester.pumpWidget(wrapper.app(widget)));
 
-      final listFinder = find.byType(PaddedListView);
+      final listFinder = find.byType(CustomScrollView);
       expect(listFinder, findsOneWidget);
 
       final imageFinder = find.byType(FadeInImage);
@@ -79,11 +78,19 @@ void main() {
             wrapper.app(widget, session),
           ));
 
+      final listFinder = find.byType(CustomScrollView);
+      expect(listFinder, findsOneWidget);
+
       final ownerFinder =
           find.text(property.ownerUsername, skipOffstage: false);
-      expect(ownerFinder, findsOneWidget);
       final positionFinder =
           find.text(property.positionString, skipOffstage: false);
+      await tester.dragUntilVisible(
+        positionFinder,
+        listFinder,
+        Offset(0.0, -50.0),
+      );
+      expect(ownerFinder, findsOneWidget);
       expect(positionFinder, findsOneWidget);
     });
     testWidgets('should display wished mark when needed', (tester) async {
@@ -122,7 +129,7 @@ void main() {
           () => tester.pumpWidget(wrapper.app(widget)),
         );
 
-        final listFinder = find.byType(PaddedListView);
+        final listFinder = find.byType(CustomScrollView);
         expect(listFinder, findsOneWidget);
 
         final actionFinder1 =
@@ -170,7 +177,7 @@ void main() {
               () => tester.pumpWidget(wrapper.app(widget, session)),
             );
 
-            final listFinder = find.byType(PaddedListView);
+            final listFinder = find.byType(CustomScrollView);
             expect(listFinder, findsOneWidget);
 
             final alertFinder = find.byIcon(Icons.warning_amber_rounded);
@@ -207,7 +214,7 @@ void main() {
               () => tester.pumpWidget(wrapper.app(widget, session)),
             );
 
-            final listFinder = find.byType(PaddedListView);
+            final listFinder = find.byType(CustomScrollView);
             expect(listFinder, findsOneWidget);
 
             final alertFinder = find.byIcon(Icons.warning_amber_rounded);
@@ -235,7 +242,7 @@ void main() {
               () => tester.pumpWidget(wrapper.app(widget, session)),
             );
 
-            final listFinder = find.byType(PaddedListView);
+            final listFinder = find.byType(CustomScrollView);
             expect(listFinder, findsOneWidget);
 
             final actionFinder1 =
@@ -264,7 +271,7 @@ void main() {
               () => tester.pumpWidget(wrapper.app(widget)),
             );
 
-            final listFinder = find.byType(PaddedListView);
+            final listFinder = find.byType(CustomScrollView);
             expect(listFinder, findsOneWidget);
 
             final actionFinder1 =
@@ -300,7 +307,7 @@ void main() {
           () => tester.pumpWidget(wrapper.app(widget, session)),
         );
 
-        final listFinder = find.byType(PaddedListView);
+        final listFinder = find.byType(CustomScrollView);
         expect(listFinder, findsOneWidget);
 
         final actionFinder1 = find.text(wishServices.removeWish(newBook).text);
@@ -320,7 +327,7 @@ void main() {
           () => tester.pumpWidget(wrapper.app(widget)),
         );
 
-        final listFinder = find.byType(PaddedListView);
+        final listFinder = find.byType(CustomScrollView);
         expect(listFinder, findsOneWidget);
 
         final actionFinder1 =

@@ -75,7 +75,6 @@ abstract class ItemCard<T extends Item> extends StatelessWidget {
 
   Widget _getCard(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       child: InkWell(
         onTap: () => _tappedItem(context),

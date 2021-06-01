@@ -4,23 +4,28 @@ class _CustomButton extends StatelessWidget {
   final Widget child;
   final void Function() onPressed;
   final bool primary;
+  final bool loading;
 
   _CustomButton({
     this.child,
     this.onPressed,
     this.primary = true,
+    this.loading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 30.0),
+      constraints: BoxConstraints(maxWidth: 350.0),
       child: TextButton(
         child: child,
         style: TextButton.styleFrom(
-          backgroundColor: primary
-              ? Theme.of(context).accentColor
-              : Theme.of(context).cardColor,
+          backgroundColor: onPressed != null || loading
+              ? primary
+                  ? Theme.of(context).accentColor
+                  : Theme.of(context).cardColor
+              : Theme.of(context).disabledColor,
           primary: primary ? Colors.black : Colors.white,
           minimumSize: Size.fromHeight(50.0),
           shape: RoundedRectangleBorder(
@@ -60,5 +65,6 @@ class LoadingButton extends _CustomButton {
           ),
           onPressed: null,
           primary: primary,
+          loading: true,
         );
 }

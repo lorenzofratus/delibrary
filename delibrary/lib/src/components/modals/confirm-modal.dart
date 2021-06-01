@@ -1,6 +1,6 @@
 import 'package:delibrary/src/components/modals/draggable-modal-page.dart';
 import 'package:delibrary/src/components/utils/button.dart';
-import 'package:delibrary/src/components/utils/padded-list-view.dart';
+import 'package:delibrary/src/components/utils/padded-grid.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmModal extends StatefulWidget {
@@ -23,9 +23,11 @@ class _ConfirmModalState extends State<ConfirmModal> {
   @override
   Widget build(BuildContext context) {
     return DraggableModalPage(
-      builder: (context, scrollController) => PaddedListView(
+      builder: (context, scrollController) => PaddedGrid(
         controller: scrollController,
-        children: [
+        grid: false,
+        maxWidth: 350.0,
+        leading: [
           Container(
             alignment: Alignment.center,
             margin: EdgeInsets.only(bottom: 30.0),
@@ -43,6 +45,8 @@ class _ConfirmModalState extends State<ConfirmModal> {
                 style: Theme.of(context).textTheme.headline6,
               ),
             ),
+        ],
+        children: [
           DelibraryButton(
             text: "Conferma",
             onPressed: widget.onSubmit,

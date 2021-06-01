@@ -32,7 +32,11 @@ class _ItemsChildren extends StatelessWidget {
   Widget build(BuildContext context) {
     ItemList itemList = provider(context);
 
-    if (itemList?.isEmpty ?? true) return EmptyListSign(large: false);
+    if (itemList?.isEmpty ?? true)
+      return EmptyListSign(
+        large: false,
+        buttonText: "Vedi tutti",
+      );
 
     Map<Item, bool> wishedMap =
         itemList.getWishedMap(context.read<Session>().wishes);

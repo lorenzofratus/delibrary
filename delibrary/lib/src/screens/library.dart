@@ -1,10 +1,10 @@
+import 'package:delibrary/src/components/utils/padded-grid.dart';
 import 'package:delibrary/src/components/utils/page-title.dart';
 import 'package:delibrary/src/components/sections/items.dart';
 import 'package:delibrary/src/controller/internal/property-services.dart';
 import 'package:delibrary/src/controller/internal/wish-services.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
 import 'package:delibrary/src/model/session.dart';
-import 'package:delibrary/src/components/utils/padded-list-view.dart';
 import 'package:delibrary/src/components/utils/refreshable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,13 +37,15 @@ class _LibraryScreenState extends State<LibraryScreen> {
   Widget build(BuildContext context) {
     return Refreshable(
       onRefresh: _downloadLists,
-      child: PaddedListView(
-        children: [
+      child: PaddedGrid(
+        leading: [
           PageTitle(
             "I tuoi libri",
             action: _addBook,
             actionIcon: Icons.add,
           ),
+        ],
+        children: [
           ItemsSectionContainer(
             title: "Libreria",
             provider: (context) =>

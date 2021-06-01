@@ -37,6 +37,7 @@ class BookCard extends ItemCard<Book> {
               flex: imageFlex * 2,
               fit: FlexFit.tight,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   getText(context, item.title, bold: true),

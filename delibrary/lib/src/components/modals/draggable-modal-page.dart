@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:layout/layout.dart';
 
 class DraggableModalPage extends StatefulWidget {
   final Widget Function(BuildContext, ScrollController) builder;
@@ -20,9 +21,10 @@ class _DraggableModalPageState extends State<DraggableModalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double minSize = context.layout.value(xs: 0.5, sm: 0.4);
     return DraggableScrollableSheet(
-      initialChildSize: 0.5,
-      minChildSize: 0.5,
+      initialChildSize: minSize,
+      minChildSize: minSize,
       maxChildSize: 0.9,
       builder: (context, scrollController) => Container(
         decoration: BoxDecoration(

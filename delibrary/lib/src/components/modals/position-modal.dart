@@ -1,8 +1,8 @@
 import 'package:delibrary/src/components/modals/draggable-modal-page.dart';
 import 'package:delibrary/src/components/form-fields/search-field.dart';
 import 'package:delibrary/src/components/utils/button.dart';
+import 'package:delibrary/src/components/utils/padded-grid.dart';
 import 'package:delibrary/src/model/utils/position.dart';
-import 'package:delibrary/src/components/utils/padded-list-view.dart';
 import 'package:flutter/material.dart';
 
 class PositionModal extends StatefulWidget {
@@ -38,15 +38,19 @@ class _PositionModalState extends State<PositionModal> {
   @override
   Widget build(BuildContext context) {
     return DraggableModalPage(
-      builder: (context, scrollController) => PaddedListView(
+      builder: (context, scrollController) => PaddedGrid(
         controller: scrollController,
-        children: [
+        maxWidth: 350.0,
+        grid: false,
+        leading: [
           Align(
             child: Text(
               "Dove si trova il libro?",
               style: Theme.of(context).textTheme.headline5,
             ),
           ),
+        ],
+        children: [
           Form(
             key: _formKey,
             child: Column(

@@ -62,7 +62,7 @@ void main() {
       await mockNetworkImagesFor(
           () => tester.pumpWidget(wrapper.scaffold(widget)));
 
-      final listFinder = find.byType(ListView);
+      final listFinder = find.byType(CustomScrollView);
       expect(listFinder, findsOneWidget);
 
       // Scroll to load all the elements
@@ -89,7 +89,7 @@ void main() {
       await mockNetworkImagesFor(
           () => tester.pumpWidget(wrapper.scaffold(widget)));
 
-      final listFinder = find.byType(ListView);
+      final listFinder = find.byType(CustomScrollView);
       expect(listFinder, findsOneWidget);
 
       // Scroll to load all the elements

@@ -1,13 +1,15 @@
-import 'package:delibrary/src/components/cards/item-cards-list.dart';
+import 'dart:math';
+
+import 'package:delibrary/src/components/cards/book-card.dart';
 import 'package:delibrary/src/components/utils/info-fields.dart';
 import 'package:delibrary/src/components/modals/list-expander.dart';
+import 'package:delibrary/src/components/utils/padded-grid.dart';
 import 'package:delibrary/src/controller/services.dart';
 import 'package:delibrary/src/model/utils/action.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
 import 'package:delibrary/src/model/primary/book.dart';
 import 'package:delibrary/src/model/primary/exchange.dart';
 import 'package:delibrary/src/routes/info-pages/item-info.dart';
-import 'package:delibrary/src/components/utils/padded-container.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -80,46 +82,62 @@ class _ExchangeInfoPageState extends ItemInfoPageState<Exchange> {
 
   @override
   Widget getContent(BuildContext context, ScrollController scrollController) {
-    return ItemCardsList<BookList>(
+    final double maxWidth = 500.0;
+    final double bookWidth = 400.0;
+    final double columnWidth = min(MediaQuery.of(context).size.width, maxWidth);
+    final double booksPad = max((columnWidth - bookWidth) / 2, 0.0);
+    return PaddedGrid(
       controller: scrollController,
-      itemList: bookList,
-      showOwner: true,
-      tappable: tappable,
+      grid: false,
+      maxWidth: 500.0,
       leading: [
-        PaddedContainer(
-          child: Column(
-            children: [
-              InfoTitle(item.title),
-              InfoDescription(item.description),
-              InfoChips(
-                title: "Altro utente",
-                data: {
-                  item.otherUsername: InfoDataType.user,
-                },
-              ),
-              if (item.isAgreed)
-                Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  child: InkWell(
-                    onTap: () => _launchEmail(context),
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          InfoTitleSmall("Contatta ${item.otherUsername}"),
-                          InfoTitleSmall(item.otherEmail, false),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ...getButtons(context),
-            ],
-          ),
+        InfoTitle(item.title),
+      ],
+      children: [
+        InfoDescription(item.description),
+        InfoChips(
+          title: "Altro utente",
+          data: {
+            item.otherUsername: InfoDataType.user,
+          },
         ),
+        if (item.isAgreed)
+          Card(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+            child: InkWell(
+              onTap: () => _launchEmail(context),
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    InfoTitleSmall("Contatta ${item.otherUsername}"),
+                    InfoTitleSmall(item.otherEmail, false),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ...getButtons(context),
+        SizedBox(height: 60.0),
         InfoTitle("Libri coinvolti", false),
+        ...bookList.items
+            .map(
+              (e) => Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 20.0,
+                  horizontal: booksPad,
+                ),
+                child: BookCard(
+                  book: e,
+                  showOwner: true,
+                  tappable: tappable,
+                  preview: false,
+                ),
+              ),
+            )
+            .toList(),
       ],
     );
   }
