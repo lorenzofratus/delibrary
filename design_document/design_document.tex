@@ -18,7 +18,15 @@
 
 
 \chapter{Introduction}
-% Funzionamento generale di Delibrary
+
+Delibrary is a mobile application designed to encourage the exchange of physical books.
+
+A user can publish their own books on Delibrary, point out books they would like to own and propose exchanges to other users.
+Delibrary is in charge of connecting users interested in a book exchange.
+
+Finally, the idea is to create a "decentralized library", where readers own and directly exchange books.
+
+By putting readers in direct contact, we intend to create new opportunities for socializing and exchanging ideas.
 
 \section{Purpose}
 
@@ -42,7 +50,7 @@ This is one of the most common and effective ways to drastically reduce the leve
 
 \section{Frontend}
 For the frontend, we chose to implement our application using \emph{Flutter}.\\
-Flutter is an open-source framework developed by Google. 
+Flutter is an open-source framework developed by Google.
 It allows you to build multi-platform mobile applications starting from a single codebase (written in \emph{Dart} language).
 
 \subsection{Architectural Patterns}
@@ -50,20 +58,20 @@ It allows you to build multi-platform mobile applications starting from a single
 \subsubsection{MVC Pattern}
 Again, we decided to follow the MVC pattern by dividing our system into three decoupled layers.
 \begin{itemize}
-    \item \textbf{Model}: 
-        set of custom objects that are used to share data between application components and to communicate with the backend server (through JSON representation);
-        the model of our application is immutable, any change in the state will result in the creation of a brand new instance of the object.
+    \item \textbf{Model}:
+          set of custom objects that are used to share data between application components and to communicate with the backend server (through JSON representation);
+          the model of our application is immutable, any change in the state will result in the creation of a brand new instance of the object.
     \item \textbf{View}:
-        collection of Flutter widgets that are combined to build the user interface, do not contain any logic that directly changes the state of the model.
+          collection of Flutter widgets that are combined to build the user interface, do not contain any logic that directly changes the state of the model.
     \item \textbf{Controller}:
-        set of objects that implement communication with the backend server and external service APIs, build and return objects from server responses. 
+          set of objects that implement communication with the backend server and external service APIs, build and return objects from server responses.
 \end{itemize}
 
 \subsubsection{Provider Pattern}
 To properly manage the state of our application, we decided to use one of the approaches that are recommended by Google, the Provider pattern.
 
 This pattern is achieved by wrapping the \texttt{MaterialApp} (or any other widget) in a \texttt{ChangeNotifierProvider}.
-The provider gives access to a custom object from any widget simply by using the \texttt{BuildContext} object provided during the widget lifecycle. 
+The provider gives access to a custom object from any widget simply by using the \texttt{BuildContext} object provided during the widget lifecycle.
 
 The object that is \emph{provided} must extend the \texttt{ChangeNotifier} class. In this way, it is possible to use the pre-implemented Observer pattern.\\
 When a widget requires access to the provider, it has the possibility to subscribe as a listener and to receive a notification (and automatically rebuild) at any alteration of the state.
@@ -75,25 +83,25 @@ We decided to do this, in order to ensure that any changes correctly update the 
 As with any framework, Flutter allows us to add external packages that simplify the developement of our code and to implement additional functionalities.
 Here we briefly outline the most relevant packages that we introduced and how we used them.
 \begin{itemize}
-    \item \texttt{provider}: 
-        used to support the implementation of the Provider pattern, as explained in the previous section.\\
-        \underline{\href{https://pub.dev/packages/provider}{Link to \texttt{pub.dev}}}.
-    \item \texttt{dio}: 
-        HTTP client used by controllers to send requests, among other things supports interceptors that are 
-        used to include the session cookie with any request.\\
-        \underline{\href{https://pub.dev/packages/dio}{Link to \texttt{pub.dev}}}.
-    \item \texttt{shared\_preferences}: 
-        allows to use platform-specific persistent storage in a uniform way. It is used to store the session 
-        cookie to keep sessions active even when the application is closed (one time login).\\
-        \underline{\href{https://pub.dev/packages/shared_preferences}{Link to \texttt{pub.dev}}}.
-    \item \texttt{layout}: 
-        component that wraps the \texttt{MaterialApp} widget and helps building flexible layouts by providing
-        access to a way to query the screen size. We used it to adapt our UI to bigger screens (tablets).\\
-        \underline{\href{https://pub.dev/packages/layout}{Link to \texttt{pub.dev}}}.
-    \item \texttt{url\_launcher}: 
-        allows to launch URLs on multiple platforms. In our specific case it is used to open the default email
-        client on the user's device, providing also a precomposed email to contact another user.\\
-        \underline{\href{https://pub.dev/packages/url_launcher}{Link to \texttt{pub.dev}}}.
+    \item \texttt{provider}:
+          used to support the implementation of the Provider pattern, as explained in the previous section.\\
+          \underline{\href{https://pub.dev/packages/provider}{Link to \texttt{pub.dev}}}.
+    \item \texttt{dio}:
+          HTTP client used by controllers to send requests, among other things supports interceptors that are
+          used to include the session cookie with any request.\\
+          \underline{\href{https://pub.dev/packages/dio}{Link to \texttt{pub.dev}}}.
+    \item \texttt{shared\_preferences}:
+          allows to use platform-specific persistent storage in a uniform way. It is used to store the session
+          cookie to keep sessions active even when the application is closed (one time login).\\
+          \underline{\href{https://pub.dev/packages/shared_preferences}{Link to \texttt{pub.dev}}}.
+    \item \texttt{layout}:
+          component that wraps the \texttt{MaterialApp} widget and helps building flexible layouts by providing
+          access to a way to query the screen size. We used it to adapt our UI to bigger screens (tablets).\\
+          \underline{\href{https://pub.dev/packages/layout}{Link to \texttt{pub.dev}}}.
+    \item \texttt{url\_launcher}:
+          allows to launch URLs on multiple platforms. In our specific case it is used to open the default email
+          client on the user's device, providing also a precomposed email to contact another user.\\
+          \underline{\href{https://pub.dev/packages/url_launcher}{Link to \texttt{pub.dev}}}.
 \end{itemize}
 
 
@@ -103,26 +111,26 @@ They are listed following the folder structure of our application.
 
 \subsubsection{Components}
 Independent widgets that can be used as building blocks inside a \texttt{Scaffold}.
-All of them accept attributes to customize their behavior, some of them even accept other widgets as children. 
+All of them accept attributes to customize their behavior, some of them even accept other widgets as children.
 
 \begin{itemize}
-    \item \texttt{cards/book-card}: 
-        takes a \texttt{Book} object as input and displays its information on a card.
-        It can also show a smaller version of the card by setting the \texttt{preview} attribute to \texttt{true}.
-        It is used in any occasion in which a book needs to be rendered.
+    \item \texttt{cards/book-card}:
+          takes a \texttt{Book} object as input and displays its information on a card.
+          It can also show a smaller version of the card by setting the \texttt{preview} attribute to \texttt{true}.
+          It is used in any occasion in which a book needs to be rendered.
     \item \texttt{cards/exchange-card}:
-        dual of the \texttt{cards/book-card} widget but for an \texttt{Exchange} object.
+          dual of the \texttt{cards/book-card} widget but for an \texttt{Exchange} object.
     \item \texttt{cards/item-card-list}:
-        takes either a \texttt{BookList} or an \texttt{ExchangeList} object as input and displays the list of cards.
-        It can be used to perform lazy loading by providing a \texttt{nextPage} callback that is called when the user
-        approaches the end of the list.
+          takes either a \texttt{BookList} or an \texttt{ExchangeList} object as input and displays the list of cards.
+          It can be used to perform lazy loading by providing a \texttt{nextPage} callback that is called when the user
+          approaches the end of the list.
     \item \texttt{modals/draggable-modal-page}:
-        shorthand used to customize the existing \texttt{DraggableScrollableSheet} widget.
-        It takes a \texttt{builder} callback as input to pass the child element.
-        It is used every time this type of modal is rendered in the application, such as in the info pages.
+          shorthand used to customize the existing \texttt{DraggableScrollableSheet} widget.
+          It takes a \texttt{builder} callback as input to pass the child element.
+          It is used every time this type of modal is rendered in the application, such as in the info pages.
     \item \texttt{utils/padded-grid}:
-        general purpose widget, builds a \texttt{CustomScrollView} that arranges children in a grid with
-        dynamic layout (depends on the screen size). It is used to provide a flexible interface.
+          general purpose widget, builds a \texttt{CustomScrollView} that arranges children in a grid with
+          dynamic layout (depends on the screen size). It is used to provide a flexible interface.
 \end{itemize}
 
 \subsubsection{Routes}
@@ -131,22 +139,22 @@ They contain a \texttt{Scaffold} and most of them (excluding info pages) are \em
 
 \begin{itemize}
     \item \texttt{info-pages/book-info}:
-        takes a \texttt{Book} object as input and displays all its information.
-        The page includes a list of buttons that allow the user to perform different actions, these actions are computed dynamically based on the \texttt{Book} object received as input.
-        For example, if the book is included in the user's library, they could either choose to \emph{remove it} or to \emph{move it to the wishlist}.
-        It is shown anytime the user taps on a \texttt{book-card}.
+          takes a \texttt{Book} object as input and displays all its information.
+          The page includes a list of buttons that allow the user to perform different actions, these actions are computed dynamically based on the \texttt{Book} object received as input.
+          For example, if the book is included in the user's library, they could either choose to \emph{remove it} or to \emph{move it to the wishlist}.
+          It is shown anytime the user taps on a \texttt{book-card}.
     \item \texttt{info-pages/exchange-info}:
-        dual of the \texttt{info-pages/book-info} widget but for an \texttt{Exchange} object.
+          dual of the \texttt{info-pages/book-info} widget but for an \texttt{Exchange} object.
     \item \texttt{home}:
-        main page of the application, composed by an \texttt{IndexedStack} containing 4 pages (see Screens section) that can be switched using a \texttt{BottomNavigationBar}.
+          main page of the application, composed by an \texttt{IndexedStack} containing 4 pages (see Screens section) that can be switched using a \texttt{BottomNavigationBar}.
     \item \texttt{login}:
-        login page, this is the first that the user encounters when opening the application (if not already logged in) or after logout.
+          login page, this is the first that the user encounters when opening the application (if not already logged in) or after logout.
     \item \texttt{register}:
-        registration page, reachable from the login page when clicking on the proper link.
+          registration page, reachable from the login page when clicking on the proper link.
     \item \texttt{global-search}:
-        page containing the \emph{global search bar} that is used to find a book by title, author name or ISBN through the Google Books API.
+          page containing the \emph{global search bar} that is used to find a book by title, author name or ISBN through the Google Books API.
     \item \texttt{archived}:
-        page in which the user can see the exchanges that have been archived (refused or completed).
+          page in which the user can see the exchanges that have been archived (refused or completed).
 \end{itemize}
 
 \subsubsection{Screens}
@@ -155,23 +163,23 @@ Unlike the widgets presented in the Routes section, they do not contain a \textt
 
 \begin{itemize}
     \item \texttt{position-search}:
-        first page that the user sees after the login, like \texttt{global-search} presents a search bar that is used to find a book
-        in the Delibrary community, filtering by Province and Town.
+          first page that the user sees after the login, like \texttt{global-search} presents a search bar that is used to find a book
+          in the Delibrary community, filtering by Province and Town.
     \item \texttt{library}:
-        page in which the user can see and manage the books that are in their library or wishlist.
-        From there, they can go to the \texttt{global-search} page using the proper button.
+          page in which the user can see and manage the books that are in their library or wishlist.
+          From there, they can go to the \texttt{global-search} page using the proper button.
     \item \texttt{exchanges}:
-        page in which the user can see and manage the exchanges proposed by other users or involving the books in their library.
-        From there, they can go to the \texttt{archived} page using the proper button.
+          page in which the user can see and manage the exchanges proposed by other users or involving the books in their library.
+          From there, they can go to the \texttt{archived} page using the proper button.
     \item \texttt{profile}:
-        page displaying the profile of the user. From there they can edit their data (except the username), change their password, or log out.
+          page displaying the profile of the user. From there they can edit their data (except the username), change their password, or log out.
 \end{itemize}
 
 \chapter{External Services}
 
 \section{Google Books API}
 
-\section{Compuni ITA API}
+\section{Comuni ITA API}
 
 
 
