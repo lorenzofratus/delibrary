@@ -224,6 +224,44 @@ Unlike the widgets presented in the Routes section, they do not contain a \textt
 \chapter{User Interface Design}
 
 \section{UX Diagram}
+With the following diagrams, we want to provide additional information about the journey of a user inside our application.
+
+\subsection{Authentication}
+In Figure \ref{fig:ux-auth} is shown the flow of interactions that can happen during the authentication process.
+
+As soon as the app starts, the \emph{Home} page displays a loading animation while trying to validate the stored session cookie. 
+If the session is invalid, the user is redirected to the \emph{Login} page, otherwise the application is loaded (Figure \ref{fig:ux-main}).
+
+\begin{figure}[H]
+      \includegraphics{ux-diagram/ux-auth.png}
+      \caption{UX diagram for the authentication process.}
+      \label{fig:ux-auth}
+\end{figure}
+
+\subsection{Home}
+In Figure \ref{fig:ux-main} we outline the main flow of our application, starting from \emph{Home} page.
+These interactions assume that the user is correctly logged in.
+
+The \emph{Bottom Navigation Bar} component is used to navigate among the screens marked with the same \emph{``N''} symbol.
+
+\begin{figure}[H]
+      \includegraphics{ux-diagram/ux-part-1.png}
+      \includegraphics{ux-diagram/ux-part-2.png}
+      \caption{UX diagram for the application.}
+      \label{fig:ux-main}
+\end{figure}
+
+\subsection{Book and Exchange Info}
+In Figure \ref{fig:ux-info} we expand \emph{Book Info} and \emph{Exchange Info} pages with all the actions that can be done.
+Note that only a subset of 1 to 3 actions will be available at each time.
+These actions are selected dynamically depending on the state of the \texttt{Book} or \texttt{Exchange} object.
+
+\begin{figure}[H]
+      \includegraphics{ux-diagram/ux-info.png}
+      \caption{UX diagram for the info pages.}
+      \label{fig:ux-info}
+\end{figure}
+\clearpage
 
 \section{Screenshots}
 

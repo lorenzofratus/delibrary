@@ -50,13 +50,13 @@ class _BookInfoPageState extends ItemInfoPageState<Book> {
         else {
           // Property of another user, no active exchange
           addAction(exchangeServices.propose(item.property));
-          addAction(propertyServices.addProperty(item));
+          // addAction(propertyServices.addProperty(item));
         }
       }
     } else if (userWish) {
       // Wish of current user
       addAction(wishServices.removeWish(item));
-      // addAction(wishServices.moveWishToLibrary(item));
+      addAction(wishServices.moveWishToLibrary(item));
     } else {
       // Global search
       addAction(propertyServices.addProperty(item));
