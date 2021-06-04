@@ -229,7 +229,7 @@ With the following diagrams, we want to provide additional information about the
 \subsection{Authentication}
 In Figure \ref{fig:ux-auth} is shown the flow of interactions that can happen during the authentication process.
 
-As soon as the app starts, the \emph{Home} page displays a loading animation while trying to validate the stored session cookie. 
+As soon as the app starts, the \emph{Home} page displays a loading animation while trying to validate the stored session cookie.
 If the session is invalid, the user is redirected to the \emph{Login} page, otherwise the application is loaded (Figure \ref{fig:ux-main}).
 
 \begin{figure}[H]
@@ -291,6 +291,15 @@ Being it based on the previously implemented logic, we decided to takle it after
 A step-by-step implementation together with a step-by-step testing of the functinalities brought us to the actual version of Delibrary.
 
 \section{Backend Tests}
+The backend tests were done exploiting \href{https://mochajs.org}{Mocha}, an open-source JavaScript test framework running on Node.js, that allows to make test requests to the APIs.
+The assertions are handled exploiting \href{https://www.chaijs.com/}{Chai} assertion library.
+
+The tests were conducted following the documentation of the API: first the APIs regarding the object User were tested, then the ones about Wish and Property, and the ones about the Exchange object in the end.
+A database separated from the main one is used for testing purposes.
+
+For each API, there is a test of the 'optimal case', where all the parameters are legal and respect the logic of Delibrary.
+Then, there are some tests that delve into particular logical cases, mostly about the management of the status of an Exchange.
+All the tests are passed and they've been a fundamental mean in order to discover bugs quickly.
 
 \section{Frontend Tests}
 
