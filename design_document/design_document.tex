@@ -24,7 +24,7 @@ Delibrary is a mobile application designed to encourage the exchange of physical
 A user can publish their own books on Delibrary, point out books they would like to own and propose exchanges to other users.
 Delibrary is in charge of connecting users interested in a book exchange.
 
-Finally, the idea is to create a \emph{"decentralized library"}, in which readers are encouraged to immerse themself 
+Finally, the idea is to create a \emph{"decentralized library"}, in which readers are encouraged to immerse themselves
 in ever new adventures and to be part of a community of book enthusiasts.
 
 By putting readers in direct contact, we intend to create new opportunities for socializing and exchanging ideas.
@@ -40,14 +40,51 @@ By putting readers in direct contact, we intend to create new opportunities for 
 \chapter{Architectural Design}
 
 \section{Backend}
-% - MVC pattern: API (Swagger), Services (ExpressJS), database (KnexJS)
-% - RESTful APIs using JSON files
-% - Heroku and PostgreSQL
-% - Swagger for defining API, link to API docs and test
+The backend is implemented exploiting \href{https://nodejs.org}{Node.js}, a JavaScript runtime designed to build scalable network applications.
 
-% Ti lascio la descrizione dell'MVC pattern che avevo scritto per l'altro DD, vedi tu se usarla o meno
+\subsection{API}
+The web server receives requests through the APIs defined using \href{https://swagger.io}{Swagger}.
+
+Swagger is a set of tools for developing APIs with respect to the OpenAPI Specifications.
+It provides a \href{https://editor.swagger.io}{handy web editor} and a \href{https://swagger.io/tools/swagger-codegen}{web-server code generator}.
+Once you have written the API specifications, you can generate and download a first naive version of the web server.
+
+\subsection{Web server}
+The web server is realized exploiting the package \href{https://expressjs.com}{Express.js}.
+It is a is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
+
+Express recevies all the queries to the web server and re-route them to the correct middlewares.
+
+\subsection{DBMS}
+As DBMS for Delibrary we chose PostgreSQL, an open source relational database management system.
+
+The communication between the web server and the DBMS is managed by \href{https://knexjs.org}{Knex.js}.
+Thanks to Knex.js, the queires to the databse are transparent with respect to the particular DBMS of choice.
+So, in the future, moving from PostgreSQL to another DBMS will only require changing the three lines of code that estabilish the connection to the database.
+
+PostgreSQL was preferred to the others mainly for its very good support offered by the web platform that hosts our server: Heroku.
+
+\subsection{Web hosting platform}
+\href{https://www.heroku.com/home}{Heroku} is a Platform-as-a-Service that allows you to easily deploy Node.js apps.
+Its management follows the same rules of Git, so it is very handy for an experienced programmer.
+It automatically manages the HTTPS certificate of our server.
+
+\subsection{Architectural Patterns}
+
+\subsubsection{MVC Pattern}
 The Model-View-Controller pattern is used in order to obtain a clear division between the internal representation of information, the way in which that information is presented to the user and the business logic of the system.
 This is one of the most common and effective ways to drastically reduce the level of coupling between the various parts of the system.
+
+\begin{itemize}
+      \item \textbf{Model}:
+            the model structure is embedded into the relational database schema.
+            Every change in the state of Delibrary is ultimately done by the DBMS.
+      \item \textbf{View}:
+            the APIs are the view of the backend. A user cannot see anything but the available APIs, whose documentation is reachable at \href{https://delibrary.herokuapp.com/docs/}{https://delibrary.herokuapp.com/docs}.
+      \item \textbf{Controller}:
+            each table of the database is associated to a controller, written in JavaScript, that manages the requests made by the users through the APIs, checking that all the conditions for a legal request are met and then eventually modifying the content of the database.
+\end{itemize}
+
 
 \section{Frontend}
 For the frontend, we chose to implement our application using \emph{Flutter}.\\
@@ -59,13 +96,13 @@ It allows you to build multi-platform mobile applications starting from a single
 \subsubsection{MVC Pattern}
 Again, we decided to follow the MVC pattern by dividing our system into three decoupled layers.
 \begin{itemize}
-    \item \textbf{Model}:
-          set of custom objects that are used to share data between application components and to communicate with the backend server (through JSON representation);
-          the model of our application is immutable, any change in the state will result in the creation of a brand new instance of the object.
-    \item \textbf{View}:
-          collection of Flutter widgets that are combined to build the user interface, do not contain any logic that directly changes the state of the model.
-    \item \textbf{Controller}:
-          set of objects that implement communication with the backend server and external service APIs, build and return objects from server responses.
+      \item \textbf{Model}:
+            set of custom objects that are used to share data between application components and to communicate with the backend server (through JSON representation);
+            the model of our application is immutable, any change in the state will result in the creation of a brand new instance of the object.
+      \item \textbf{View}:
+            collection of Flutter widgets that are combined to build the user interface, do not contain any logic that directly changes the state of the model.
+      \item \textbf{Controller}:
+            set of objects that implement communication with the backend server and external service APIs, build and return objects from server responses.
 \end{itemize}
 
 \subsubsection{Provider Pattern}
@@ -84,25 +121,25 @@ We decided to do this, in order to ensure that any changes correctly update the 
 As with any framework, Flutter allows us to add external packages that simplify the developement of our code and to implement additional functionalities.
 Here we briefly outline the most relevant packages that we introduced and how we used them.
 \begin{itemize}
-    \item \texttt{provider}:
-          used to support the implementation of the Provider pattern, as explained in the previous section.\\
-          \underline{\href{https://pub.dev/packages/provider}{Link to \texttt{pub.dev}}}.
-    \item \texttt{dio}:
-          HTTP client used by controllers to send requests, among other things supports interceptors that are
-          used to include the session cookie with any request.\\
-          \underline{\href{https://pub.dev/packages/dio}{Link to \texttt{pub.dev}}}.
-    \item \texttt{shared\_preferences}:
-          allows to use platform-specific persistent storage in a uniform way. It is used to store the session
-          cookie to keep sessions active even when the application is closed (one time login).\\
-          \underline{\href{https://pub.dev/packages/shared_preferences}{Link to \texttt{pub.dev}}}.
-    \item \texttt{layout}:
-          component that wraps the \texttt{MaterialApp} widget and helps building flexible layouts by providing
-          access to a way to query the screen size. We used it to adapt our UI to bigger screens (tablets).\\
-          \underline{\href{https://pub.dev/packages/layout}{Link to \texttt{pub.dev}}}.
-    \item \texttt{url\_launcher}:
-          allows to launch URLs on multiple platforms. In our specific case it is used to open the default email
-          client on the user's device, providing also a precomposed email to contact another user.\\
-          \underline{\href{https://pub.dev/packages/url_launcher}{Link to \texttt{pub.dev}}}.
+      \item \texttt{provider}:
+            used to support the implementation of the Provider pattern, as explained in the previous section.\\
+            \underline{\href{https://pub.dev/packages/provider}{Link to \texttt{pub.dev}}}.
+      \item \texttt{dio}:
+            HTTP client used by controllers to send requests, among other things supports interceptors that are
+            used to include the session cookie with any request.\\
+            \underline{\href{https://pub.dev/packages/dio}{Link to \texttt{pub.dev}}}.
+      \item \texttt{shared\_preferences}:
+            allows to use platform-specific persistent storage in a uniform way. It is used to store the session
+            cookie to keep sessions active even when the application is closed (one time login).\\
+            \underline{\href{https://pub.dev/packages/shared_preferences}{Link to \texttt{pub.dev}}}.
+      \item \texttt{layout}:
+            component that wraps the \texttt{MaterialApp} widget and helps building flexible layouts by providing
+            access to a way to query the screen size. We used it to adapt our UI to bigger screens (tablets).\\
+            \underline{\href{https://pub.dev/packages/layout}{Link to \texttt{pub.dev}}}.
+      \item \texttt{url\_launcher}:
+            allows to launch URLs on multiple platforms. In our specific case it is used to open the default email
+            client on the user's device, providing also a precomposed email to contact another user.\\
+            \underline{\href{https://pub.dev/packages/url_launcher}{Link to \texttt{pub.dev}}}.
 \end{itemize}
 
 
@@ -115,23 +152,23 @@ Independent widgets that can be used as building blocks inside a \texttt{Scaffol
 All of them accept attributes to customize their behavior, some of them even accept other widgets as children.
 
 \begin{itemize}
-    \item \texttt{cards/book-card}:
-          takes a \texttt{Book} object as input and displays its information on a card.
-          It can also show a smaller version of the card by setting the \texttt{preview} attribute to \texttt{true}.
-          It is used in any occasion in which a book needs to be rendered.
-    \item \texttt{cards/exchange-card}:
-          dual of the \texttt{cards/book-card} widget but for an \texttt{Exchange} object.
-    \item \texttt{cards/item-card-list}:
-          takes either a \texttt{BookList} or an \texttt{ExchangeList} object as input and displays the list of cards.
-          It can be used to perform lazy loading by providing a \texttt{nextPage} callback that is called when the user
-          approaches the end of the list.
-    \item \texttt{modals/draggable-modal-page}:
-          shorthand used to customize the existing \texttt{DraggableScrollableSheet} widget.
-          It takes a \texttt{builder} callback as input to pass the child element.
-          It is used every time this type of modal is rendered in the application, such as in the info pages.
-    \item \texttt{utils/padded-grid}:
-          general purpose widget, builds a \texttt{CustomScrollView} that arranges children in a grid with
-          dynamic layout (depends on the screen size). It is used to provide a flexible interface.
+      \item \texttt{cards/book-card}:
+            takes a \texttt{Book} object as input and displays its information on a card.
+            It can also show a smaller version of the card by setting the \texttt{preview} attribute to \texttt{true}.
+            It is used in any occasion in which a book needs to be rendered.
+      \item \texttt{cards/exchange-card}:
+            dual of the \texttt{cards/book-card} widget but for an \texttt{Exchange} object.
+      \item \texttt{cards/item-card-list}:
+            takes either a \texttt{BookList} or an \texttt{ExchangeList} object as input and displays the list of cards.
+            It can be used to perform lazy loading by providing a \texttt{nextPage} callback that is called when the user
+            approaches the end of the list.
+      \item \texttt{modals/draggable-modal-page}:
+            shorthand used to customize the existing \texttt{DraggableScrollableSheet} widget.
+            It takes a \texttt{builder} callback as input to pass the child element.
+            It is used every time this type of modal is rendered in the application, such as in the info pages.
+      \item \texttt{utils/padded-grid}:
+            general purpose widget, builds a \texttt{CustomScrollView} that arranges children in a grid with
+            dynamic layout (depends on the screen size). It is used to provide a flexible interface.
 \end{itemize}
 
 \subsubsection{Routes}
@@ -139,23 +176,23 @@ Widgets representing a page of our application.
 They contain a \texttt{Scaffold} and most of them (excluding info pages) are \emph{named} in order to be easily accessed from anywhere.
 
 \begin{itemize}
-    \item \texttt{info-pages/book-info}:
-          takes a \texttt{Book} object as input and displays all its information.
-          The page includes a list of buttons that allow the user to perform different actions, these actions are computed dynamically based on the \texttt{Book} object received as input.
-          For example, if the book is included in the user's library, they could either choose to \emph{remove it} or to \emph{move it to the wishlist}.
-          It is shown anytime the user taps on a \texttt{book-card}.
-    \item \texttt{info-pages/exchange-info}:
-          dual of the \texttt{info-pages/book-info} widget but for an \texttt{Exchange} object.
-    \item \texttt{home}:
-          main page of the application, composed by an \texttt{IndexedStack} containing 4 pages (see Screens section) that can be switched using a \texttt{BottomNavigationBar}.
-    \item \texttt{login}:
-          login page, this is the first that the user encounters when opening the application (if not already logged in) or after logout.
-    \item \texttt{register}:
-          registration page, reachable from the login page when clicking on the proper link.
-    \item \texttt{global-search}:
-          page containing the \emph{global search bar} that is used to find a book by title, author name or ISBN through the Google Books API.
-    \item \texttt{archived}:
-          page in which the user can see the exchanges that have been archived (refused or completed).
+      \item \texttt{info-pages/book-info}:
+            takes a \texttt{Book} object as input and displays all its information.
+            The page includes a list of buttons that allow the user to perform different actions, these actions are computed dynamically based on the \texttt{Book} object received as input.
+            For example, if the book is included in the user's library, they could either choose to \emph{remove it} or to \emph{move it to the wishlist}.
+            It is shown anytime the user taps on a \texttt{book-card}.
+      \item \texttt{info-pages/exchange-info}:
+            dual of the \texttt{info-pages/book-info} widget but for an \texttt{Exchange} object.
+      \item \texttt{home}:
+            main page of the application, composed by an \texttt{IndexedStack} containing 4 pages (see Screens section) that can be switched using a \texttt{BottomNavigationBar}.
+      \item \texttt{login}:
+            login page, this is the first that the user encounters when opening the application (if not already logged in) or after logout.
+      \item \texttt{register}:
+            registration page, reachable from the login page when clicking on the proper link.
+      \item \texttt{global-search}:
+            page containing the \emph{global search bar} that is used to find a book by title, author name or ISBN through the Google Books API.
+      \item \texttt{archived}:
+            page in which the user can see the exchanges that have been archived (refused or completed).
 \end{itemize}
 
 \subsubsection{Screens}
@@ -163,17 +200,17 @@ Widgets representing a page of our application.
 Unlike the widgets presented in the Routes section, they do not contain a \texttt{Scaffold} as they are enclosed inside the \texttt{home} page.
 
 \begin{itemize}
-    \item \texttt{position-search}:
-          first page that the user sees after the login, like \texttt{global-search} presents a search bar that is used to find a book
-          in the Delibrary community, filtering by Province and Town.
-    \item \texttt{library}:
-          page in which the user can see and manage the books that are in their library or wishlist.
-          From there, they can go to the \texttt{global-search} page using the proper button.
-    \item \texttt{exchanges}:
-          page in which the user can see and manage the exchanges proposed by other users or involving the books in their library.
-          From there, they can go to the \texttt{archived} page using the proper button.
-    \item \texttt{profile}:
-          page displaying the profile of the user. From there they can edit their data (except the username), change their password, or log out.
+      \item \texttt{position-search}:
+            first page that the user sees after the login, like \texttt{global-search} presents a search bar that is used to find a book
+            in the Delibrary community, filtering by Province and Town.
+      \item \texttt{library}:
+            page in which the user can see and manage the books that are in their library or wishlist.
+            From there, they can go to the \texttt{global-search} page using the proper button.
+      \item \texttt{exchanges}:
+            page in which the user can see and manage the exchanges proposed by other users or involving the books in their library.
+            From there, they can go to the \texttt{archived} page using the proper button.
+      \item \texttt{profile}:
+            page displaying the profile of the user. From there they can edit their data (except the username), change their password, or log out.
 \end{itemize}
 
 \chapter{External Services}
