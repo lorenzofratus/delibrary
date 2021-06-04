@@ -270,11 +270,25 @@ These actions are selected dynamically depending on the state of the \texttt{Boo
 \chapter{Implementation, Integration and Test}
 
 \section{Integration History}
-% 1. API definition
-% 2. first backend implementation && first frontend implementation and comunication with Google Books API
-% 3. library management
-% 4. exchange management
-% 5. INTANTO I TEST ...
+We started the implementation of Delibrary defining the API of the web server through Swagger.
+This choice allowed us to generate a Node.js server stub, exploiting Swagger Codegen.
+
+Then, we modified the naive web server so to connect it to PostgreSQL.
+After that, it was possible to test the correctness of the server logic.
+Running the web server locally and using the API web interface of Swagger for convenience, we were able to make requests to the web server.
+
+At this point, the web server was able to manage the registration of a new User, the addition and removal of Properties and Wishes.
+When we had the impression to have a good backend structure, we published it to Heroku.
+Then we started working on the frontend, writing the skeleton of Delibrary mobile application, exploiting Flutter.
+
+The app was implemented so to distinguish its functionalities in tabs. This allowed us to start working in parallel on different tasks.
+In particular, one of us focused on the design of the app and on User authentication, while the other worked on the communication between client and server.
+
+When Delibrary was able to fully manage User, Property and Wish, we started working on Exchange.
+We knew it was the most challenging and fundamental feature of Delibrary.
+Being it based on the previously implemented logic, we decided to takle it after everything else.
+
+A step-by-step implementation together with a step-by-step testing of the functinalities brought us to the actual version of Delibrary.
 
 \section{Backend Tests}
 
