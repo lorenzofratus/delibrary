@@ -12,7 +12,6 @@
 \begin{document}
 
 \maketitle
-
 \tableofcontents
 
 
@@ -23,7 +22,7 @@ Delibrary is a mobile application designed to encourage the exchange of physical
 A user can publish their own books on Delibrary, point out books they would like to own and propose exchanges to other users.
 Delibrary is in charge of connecting users interested in a book exchange.
 
-Finally, the idea is to create a \emph{"decentralized library"}, in which readers are encouraged to immerse themselves
+Finally, the idea is to create a \emph{``decentralized library''}, in which readers are encouraged to immerse themselves
 in ever new adventures and to be part of a community of book enthusiasts.
 
 By putting readers in direct contact, we intend to create new opportunities for socializing and exchanging ideas.
@@ -36,7 +35,7 @@ Delibrary aims to connect people willing to exchange books.
 The exchange of physical books, in addition to a simple economic advantage, allows you to talk to people who have already had to deal with that book.
 The moment of exchange can therefore become a pleasant occasion for socializing.
 
-In Delibrary, you can publish books you own, within a virtual shelf called "library".
+In Delibrary, you can publish books you own, within a virtual shelf called ``library''.
 For each property, you also specifiy the place where it is located. This allows other readers to search within Delibrary based on the province or town of your properties,
 as they would understandably prefer to trade with 'local' readers.
 
@@ -101,7 +100,6 @@ This is one of the most common and effective ways to drastically reduce the leve
             each table of the database is associated to a controller, written in JavaScript, that manages the requests made by the users through the APIs, checking that all the conditions for a legal request are met and then eventually modifying the content of the database.
 \end{itemize}
 
-
 \section{Frontend}
 For the frontend, we chose to implement our application using \emph{Flutter}.\\
 Flutter is an open-source framework developed by Google.
@@ -122,6 +120,7 @@ Again, we decided to follow the MVC pattern by dividing our system into three de
 \end{itemize}
 
 \subsubsection{Provider Pattern}
+\label{provider}
 To properly manage the state of our application, we decided to use one of the approaches that are recommended by Google, the Provider pattern.
 
 This pattern is achieved by wrapping the \texttt{MaterialApp} (or any other widget) in a \texttt{ChangeNotifierProvider}.
@@ -157,7 +156,6 @@ Here we briefly outline the most relevant packages that we introduced and how we
             client on the user's device, providing also a precomposed email to contact another user.\\
             \underline{\href{https://pub.dev/packages/url_launcher}{Link to \texttt{pub.dev}}}.
 \end{itemize}
-
 
 \subsection{Application Widgets}
 In this section, we discuss the most important widgets we developed in implementing the user interface.
@@ -229,11 +227,48 @@ Unlike the widgets presented in the Routes section, they do not contain a \textt
             page displaying the profile of the user. From there they can edit their data (except the username), change their password, or log out.
 \end{itemize}
 
+
+
 \chapter{External Services}
+Our application makes use of some external services (in the form of JSON APIs) in order to integrate and support the functionalities developed by us.
+
+In this chapter, we will explain what each service does and how we used it.
 
 \section{Google Books API}
+As the name suggests, this service is offered by Google and it is basically a database of books information that can be queried to extract data.
+
+The functionalities offered by this APIs are essential for the operation of our application. 
+As this is a service that can hardly be implemented, we decided to rely on these APIs due to the particularly high reputation of the company managing it.
+
+In our project, this API has been used for two different purposes. 
+
+\underline{\href{https://developers.google.com/books}{Link to the documentation}}.
+
+\subsection{Books Search Engine}
+The \texttt{volume:list} endpoint allows to send a textual query and to receive as a reply a list of books.
+We used it to offer our users a search engine to find books based on almost any parameter (title, author, ISBN, ...).
+
+By default, the server only sends 10 results at a time, so we exploited this behavior to implement a lazy loading mechanism to automatically update the list while the user approaches the end of it.
+
+\clearpage
+\subsection{Fetching Books Info}
+The \texttt{volume:get} endpoint allows to fetch the information of a book retrieving it by an ID given by Google (not directly related to the book data).
+
+In our database, we store the IDs of the books as soon as a user adds them to its library or wishlist.
+At a later time, we use this information to get all the data required in order to correctly render the book in our application.
+
+To reduce the number of calls to the external server, some books are fetched once and then kept in the \emph{provider} storage (see Section \ref{provider}).
+These books are those that might need to be displayed multiple times (such as those in the user's library or connected to user's exchanges).
 
 \section{Comuni ITA API}
+This service gives access to a relatively small database containing all Italian towns, provinces and regions.
+
+In our application, this service is used to download a list of towns grouped by province to perform client-side validation anytime the user submits a form involving a position.
+We limited the number of calls to one for every session as the list is cached in the \emph{provider} storage (see Section \ref{provider}).
+
+We could have implemented the same database in our backend without too many problems, but we preferred to use this service to give us an additional opportunity to communicate with a third-part service. 
+
+\underline{\href{https://comuni-ita.herokuapp.com}{Link to the documentation}}.
 
 
 
@@ -277,9 +312,14 @@ These actions are selected dynamically depending on the state of the \texttt{Boo
       \caption{UX diagram for the info pages.}
       \label{fig:ux-info}
 \end{figure}
-\clearpage
 
+\clearpage
 \section{Screenshots}
+In this section instead, we want to show some screenshot from the actual implementation of our application.
+
+\subsection{Smartphone View}
+
+\subsection{Tablet View}
 
 
 
@@ -318,14 +358,31 @@ Then, there are some tests that delve into particular logical cases, mostly abou
 All the tests are passed and they've been a fundamental mean in order to discover bugs quickly.
 
 \section{Frontend Tests}
+Tests on the frontend were done following \emph{Flutter} guidelines and were automated using \href{https://api.flutter.dev/flutter/flutter_test/flutter_test-library.html}{Flutter Test} library.
+
+First, we decided to perform unit tests on the whole model of our application.
+The goal of unit tests is to verify the correctness of a unit of logic (single method or functionality) under different conditions.
+In general, we tested our modules both to check that correct input results in the expected behavior and that incorrect input is handled without modifying the state of the model.
+
+After this, we carried out widget tests for those components containing important logic.
+In widget testing, the \emph{library} wraps the widget that is under analysis in order to provide a \texttt{BuildContext} to it.
+Then, the test environment performs a sequence of interactions (taps, scrolls, ...) and scans the screen in order to verify that the widget's UI appears and works as expected.
+
+Also in this case, all tests are passed and have been crucial to catch bugs and to keep the application working at each phase of the developement process.
 
 
 
 \chapter{Possible Extensions and Updates}
-% Search in Delibrary by title, author name or ISBN
-% Filtering system (author, genre, ...)
-% Secure login, registration and authentication
+Even if our application is already able to meet all the requirements which were originally intended, we are aware that there are multiple functionalities that could be implemented and that would improve it.
 
+In this chapter we list some aspects in which the system could be improved but that we were not able to tackle for a matter of timing.
+These functionalities are left as a starting point for possible future changes in case the app is published.
 
+\begin{itemize}
+      \item \textbf{Secure login}: without plaintext passwords and using more advanced technologies to manage the session.
+      \item \textbf{``Internal'' search by title, author or ISBN}: in this version, we only support location-based queries on our database of user properties.
+      \item \textbf{Possibility to visit other users' profiles}: in order to push towards a more \emph{``social''} imprint of the application.
+      \item \textbf{Book filtering system}: to allow users to limit their search using particular parameters like the author or the genre.
+\end{itemize}
 
 \end{document}
