@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:delibrary/src/components/utils/button.dart';
 import 'package:delibrary/src/components/utils/padded-container.dart';
 import 'package:flutter/material.dart';
@@ -26,11 +28,19 @@ class SearchBarComponent extends StatelessWidget {
           bottomRight: Radius.circular(40.0),
         ),
       ),
-      child: Column(
+      child: ListView(
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+        reverse: true,
         children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headline5,
+          Container(
+            padding: EdgeInsets.symmetric(
+                horizontal:
+                    max((MediaQuery.of(context).size.width - 450.0) / 2, 0)),
+            child: DelibraryButton(
+              text: "Cerca",
+              onPressed: onPressed,
+            ),
           ),
           Form(
             key: formKey,
@@ -38,9 +48,11 @@ class SearchBarComponent extends StatelessWidget {
               children: fields,
             ),
           ),
-          DelibraryButton(
-            text: "Cerca",
-            onPressed: onPressed,
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.headline5,
           ),
         ],
       ),

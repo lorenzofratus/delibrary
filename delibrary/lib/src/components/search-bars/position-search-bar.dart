@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 class PositionSearchBar extends StatefulWidget {
   final Future<void> Function(Position) onSearch;
   final Map<String, List<String>> provinces;
-  final String title = "Dove vuoi effettuare la ricerca?";
+  final String title = "Dove vuoi cercare?";
+
+  final double height = 362.0;
 
   PositionSearchBar({@required this.onSearch, @required this.provinces})
       : assert(provinces != null);

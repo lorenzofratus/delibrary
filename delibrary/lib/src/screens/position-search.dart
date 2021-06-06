@@ -36,23 +36,26 @@ class _PositionSearchScreenState extends State<PositionSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    final PositionSearchBar _searchBar = PositionSearchBar(
+      provinces: context.read<Session>().provinces,
+      onSearch: _positionSearch,
+    );
+
+    if (_resultsList != null)
+      return ItemCardsList<BookList>(
+        itemList: _resultsList,
+        appBar: _searchBar,
+        appBarHeight: _searchBar.height,
+      );
+    return ListView(
+      shrinkWrap: true,
       children: [
-        PositionSearchBar(
-          provinces: context.read<Session>().provinces,
-          onSearch: _positionSearch,
-        ),
+        _searchBar,
         if (_lastPosition?.isNotEmpty ?? false)
-          _resultsList != null
-              ? Expanded(
-                  child: ItemCardsList<BookList>(
-                    itemList: _resultsList,
-                  ),
-                )
-              : Center(
-                  heightFactor: 3.0,
-                  child: CircularProgressIndicator(),
-                ),
+          Center(
+            heightFactor: 3.0,
+            child: CircularProgressIndicator(),
+          ),
       ],
     );
   }

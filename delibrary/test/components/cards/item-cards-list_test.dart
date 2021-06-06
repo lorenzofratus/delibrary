@@ -17,6 +17,26 @@ void main() {
     wrapper = WidgetWrapper();
   });
   group('ItemCardsList', () {
+    testWidgets('should correctly render appbar widget', (tester) async {
+      final Widget appBar = Container(key: Key('0'));
+      final widget = ItemCardsList<BookList>(
+        itemList: BookList(),
+        appBar: appBar,
+      );
+      await mockNetworkImagesFor(
+          () => tester.pumpWidget(wrapper.scaffold(widget)));
+
+      final listFinder = find.byType(ListView);
+      expect(listFinder, findsOneWidget);
+
+      final appBarFinder = find.byWidget(appBar, skipOffstage: false);
+      await tester.dragUntilVisible(
+        appBarFinder,
+        listFinder,
+        Offset(0.0, -50.0),
+      );
+      expect(appBarFinder, findsOneWidget);
+    });
     testWidgets('should correctly render leading widgets', (tester) async {
       final List<Widget> leading = [
         Container(key: Key('0')),
@@ -36,6 +56,11 @@ void main() {
 
       for (Widget lead in leading) {
         final leadFinder = find.byWidget(lead, skipOffstage: false);
+        await tester.dragUntilVisible(
+          leadFinder,
+          listFinder,
+          Offset(0.0, -50.0),
+        );
         expect(leadFinder, findsOneWidget);
       }
     });
@@ -44,7 +69,15 @@ void main() {
       await mockNetworkImagesFor(
           () => tester.pumpWidget(wrapper.scaffold(widget)));
 
+      final listFinder = find.byType(ListView);
+      expect(listFinder, findsOneWidget);
+
       final emptySignFinder = find.byType(EmptyListSign);
+      await tester.dragUntilVisible(
+        emptySignFinder,
+        listFinder,
+        Offset(0.0, -50.0),
+      );
       expect(emptySignFinder, findsOneWidget);
     });
     testWidgets('should correctly render a complete list', (tester) async {

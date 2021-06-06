@@ -46,27 +46,29 @@ class _GlobalSearchPageState extends State<GlobalSearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalSearchBar _searchBar = GlobalSearchBar(
+      onSearch: _globalSearch,
+    );
+
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Column(
-        children: [
-          GlobalSearchBar(
-            onSearch: _globalSearch,
-          ),
-          if (_lastQuery.isNotEmpty)
-            _resultsList != null
-                ? Expanded(
-                    child: ItemCardsList<BookList>(
-                      itemList: _resultsList,
-                      nextPage: _globalNext,
-                    ),
-                  )
-                : Center(
+      body: _resultsList != null
+          ? ItemCardsList<BookList>(
+              itemList: _resultsList,
+              nextPage: _globalNext,
+              appBar: _searchBar,
+              appBarHeight: _searchBar.height,
+            )
+          : Column(
+              children: [
+                _searchBar,
+                if (_lastQuery.isNotEmpty)
+                  Center(
                     heightFactor: 3.0,
                     child: CircularProgressIndicator(),
                   ),
-        ],
-      ),
+              ],
+            ),
     );
   }
 }

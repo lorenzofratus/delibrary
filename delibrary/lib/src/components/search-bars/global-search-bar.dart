@@ -6,6 +6,8 @@ class GlobalSearchBar extends StatefulWidget {
   final Future<void> Function(String) onSearch;
   final String title = "Che libro stai cercando?";
 
+  final double height = 318.0;
+
   GlobalSearchBar({@required this.onSearch}) : assert(onSearch != null);
 
   @override

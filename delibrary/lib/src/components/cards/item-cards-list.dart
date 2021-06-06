@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:delibrary/src/components/ui-elements/empty-list-sign.dart';
 import 'package:delibrary/src/model/primary/book-list.dart';
 import 'package:delibrary/src/model/primary/exchange-list.dart';
@@ -14,6 +16,8 @@ class ItemCardsList<T extends ItemList> extends StatelessWidget {
   final bool reverse;
   final bool tappable;
   final List<Widget> leading;
+  final Widget appBar;
+  final double appBarHeight;
 
   //Optional
   final void Function() nextPage;
@@ -26,6 +30,8 @@ class ItemCardsList<T extends ItemList> extends StatelessWidget {
     this.reverse = false,
     this.tappable = true,
     this.leading,
+    this.appBar,
+    this.appBarHeight = 0.0,
     this.nextPage,
     this.showOwner = false,
   });
@@ -38,7 +44,9 @@ class ItemCardsList<T extends ItemList> extends StatelessWidget {
     if (itemList?.isEmpty ?? true)
       return ListView(
         controller: controller,
+        physics: ClampingScrollPhysics(),
         children: [
+          if (appBar != null) appBar,
           if (leading != null) ...leading,
           EmptyListSign(),
         ],
@@ -57,6 +65,20 @@ class ItemCardsList<T extends ItemList> extends StatelessWidget {
     return CustomScrollView(
       controller: controller,
       slivers: [
+        if (appBar != null)
+          SliverAppBar(
+            floating: true,
+            automaticallyImplyLeading: false,
+            flexibleSpace: appBar,
+            expandedHeight:
+                min(appBarHeight, MediaQuery.of(context).size.height),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(40.0),
+                bottomRight: Radius.circular(40.0),
+              ),
+            ),
+          ),
         if (leading != null && leading.length > 0)
           SliverPadding(
             padding: EdgeInsets.symmetric(vertical: 20.0),

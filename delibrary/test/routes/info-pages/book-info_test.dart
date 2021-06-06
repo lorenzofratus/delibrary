@@ -276,19 +276,16 @@ void main() {
 
             final actionFinder1 =
                 find.text(exchangeServices.propose(property).text);
-            final actionFinder2 =
-                find.text(propertyServices.addProperty(newBook).text);
             await tester.dragUntilVisible(
-              actionFinder2,
+              actionFinder1,
               listFinder,
               Offset(0.0, -50.0),
             );
             expect(actionFinder1, findsOneWidget);
-            expect(actionFinder2, findsOneWidget);
 
             final actionsFinder =
                 find.byType(DelibraryButton, skipOffstage: false);
-            expect(actionsFinder, findsNWidgets(2));
+            expect(actionsFinder, findsOneWidget);
           });
         });
       });
@@ -311,15 +308,18 @@ void main() {
         expect(listFinder, findsOneWidget);
 
         final actionFinder1 = find.text(wishServices.removeWish(newBook).text);
+        final actionFinder2 =
+            find.text(wishServices.moveWishToLibrary(newBook).text);
         await tester.dragUntilVisible(
-          actionFinder1,
+          actionFinder2,
           listFinder,
           Offset(0.0, -50.0),
         );
         expect(actionFinder1, findsOneWidget);
+        expect(actionFinder2, findsOneWidget);
 
         final actionsFinder = find.byType(DelibraryButton, skipOffstage: false);
-        expect(actionsFinder, findsOneWidget);
+        expect(actionsFinder, findsNWidgets(2));
       });
       testWidgets('should be correct for a third part Book', (tester) async {
         final widget = BookInfoPage(item: fixedBook);
