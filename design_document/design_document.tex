@@ -27,7 +27,7 @@ in ever new adventures and to be part of a community of book enthusiasts.
 
 By putting readers in direct contact, we intend to create new opportunities for socializing and exchanging ideas.
 
-\section{Purpose}
+\section{Scope}
 Every reader has books they don't like, or multiple copies of books they love.
 These books, superfluous to them, may be of interest to other readers.
 
@@ -46,11 +46,19 @@ A user can remove, add, change the position of a property in their library at an
 In the meantime, you can keep a wishlist, where you point out  which books you would like to own.
 If one day you buy or receive your wish, you can decide whether to remove it from the wishlist, or move it to the library, making it available for exchange with other users.
 
-\section{Scope}
-
 \section{Document Structure}
-
-
+This part shows how the document has been organized.
+For each chapter, a short description is given:
+\begin{itemize}
+      \item \textit{Chapter 1} provides an introduction of the design document and specifies the scope of Delirbary.
+      \item \textit{Chapter 2} is the core section of the design document and it deals with the architectural design of the application.
+            It gives an overview of the architecture, distinghishing backend and fronend sections.
+            The design patterns of choice are also presented here, with an explanation of each one and the purpose of their usage.
+      \item \textit{Chapter 3} focuses on the external services required so to make Delibrary work properly.
+      \item \textit{Chapter 4} provides additional information about the journey of a user inside our application, exploiting UX diagrams.
+      \item \textit{Chapter 5} presents the steps followed implementing Delibrary, together with the tests made on the backend and on the frontend.
+      \item \textit{Chapter 6} briefly describes some improvements that may be added to Delibrary in the future.
+\end{itemize}
 
 \chapter{Architectural Design}
 
@@ -237,10 +245,10 @@ In this chapter, we will explain what each service does and how we used it.
 \section{Google Books API}
 As the name suggests, this service is offered by Google and it is basically a database of books information that can be queried to extract data.
 
-The functionalities offered by this APIs are essential for the operation of our application. 
+The functionalities offered by this APIs are essential for the operation of our application.
 As this is a service that can hardly be implemented, we decided to rely on these APIs due to the particularly high reputation of the company managing it.
 
-In our project, this API has been used for two different purposes. 
+In our project, this API has been used for two different purposes.
 
 \underline{\href{https://developers.google.com/books}{Link to the documentation}}.
 
@@ -266,7 +274,7 @@ This service gives access to a relatively small database containing all Italian 
 In our application, this service is used to download a list of towns grouped by province to perform client-side validation anytime the user submits a form involving a position.
 We limited the number of calls to one for every session as the list is cached in the \emph{provider} storage (see Section \ref{provider}).
 
-We could have implemented the same database in our backend without too many problems, but we preferred to use this service to give us an additional opportunity to communicate with a third-part service. 
+We could have implemented the same database in our backend without too many problems, but we preferred to use this service to give us an additional opportunity to communicate with a third-part service.
 
 \underline{\href{https://comuni-ita.herokuapp.com}{Link to the documentation}}.
 
