@@ -40,13 +40,6 @@ void main() {
       expect(widgetFinder, findsOneWidget);
       final imageFinder = find.byType(FadeInImage);
       expect(imageFinder, findsOneWidget);
-
-      // Check correctly opens page
-      // TODO: not passing test but working
-      // await tester.tap(widgetFinder);
-      // await tester.pumpAndSettle();
-      // final pageFinder = find.byType(BookInfoPage);
-      // expect(pageFinder, findsOneWidget);
     });
     testWidgets('should correctly render the card', (tester) async {
       final widget = BookCard(book: fixedBook, preview: false, tappable: true);
