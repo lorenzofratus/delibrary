@@ -325,11 +325,93 @@ These actions are selected dynamically depending on the state of the \texttt{Boo
 \section{Screenshots}
 In this section instead, we want to show some screenshot from the actual implementation of our application.
 
-\subsection{Smartphone View}
+\subsection{Login and Registration}
+Both login and registration pages are structurally the same, they only differ on the number and type of fields.
+The password field has the classical button (represented by the \emph{eye} icon) to show and hide its value.
 
-\subsection{Tablet View}
+\begin{figure}[H]
+      \centering
+      \makebox[\textwidth][c]{
+            \includegraphics[width=0.35\textwidth]{screens/mock/smartphone/login.png}
+            \includegraphics[width=0.75\textwidth]{screens/mock/tablet-landscape/login.png}
+      }
+      \caption{Login page}
+\end{figure}
 
+\clearpage
+\subsection{Global and Position Search}
+Results of the user's query are shown in a \texttt{CustomScrollView} designed to fit the size of the device.
+As it is possible to see, in fact, the cards are arranged in a grid whose columns change with the width of the screen.
+Moreover, we implemented the search block as a \texttt{SliverAppBar} that slides out of the screen 
+as soon as the user starts scrolling and can then be reached by moving upwards.
 
+\begin{figure}[H]
+      \centering
+      \makebox[\textwidth][c]{
+            \includegraphics[width=0.35\textwidth]{screens/mock/smartphone/position-search-empty.png}
+            \includegraphics[width=0.35\textwidth]{screens/mock/smartphone/global-search-filled.png}
+            \includegraphics[width=0.35\textwidth]{screens/mock/smartphone/global-search-scrolled.png}
+      }
+      \makebox[\textwidth][c]{
+            \includegraphics[width=0.44\textwidth]{screens/mock/tablet-portrait/global-search-filled.png}
+            \includegraphics[width=0.65\textwidth]{screens/mock/tablet-landscape/global-search-scrolled.png}
+      }
+      \caption{Position and global search pages}
+\end{figure}
+
+\clearpage
+\subsection{Library, Exchanges and Archive}
+Again, these pages have the same structure. Books are grouped in library and wishlist, while exchanges are grouped depending on their state.\\
+Each group displays up to two previews thate are clickable and a button.
+When the button is tapped, the application will show a modal with the whole list of cards.
+Also in this case, the interface is able to adapt to the size of the device.
+
+\begin{figure}[H]
+      \centering
+      \makebox[\textwidth][c]{
+            \includegraphics[width=0.65\textwidth]{screens/mock/tablet-landscape/exchanges.png}
+            \includegraphics[width=0.45\textwidth]{screens/mock/tablet-portrait/library-expanded.png}
+      }
+      \makebox[\textwidth][c]{
+            \includegraphics[width=0.35\textwidth]{screens/mock/smartphone/exchanges.png}
+            \includegraphics[width=0.35\textwidth]{screens/mock/smartphone/library.png}
+            \includegraphics[width=0.35\textwidth]{screens/mock/smartphone/library-expanded.png}
+      }
+      \caption{Library and exchanges pages}
+\end{figure}
+
+\subsection{Book and Exchange Info}
+Book and info pages will display all the information available and a list of buttons that correspond to the available actions.\\
+Both the title and the description are limited to a fixed length, after which ellipsis are shown and the text is able to fully expand on tap.
+
+\begin{figure}[H]
+      \centering
+      \makebox[\textwidth][c]{
+            \includegraphics[width=0.35\textwidth]{screens/mock/smartphone/book-info.png}
+            \includegraphics[width=0.35\textwidth]{screens/mock/smartphone/book-info-scrolled.png}
+            \includegraphics[width=0.35\textwidth]{screens/mock/smartphone/exchange-info-scrolled.png}
+      }
+      \makebox[\textwidth][c]{
+            \includegraphics[width=0.45\textwidth]{screens/mock/tablet-portrait/book-info.png}
+            \includegraphics[width=0.65\textwidth]{screens/mock/tablet-landscape/exchange-info-scrolled.png}
+      }
+      \caption{Book and exchange info pages}
+\end{figure}
+
+\subsection{Profile}
+Finally, each user has a profile page from which is able to edit their personal information and their password.
+
+\begin{figure}[H]
+      \centering
+      \makebox[\textwidth][c]{
+            \includegraphics[width=0.75\textwidth]{screens/mock/tablet-landscape/profile.png}
+            \includegraphics[width=0.34\textwidth]{screens/mock/smartphone/profile.png}
+      }
+      \makebox[\textwidth][c]{
+            \includegraphics[width=0.54\textwidth]{screens/mock/tablet-portrait/profile.png}
+      }
+      \caption{Profile page}
+\end{figure}
 
 \chapter{Implementation, Integration and Test}
 
