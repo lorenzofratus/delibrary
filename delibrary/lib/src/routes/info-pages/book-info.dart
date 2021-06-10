@@ -88,7 +88,7 @@ class _BookInfoPageState extends ItemInfoPageState<Book> {
                 item.publishedDate: InfoDataType.date,
             },
           ),
-        if (userProperty)
+        if (item.hasProperty)
           InfoChips(
             title: "Dettagli copia fisica",
             data: {
