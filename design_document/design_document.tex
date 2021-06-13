@@ -43,7 +43,7 @@ In Delibrary, users can publish books they own, within a virtual shelf called ``
 For each property, they also specifiy the place where it is located. This allows other readers to search within Delibrary based on their province or town of residence,
 as they would understandably prefer to trade with `local' readers.
 
-When they have found a book of interest, they can send the owner an exchange proposal. The latter, in addition to possibility to reject the proposal, can also choose one of their books, reaching an agreement.
+When they have found a book of interest, they can send the owner an exchange proposal. The latter, in addition to the possibility of rejecting the proposal, can also choose one of their books, reaching an agreement.
 
 Delibrary provides the two with each other's credentials, so that they can get in touch and make the trade in person. If either user notifies Delibrary that the swap is completed, the two libraries are automatically updated.
 Each user can remove, add, or change the position of a property in their library at any time.
@@ -81,7 +81,7 @@ Once you have written the API specifications, you can generate and download a fi
 
 \subsection{Web server}
 The web server is realized exploiting the package \href{https://expressjs.com}{Express.js}.
-It is a is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
+It is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
 
 Express recevies all the queries to the web server and re-route them to the correct middlewares.
 
@@ -137,7 +137,7 @@ Again, we decided to follow the MVC pattern by dividing our system into three de
 
 \subsubsection{Provider Pattern}
 \label{provider}
-To properly manage the state of our application, we decided to use one of the approaches that are recommended by Google, the Provider pattern.
+To properly manage the state of our application, we decided to use one of the approaches that are recommended by Google: the Provider pattern.
 
 This pattern is achieved by wrapping the \texttt{MaterialApp} (or any other widget) in a \texttt{ChangeNotifierProvider}.
 The provider gives access to a custom object from any widget simply by using the \texttt{BuildContext} object injected during the widget lifecycle.
