@@ -61,6 +61,8 @@ At the moment, Delibrary has been developed for the Italian market, for this rea
 
 The system is supported by a server built with _Express.js_ and a _PostgreSQL_ database, both are hosted on _Heroku_.
 
+The code of the server can be found at this [link](https://github.com/nicheosala/delibrary-server).
+
 ### Built With
 
 * [Flutter](https://flutter.dev), v. 2.0.4
