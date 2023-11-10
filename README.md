@@ -9,10 +9,10 @@
   <p align="center">
     Project developed for the final exam of the course named <em>Design and Implementation of Mobile Applications</em> held by Professor Luciano Baresi at <em>Politecnico di Milano</em>.
     <br />
-    <a href="https://github.com/lorenzofratus/Delibrary"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/lorenzofratus/delibrary"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/lorenzofratus/Delibrary/issues">Report Bug</a>
+    <a href="https://github.com/lorenzofratus/delibrary/issues">Report Bug</a>
   </p>
 </p>
 
@@ -61,7 +61,7 @@ At the moment, Delibrary has been developed for the Italian market, for this rea
 
 The system is supported by a server built with _Express.js_ and a _PostgreSQL_ database, both are hosted on _Heroku_.
 
-The code of the server can be found at this [link](https://github.com/nicheosala/delibrary-server).
+The code of the server can be found at this [link](https://github.com/lorenzofratus/delibrary-server).
 
 ### Built With
 
@@ -128,6 +128,6 @@ Distributed under the [GNU GPLv3 License](LICENSE).
   [![Github](https://img.shields.io/badge/-Github-black.svg?style=for-the-badge&logo=github&colorB=555)](https://github.com/nicheosala)
 
 
-Project Link: [https://github.com/lorenzofratus/Delibrary](https://github.com/lorenzofratus/Delibrary)
+Project Link: [https://github.com/lorenzofratus/delibrary](https://github.com/lorenzofratus/delibrary)
 
 </div>
