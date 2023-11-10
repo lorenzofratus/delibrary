@@ -88,7 +88,7 @@ This step can be done following the guide provided in the documentaion of the fr
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/lorenzofratus/Delibrary.git
+   git clone https://github.com/lorenzofratus/delibrary.git
    ```
 2. Open the project in your IDE of choice
    
